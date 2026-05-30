@@ -3,7 +3,13 @@ import { getContent } from "@/content";
 import { cn } from "@/lib/utils";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
-import { Section } from "@/components/section";
+import { AboutSection } from "@/components/sections/about";
+import { ExperienceSection } from "@/components/sections/experience";
+import { SkillsSection } from "@/components/sections/skills";
+import { EducationSection } from "@/components/sections/education";
+import { ProjectsSection } from "@/components/sections/projects";
+import { TeachingSection } from "@/components/sections/teaching";
+import { ContactSection } from "@/components/sections/contact";
 
 const statusDotVariants: Record<string, string> = {
   success: "bg-emerald-500",
@@ -14,7 +20,16 @@ const statusDotVariants: Record<string, string> = {
 };
 
 export default function Home() {
-  const { profile, navigation, contacts } = getContent("en");
+  const {
+    profile,
+    navigation,
+    contacts,
+    experience,
+    skills,
+    education,
+    projects,
+    teaching,
+  } = getContent("en");
   const emailContact = contacts.items.find((item) => item.type === "email");
 
   return (
@@ -78,51 +93,13 @@ export default function Home() {
           </div>
         </section>
 
-        <Section id="about" eyebrow="01 / About" title="About">
-          <p className="max-w-3xl text-base leading-relaxed text-muted-foreground">
-            {profile.summary}
-          </p>
-        </Section>
-
-        <Section id="experience" eyebrow="02 / Experience" title="Experience">
-          <p className="text-sm text-muted-foreground">
-            Timeline of professional positions — coming in Phase 1C.
-          </p>
-        </Section>
-
-        <Section id="skills" eyebrow="03 / Skills" title="Skills & Expertise">
-          <p className="text-sm text-muted-foreground">
-            Grouped technical skills — coming in Phase 1C.
-          </p>
-        </Section>
-
-        <Section id="education" eyebrow="04 / Education" title="Education">
-          <p className="text-sm text-muted-foreground">
-            Academic background — coming in Phase 1C.
-          </p>
-        </Section>
-
-        <Section id="projects" eyebrow="05 / Projects" title="Projects">
-          <p className="text-sm text-muted-foreground">
-            Selected projects from work history — coming in Phase 1C.
-          </p>
-        </Section>
-
-        <Section
-          id="teaching"
-          eyebrow="06 / Teaching"
-          title="Teaching &amp; Mentoring"
-        >
-          <p className="text-sm text-muted-foreground">
-            500+ students trained at IT-Academy.by — coming in Phase 1C.
-          </p>
-        </Section>
-
-        <Section id="contact" eyebrow="07 / Contact" title="Get in touch">
-          <p className="max-w-2xl text-base leading-relaxed text-muted-foreground">
-            {contacts.description}
-          </p>
-        </Section>
+        <AboutSection profile={profile} />
+        <ExperienceSection items={experience} />
+        <SkillsSection groups={skills} />
+        <EducationSection items={education} />
+        <ProjectsSection items={projects} />
+        <TeachingSection items={teaching} />
+        <ContactSection contacts={contacts} />
       </main>
 
       <Footer
