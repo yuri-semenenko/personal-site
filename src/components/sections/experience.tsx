@@ -58,7 +58,6 @@ export function ExperienceSection({ items }: Props) {
               <details className="mt-3 group" {...(index === 0 ? { open: true } : {})}>
                 <summary className="cursor-pointer font-mono text-xs uppercase tracking-wide text-muted-foreground transition-colors hover:text-foreground">
                   Responsibilities
-                  <span className="ml-2 inline-block transition-transform group-open:rotate-180">▾</span>
                 </summary>
                 <ul className="mt-2 space-y-1.5">
                   {item.responsibilities.map((responsibility) => (
