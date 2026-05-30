@@ -1,4 +1,4 @@
-import { GraduationCap } from "lucide-react";
+import { ArrowUpRight, GraduationCap } from "lucide-react";
 import { Section } from "@/components/section";
 import type { TeachingItemModel } from "@/content/types";
 
@@ -73,6 +73,23 @@ export function TeachingSection({ items }: Props) {
                         </li>
                       ))}
                     </ul>
+                  </div>
+                )}
+                {item.links && item.links.length > 0 && (
+                  <div className="mt-5 flex flex-wrap gap-2">
+                    {item.links.map((link) => (
+                      <a
+                        key={link.href}
+                        href={link.href}
+                        aria-label={link.ariaLabel ?? link.label}
+                        target={link.external ? "_blank" : undefined}
+                        rel={link.external ? "noopener noreferrer" : undefined}
+                        className="inline-flex items-center gap-1.5 rounded-md border border-border bg-card px-3 py-1.5 font-mono text-xs text-foreground transition-colors hover:border-primary/40 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                      >
+                        {link.label}
+                        <ArrowUpRight className="h-3 w-3" />
+                      </a>
+                    ))}
                   </div>
                 )}
               </div>

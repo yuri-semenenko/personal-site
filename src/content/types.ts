@@ -108,6 +108,7 @@ export interface TeachingItemModel {
   responsibilities: string[];
   achievements: string[];
   technologies: string[];
+  links?: LinkModel[];
 }
 
 export interface SkillItemModel {

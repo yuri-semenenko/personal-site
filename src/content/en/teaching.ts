@@ -30,5 +30,19 @@ export const teaching: TeachingItemModel[] = [
       "Frontend Development",
       "Mentoring",
     ],
+    links: [
+      {
+        label: "View course",
+        href: "https://www.it-academy.by/course/front-end-developer/",
+        external: true,
+        ariaLabel: "Open Front-end Developer course page at IT-Academy.by",
+      },
+      {
+        label: "Read reviews",
+        href: "https://www.it-academy.by/review/front-end-developer/",
+        external: true,
+        ariaLabel: "Read student reviews for the Front-end Developer course at IT-Academy.by",
+      },
+    ],
   },
 ];
