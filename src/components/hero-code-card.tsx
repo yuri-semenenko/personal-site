@@ -99,7 +99,7 @@ export function HeroCodeCard({
           profile.ts
         </span>
       </div>
-      <pre className="overflow-x-auto p-5 font-mono text-[13px] leading-6">
+      <pre className="overflow-x-auto p-5 font-mono text-[0.8125rem] leading-6">
         <code>
           {lines.map((line, lineIdx) => (
             <motion.span

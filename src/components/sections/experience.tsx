@@ -15,7 +15,7 @@ export function ExperienceSection({ items }: Props) {
             <span
               aria-hidden
               className={cn(
-                "absolute -left-[37px] top-1 h-3 w-3 rounded-full border-2 sm:-left-[45px]",
+                "absolute -left-[calc(2rem+0.375rem)] top-2 h-3 w-3 rounded-full border-2 sm:-left-[calc(2.5rem+0.375rem)]",
                 item.featured
                   ? "border-primary bg-background"
                   : "border-border bg-card",
@@ -82,7 +82,7 @@ export function ExperienceSection({ items }: Props) {
                 {item.technologies.map((tech) => (
                   <li
                     key={tech}
-                    className="rounded-md border border-border bg-card px-2 py-0.5 font-mono text-[11px] text-muted-foreground"
+                    className="rounded-md border border-border bg-card px-2 py-0.5 font-mono text-[0.6875rem] text-muted-foreground"
                   >
                     {tech}
                   </li>

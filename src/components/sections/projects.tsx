@@ -65,7 +65,7 @@ export function ProjectsSection({ items }: Props) {
                 {item.technologies.map((tech) => (
                   <li
                     key={tech}
-                    className="rounded-md border border-border px-2 py-0.5 font-mono text-[11px] text-muted-foreground"
+                    className="rounded-md border border-border px-2 py-0.5 font-mono text-[0.6875rem] text-muted-foreground"
                   >
                     {tech}
                   </li>
@@ -78,7 +78,7 @@ export function ProjectsSection({ items }: Props) {
                 {item.badges.map((badge) => (
                   <li
                     key={badge.label}
-                    className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground"
+                    className="font-mono text-[0.625rem] uppercase tracking-wider text-muted-foreground"
                   >
                     {badge.label}
                   </li>
