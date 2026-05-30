@@ -84,6 +84,20 @@ export function Hero({ profile, emailContact }: Props) {
 
       <div
         aria-hidden
+        className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover/hero:opacity-100 motion-reduce:hidden"
+        style={{
+          backgroundImage:
+            "radial-gradient(circle at 2px 2px, color-mix(in oklch, var(--primary) 80%, transparent) 2px, transparent 0)",
+          backgroundSize: "28px 28px",
+          maskImage:
+            "radial-gradient(180px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), #000 10%, rgba(0,0,0,0.45) 45%, transparent 80%)",
+          WebkitMaskImage:
+            "radial-gradient(180px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), #000 10%, rgba(0,0,0,0.45) 45%, transparent 80%)",
+        }}
+      />
+
+      <div
+        aria-hidden
         className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-primary/15 blur-3xl motion-safe:transition-transform motion-safe:duration-500 motion-safe:ease-out sm:h-96 sm:w-96"
         style={{
           transform:
