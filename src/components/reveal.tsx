@@ -16,10 +16,10 @@ export function Reveal({
 }: RevealProps) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 12 }}
+      initial={{ opacity: 0, y: 28 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "0px 0px -80px 0px" }}
-      transition={{ duration: 0.5, delay, ease: [0.22, 1, 0.36, 1] }}
+      viewport={{ once: true, margin: "0px 0px -120px 0px" }}
+      transition={{ duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] }}
       className={className}
       {...props}
     >
@@ -41,12 +41,12 @@ export function StaggeredList({
   children,
   className,
   as = "div",
-  stagger = 0.06,
+  stagger = 0.09,
 }: StaggeredListProps) {
   const sharedProps = {
     initial: "hidden" as const,
     whileInView: "visible" as const,
-    viewport: { once: true, margin: "0px 0px -80px 0px" },
+    viewport: { once: true, margin: "0px 0px -120px 0px" },
     variants: {
       hidden: {},
       visible: { transition: { staggerChildren: stagger } },
@@ -69,11 +69,11 @@ type StaggeredItemProps = {
 };
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 12 },
+  hidden: { opacity: 0, y: 24 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] as const },
+    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] as const },
   },
 };
 
