@@ -4,7 +4,7 @@ export const experience: ExperienceItemModel[] = [
   {
     company: "StoneX",
     role: "Front-end Developer",
-    period: { start: "2024-11", end: "2025-11", label: "Nov 2024 — Nov 2025" },
+    period: { start: "2024-11", end: "2026-03", label: "Nov 2024 — Mar 2026" },
     summary:
       "Led frontend development in one of three squads for a legacy product and participated in migration to a modern React and Next.js stack.",
     responsibilities: [
@@ -103,15 +103,7 @@ export const experience: ExperienceItemModel[] = [
       "Trained and supervised junior colleagues.",
       "Contributed to WebMD and Lundberg Design projects.",
     ],
-    technologies: [
-      "HTML",
-      "CSS",
-      "JavaScript",
-      "Drupal",
-      "CKEditor API",
-      "Animations",
-      "Testing",
-    ],
+    technologies: ["HTML", "CSS", "JavaScript", "Drupal", "CKEditor API", "Animations", "Testing"],
   },
   {
     company: "EPAM Systems",
@@ -135,8 +127,7 @@ export const experience: ExperienceItemModel[] = [
     company: "Startup Labs, Inc.",
     role: "Front-end Developer",
     period: { start: "2012-04", end: "2013-12", label: "Apr 2012 — Dec 2013" },
-    summary:
-      "Developed websites of different complexity levels and supported an Australian online store.",
+    summary: "Developed websites of different complexity levels and supported an Australian online store.",
     responsibilities: [
       "Developed websites from simple HTML pages to complex web applications.",
       "Supported and enhanced a prominent Australian online store.",
@@ -153,8 +144,7 @@ export const experience: ExperienceItemModel[] = [
     company: "Belitsoft",
     role: "Front-end Developer",
     period: { start: "2011-07", end: "2013-04", label: "Jul 2011 — Apr 2013" },
-    summary:
-      "Early frontend engineering role focused on markup, styling, JavaScript, and delivery of web interfaces.",
+    summary: "Early frontend engineering role focused on markup, styling, JavaScript, and delivery of web interfaces.",
     responsibilities: [
       "Developed frontend interfaces for commercial projects.",
       "Worked with HTML, CSS, JavaScript, and reusable UI parts.",
