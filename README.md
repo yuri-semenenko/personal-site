@@ -1,36 +1,44 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Personal Site — Yuri Semenenko
 
-## Getting Started
+Personal CV / portfolio website. Senior Frontend Engineer & Mentor, based in Krakow, Poland.
 
-First, run the development server:
+**Live:** _pending Vercel deployment_
+
+## Stack
+
+Next.js 16 · React 19 · TypeScript · Tailwind CSS v4 · shadcn/ui · next-themes · Motion One · Vercel
+
+## Development
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev          # http://localhost:3000
+npm run build
+npm run lint
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Requires Node 20+.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Project structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+src/
+  app/               # Next.js App Router routes and layouts
+  content/           # Typed content modules per locale
+  components/        # UI components
+public/
+  files/             # Downloadable assets (CV PDF)
+docs/
+  spec.md            # Full project specification
+```
 
-## Learn More
+## Roadmap
 
-To learn more about Next.js, take a look at the following resources:
+- **Phase 1:** MVP — EN-only landing page with all sections (Hero, About, Experience, Skills, Education, Projects, Teaching, Contact), dark/light theme, animations, Vercel deploy.
+- **Phase 2:** RU/PL/BY locales, custom domain, SEO (sitemap, robots, canonical, structured data), analytics, possible Blog or extended Projects section.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Full requirements and acceptance criteria: [`docs/spec.md`](docs/spec.md).
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## License
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Personal project. Content © Yuri Semenenko.
