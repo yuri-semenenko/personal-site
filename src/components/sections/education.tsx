@@ -1,3 +1,4 @@
+import { StaggeredItem, StaggeredList } from "@/components/reveal";
 import { Section } from "@/components/section";
 import type { EducationItemModel } from "@/content/types";
 
@@ -8,9 +9,10 @@ type Props = {
 export function EducationSection({ items }: Props) {
   return (
     <Section id="education" eyebrow="04 / Education" title="Education">
-      <ul className="grid gap-4 sm:grid-cols-2">
+      <StaggeredList as="ul" className="grid gap-4 sm:grid-cols-2">
         {items.map((item) => (
-          <li
+          <StaggeredItem
+            as="li"
             key={`${item.institution}-${item.period.start}`}
             className="rounded-lg border border-border bg-card p-5"
           >
@@ -30,9 +32,9 @@ export function EducationSection({ items }: Props) {
                 {item.department}
               </p>
             )}
-          </li>
+          </StaggeredItem>
         ))}
-      </ul>
+      </StaggeredList>
     </Section>
   );
 }

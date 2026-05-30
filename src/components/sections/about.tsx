@@ -1,3 +1,4 @@
+import { Reveal } from "@/components/reveal";
 import { Section } from "@/components/section";
 import type { ProfileModel } from "@/content/types";
 
@@ -8,7 +9,7 @@ type Props = {
 export function AboutSection({ profile }: Props) {
   return (
     <Section id="about" eyebrow="01 / About" title="About">
-      <div className="grid gap-10 lg:grid-cols-[1fr_320px]">
+      <Reveal delay={0.08} className="grid gap-10 lg:grid-cols-[1fr_320px]">
         <p className="text-base leading-relaxed text-muted-foreground sm:text-lg">
           {profile.summary}
         </p>
@@ -33,7 +34,7 @@ export function AboutSection({ profile }: Props) {
             </ul>
           </div>
         )}
-      </div>
+      </Reveal>
     </Section>
   );
 }

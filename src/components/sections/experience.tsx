@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { StaggeredItem, StaggeredList } from "@/components/reveal";
 import { Section } from "@/components/section";
 import type { ExperienceItemModel } from "@/content/types";
 
@@ -9,9 +10,16 @@ type Props = {
 export function ExperienceSection({ items }: Props) {
   return (
     <Section id="experience" eyebrow="02 / Experience" title="Experience">
-      <ol className="relative space-y-10 border-l border-border pl-8 sm:pl-10">
+      <StaggeredList
+        as="ol"
+        className="relative space-y-10 border-l border-border pl-8 sm:pl-10"
+      >
         {items.map((item, index) => (
-          <li key={`${item.company}-${item.period.start}`} className="relative">
+          <StaggeredItem
+            as="li"
+            key={`${item.company}-${item.period.start}`}
+            className="relative"
+          >
             <span
               aria-hidden
               className={cn(
@@ -88,9 +96,9 @@ export function ExperienceSection({ items }: Props) {
                 ))}
               </ul>
             )}
-          </li>
+          </StaggeredItem>
         ))}
-      </ol>
+      </StaggeredList>
     </Section>
   );
 }

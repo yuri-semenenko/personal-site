@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { StaggeredItem, StaggeredList } from "@/components/reveal";
 import { Section } from "@/components/section";
 import type { ProjectItemModel } from "@/content/types";
 
@@ -9,9 +10,10 @@ type Props = {
 export function ProjectsSection({ items }: Props) {
   return (
     <Section id="projects" eyebrow="05 / Projects" title="Projects">
-      <ul className="grid gap-4 md:grid-cols-2">
+      <StaggeredList as="ul" className="grid gap-4 md:grid-cols-2">
         {items.map((item) => (
-          <li
+          <StaggeredItem
+            as="li"
             key={`${item.title}-${item.company ?? "x"}`}
             className={cn(
               "flex flex-col gap-4 rounded-lg border bg-card p-5 transition-colors",
@@ -85,9 +87,9 @@ export function ProjectsSection({ items }: Props) {
                 ))}
               </ul>
             )}
-          </li>
+          </StaggeredItem>
         ))}
-      </ul>
+      </StaggeredList>
     </Section>
   );
 }

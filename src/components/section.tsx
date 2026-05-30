@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { Reveal } from "@/components/reveal";
 import type { ComponentProps, ReactNode } from "react";
 
 type Props = ComponentProps<"section"> & {
@@ -28,7 +29,7 @@ export function Section({
       {...rest}
     >
       <div className="mx-auto max-w-6xl">
-        <div className="mb-10 flex flex-col gap-2">
+        <Reveal className="mb-10 flex flex-col gap-2">
           {eyebrow && (
             <p className="font-mono text-xs uppercase tracking-widest text-primary">
               {eyebrow}
@@ -40,7 +41,7 @@ export function Section({
           >
             {title}
           </h2>
-        </div>
+        </Reveal>
         {children}
       </div>
     </section>

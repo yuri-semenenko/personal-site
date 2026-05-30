@@ -1,4 +1,5 @@
 import { ArrowUpRight, GraduationCap } from "lucide-react";
+import { Reveal } from "@/components/reveal";
 import { Section } from "@/components/section";
 import type { TeachingItemModel } from "@/content/types";
 
@@ -13,7 +14,7 @@ export function TeachingSection({ items }: Props) {
       eyebrow="06 / Teaching"
       title="Teaching & Mentoring"
     >
-      <div className="grid gap-6">
+      <Reveal delay={0.08} className="grid gap-6">
         {items.map((item) => (
           <article
             key={item.organization}
@@ -96,7 +97,7 @@ export function TeachingSection({ items }: Props) {
             </div>
           </article>
         ))}
-      </div>
+      </Reveal>
     </Section>
   );
 }

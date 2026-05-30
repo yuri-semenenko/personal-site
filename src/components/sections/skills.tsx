@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { StaggeredItem, StaggeredList } from "@/components/reveal";
 import { Section } from "@/components/section";
 import type { SkillGroupModel } from "@/content/types";
 
@@ -9,9 +10,9 @@ type Props = {
 export function SkillsSection({ groups }: Props) {
   return (
     <Section id="skills" eyebrow="03 / Skills" title="Skills & Expertise">
-      <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+      <StaggeredList className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
         {groups.map((group) => (
-          <div key={group.title}>
+          <StaggeredItem key={group.title}>
             <h3 className="font-mono text-sm uppercase tracking-wide text-primary">
               {group.title}
             </h3>
@@ -30,9 +31,9 @@ export function SkillsSection({ groups }: Props) {
                 </li>
               ))}
             </ul>
-          </div>
+          </StaggeredItem>
         ))}
-      </div>
+      </StaggeredList>
     </Section>
   );
 }

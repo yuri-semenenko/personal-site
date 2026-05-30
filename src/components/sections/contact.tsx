@@ -5,6 +5,7 @@ import {
   LinkedinIcon,
   TelegramIcon,
 } from "@/components/icons/social";
+import { Reveal, StaggeredItem, StaggeredList } from "@/components/reveal";
 import { Section } from "@/components/section";
 import type { ContactsModel, SocialType } from "@/content/types";
 
@@ -27,10 +28,12 @@ export function ContactSection({ contacts }: Props) {
 
   return (
     <Section id="contact" eyebrow="07 / Contact" title={contacts.title}>
-      <p className="max-w-2xl text-base leading-relaxed text-muted-foreground">
-        {contacts.description}
-      </p>
-      <ul className="mt-8 grid gap-3 sm:grid-cols-2">
+      <Reveal delay={0.08}>
+        <p className="max-w-2xl text-base leading-relaxed text-muted-foreground">
+          {contacts.description}
+        </p>
+      </Reveal>
+      <StaggeredList as="ul" className="mt-8 grid gap-3 sm:grid-cols-2">
         {visibleItems.map((item) => {
           const Icon = iconMap[item.type];
           const content = (
@@ -51,17 +54,18 @@ export function ContactSection({ contacts }: Props) {
 
           if (!item.href) {
             return (
-              <li
+              <StaggeredItem
+                as="li"
                 key={item.type}
                 className="group flex items-center gap-3 rounded-lg border border-border bg-card p-3"
               >
                 {content}
-              </li>
+              </StaggeredItem>
             );
           }
 
           return (
-            <li key={item.type}>
+            <StaggeredItem as="li" key={item.type}>
               <a
                 href={item.href}
                 aria-label={item.ariaLabel}
@@ -71,10 +75,10 @@ export function ContactSection({ contacts }: Props) {
               >
                 {content}
               </a>
-            </li>
+            </StaggeredItem>
           );
         })}
-      </ul>
+      </StaggeredList>
     </Section>
   );
 }

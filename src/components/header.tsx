@@ -2,6 +2,7 @@
 
 import { useMemo } from "react";
 import { Download } from "lucide-react";
+import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
 import { useActiveSection } from "@/hooks/use-active-section";
 import { ThemeToggle } from "@/components/theme-toggle";
@@ -54,9 +55,11 @@ export function Header({ navigation }: Props) {
               >
                 {item.label}
                 {isActive && (
-                  <span
+                  <motion.span
+                    layoutId="nav-active-underline"
                     aria-hidden
                     className="absolute -bottom-1 left-0 h-px w-full bg-primary"
+                    transition={{ type: "spring", stiffness: 380, damping: 32 }}
                   />
                 )}
               </a>
