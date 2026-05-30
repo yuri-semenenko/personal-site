@@ -2,7 +2,7 @@
 
 Personal CV / portfolio website. Senior Frontend Engineer & Mentor, based in Krakow, Poland.
 
-**Live:** _pending Vercel deployment_
+**Live:** https://yuri-semenenko.dev
 
 ## Stack
 
