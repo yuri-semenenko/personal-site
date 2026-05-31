@@ -75,22 +75,13 @@ export const projects: ProjectItemModel[] = [
       "Increased platform performance by 20%.",
       "Received positive feedback from users and stakeholders.",
     ],
-    technologies: [
-      "Ember.js",
-      "React",
-      "Zustand",
-      "TypeScript",
-      "JavaScript",
-      "CoffeeScript",
-      "SCSS",
-      "Handlebars",
-    ],
+    technologies: ["Ember.js", "React", "Zustand", "TypeScript", "JavaScript", "CoffeeScript", "SCSS", "Handlebars"],
     badges: [{ label: "Performance" }, { label: "Legacy refactoring" }],
     featured: true,
   },
   {
     title: "Drupal / CMS Content Platform",
-    company: "Belitsoft",
+    company: "Epam Systems",
     visibility: "internal",
     summary:
       "CMS-based frontend development involving Drupal, admin panel components, reusable modules, and CKEditor integrations.",
@@ -111,10 +102,9 @@ export const projects: ProjectItemModel[] = [
   },
   {
     title: "E-commerce Frontend Platform",
-    company: "Startup Labs / EPAM Systems",
+    company: "Belitsoft",
     visibility: "archived",
-    summary:
-      "Frontend development and support for an Australian online store and related commercial web projects.",
+    summary: "Frontend development and support for an Australian online store and related commercial web projects.",
     role: "Frontend Developer",
     responsibilities: [
       "Developed frontend interfaces for websites of different complexity.",

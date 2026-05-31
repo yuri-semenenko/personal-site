@@ -24,9 +24,9 @@
 
 Сайт реализуется в гибридном формате:
 
-* основная страница — landing/CV page с секциями;
-* навигация по секциям через якоря;
-* архитектурно предусмотреть возможность добавления отдельных страниц в будущем.
+- основная страница — landing/CV page с секциями;
+- навигация по секциям через якоря;
+- архитектурно предусмотреть возможность добавления отдельных страниц в будущем.
 
 Фаза 1:
 
@@ -56,9 +56,9 @@
 
 Архитектура должна позволять быстро добавить:
 
-* RU;
-* PL;
-* BY.
+- RU;
+- PL;
+- BY.
 
 ---
 
@@ -83,7 +83,7 @@
 
 Header должен содержать:
 
-* текстовый логотип/айдентику без фото, например:
+- текстовый логотип/айдентику без фото, например:
 
 ```text
 <YURI SEMENENKO />
@@ -95,28 +95,28 @@ Header должен содержать:
 YS.dev
 ```
 
-* навигацию:
+- навигацию:
+  - About;
+  - Experience;
+  - Skills;
+  - Education;
+  - Projects;
+  - Teaching;
+  - Contact;
 
-  * About;
-  * Experience;
-  * Skills;
-  * Education;
-  * Projects;
-  * Teaching;
-  * Contact;
-* кнопку `Download CV`;
-* переключатель темы;
-* задел под переключатель языка;
-* адаптивное мобильное меню.
+- кнопку `Download CV`;
+- переключатель темы;
+- задел под переключатель языка;
+- адаптивное мобильное меню.
 
 Поведение:
 
-* sticky/fixed header;
-* плавный переход к секциям;
-* подсветка активной секции при скролле;
-* мобильное burger-menu;
-* внешние ссылки открываются в новой вкладке;
-* все интерактивные элементы доступны с клавиатуры.
+- sticky/fixed header;
+- плавный переход к секциям;
+- подсветка активной секции при скролле;
+- мобильное burger-menu;
+- внешние ссылки открываются в новой вкладке;
+- все интерактивные элементы доступны с клавиатуры.
 
 ---
 
@@ -143,20 +143,20 @@ Available for remote roles
 
 CTA:
 
-* `Download CV`;
-* `Contact me`;
-* `View experience`;
-* `LinkedIn`.
+- `Download CV`;
+- `Contact me`;
+- `View experience`;
+- `LinkedIn`.
 
 Фото не используется.
 
 Визуальный элемент hero-блока:
 
-* animated code block;
-* terminal-like component;
-* developer profile object;
-* animated gradient/card;
-* subtle grid/glow background.
+- animated code block;
+- terminal-like component;
+- developer profile object;
+- animated gradient/card;
+- subtle grid/glow background.
 
 Пример идеи для code card:
 
@@ -178,16 +178,16 @@ const yuri = {
 
 Смысловой акцент:
 
-* Senior Frontend Engineer;
-* React / Next.js / TypeScript;
-* performance optimisation;
-* UI architecture;
-* reusable components;
-* legacy modernization;
-* design systems / UI kits;
-* code review;
-* mentoring and teaching;
-* collaboration with product owners, backend developers, designers and QA.
+- Senior Frontend Engineer;
+- React / Next.js / TypeScript;
+- performance optimisation;
+- UI architecture;
+- reusable components;
+- legacy modernization;
+- design systems / UI kits;
+- code review;
+- mentoring and teaching;
+- collaboration with product owners, backend developers, designers and QA.
 
 Текст должен быть написан на английском языке в профессиональном, но живом стиле.
 
@@ -199,13 +199,13 @@ const yuri = {
 
 Каждая позиция должна содержать:
 
-* company;
-* role;
-* period;
-* responsibilities;
-* achievements;
-* technologies;
-* NDA-safe project description, если нужно.
+- company;
+- role;
+- period;
+- responsibilities;
+- achievements;
+- technologies;
+- NDA-safe project description, если нужно.
 
 Позиции из CV:
 
@@ -216,18 +216,18 @@ const yuri = {
 
 Ключевые акценты:
 
-* legacy project на Sitecore CMS, .NET, native JS, Preact;
-* работа в squad-команде;
-* code review;
-* помощь PM с estimations и coordination;
-* миграция на React, Next.js, Tailwind CSS;
-* Storybook;
-* Uniform.dev;
-* Kontent.ai;
-* reusable components;
-* POCs;
-* Scrum и demo sessions;
-* CI/CD pipeline with GitHub and Vercel.
+- legacy project на Sitecore CMS, .NET, native JS, Preact;
+- работа в squad-команде;
+- code review;
+- помощь PM с estimations и coordination;
+- миграция на React, Next.js, Tailwind CSS;
+- Storybook;
+- Uniform.dev;
+- Kontent.ai;
+- reusable components;
+- POCs;
+- Scrum и demo sessions;
+- CI/CD pipeline with GitHub and Vercel.
 
 ### Synder
 
@@ -236,17 +236,17 @@ const yuri = {
 
 Ключевые акценты:
 
-* senior front-end engineer;
-* четыре проекта разной сложности;
-* React.js;
-* Redux;
-* RTK Query;
-* взаимодействие с product owners, backend developers, designers;
-* grooming и sprint planning;
-* code review;
-* ESLint improvements;
-* custom UI-kit proposal;
-* новые страницы и сервисы.
+- senior front-end engineer;
+- четыре проекта разной сложности;
+- React.js;
+- Redux;
+- RTK Query;
+- взаимодействие с product owners, backend developers, designers;
+- grooming и sprint planning;
+- code review;
+- ESLint improvements;
+- custom UI-kit proposal;
+- новые страницы и сервисы.
 
 ### Monterosa
 
@@ -255,18 +255,18 @@ const yuri = {
 
 Ключевые акценты:
 
-* SCSS;
-* Handlebars;
-* CoffeeScript;
-* JavaScript;
-* TypeScript;
-* Ember.js;
-* React.js;
-* Zustand;
-* code reviews;
-* tests;
-* transformation of core platform;
-* 20% performance improvement through optimization and refactoring of old Ember.js codebase.
+- SCSS;
+- Handlebars;
+- CoffeeScript;
+- JavaScript;
+- TypeScript;
+- Ember.js;
+- React.js;
+- Zustand;
+- code reviews;
+- tests;
+- transformation of core platform;
+- 20% performance improvement through optimization and refactoring of old Ember.js codebase.
 
 ### Belitsoft
 
@@ -275,17 +275,17 @@ const yuri = {
 
 Ключевые акценты:
 
-* long-term and short-term projects;
-* Bossrevolution project;
-* cross-browser web applications;
-* reusable components;
-* complex animations;
-* tests;
-* Drupal CMF;
-* admin panel components;
-* CKEditor 4.x plugin adaptation;
-* WebMD project;
-* Lundberg Design website.
+- long-term and short-term projects;
+- Bossrevolution project;
+- cross-browser web applications;
+- reusable components;
+- complex animations;
+- tests;
+- Drupal CMF;
+- admin panel components;
+- CKEditor 4.x plugin adaptation;
+- WebMD project;
+- Lundberg Design website.
 
 ### EPAM Systems
 
@@ -294,12 +294,12 @@ const yuri = {
 
 Ключевые акценты:
 
-* corporate websites;
-* advertising websites;
-* email templates;
-* HTML coder / frontend developer responsibilities;
-* Fishpond website;
-* Australian online store support.
+- corporate websites;
+- advertising websites;
+- email templates;
+- HTML coder / frontend developer responsibilities;
+- Fishpond website;
+- Australian online store support.
 
 ### Startup Labs, Inc.
 
@@ -308,18 +308,18 @@ const yuri = {
 
 Ключевые акценты:
 
-* websites of different complexity;
-* HTML pages and web applications;
-* Australian online store support;
-* reusable components and modules;
-* client-facing delivery.
+- websites of different complexity;
+- HTML pages and web applications;
+- Australian online store support;
+- reusable components and modules;
+- client-facing delivery.
 
 ### Belitsoft
 
 **Front-end Developer**
 **Jul 2011 — Apr 2013**
 
-Отображать как отдельный период, не объединять с Belitsoft 2014–2018.
+Отображать как отдельный период, не объединять с Belitsoft 2014-2018.
 
 ---
 
@@ -334,14 +334,14 @@ Teaching experience нужно выделить отдельным блоком,
 
 Содержимое:
 
-* teaching HTML, CSS and JavaScript;
-* teaching JavaScript web application development;
-* mentoring students;
-* 500+ students trained;
-* many students secured positions in big tech companies;
-* course materials update;
-* Telegram channel with frontend materials;
-* supportive learning environment.
+- teaching HTML, CSS and JavaScript;
+- teaching JavaScript web application development;
+- mentoring students;
+- 500+ students trained;
+- many students secured positions in big tech companies;
+- course materials update;
+- Telegram channel with frontend materials;
+- supportive learning environment.
 
 Блок может называться:
 
@@ -363,77 +363,77 @@ Mentorship
 
 ### Markup & Styling
 
-* HTML;
-* Handlebars;
-* CSS;
-* SCSS;
-* BEM;
-* CSS Modules.
+- HTML;
+- Handlebars;
+- CSS;
+- SCSS;
+- BEM;
+- CSS Modules.
 
 ### JavaScript / TypeScript
 
-* JavaScript ES6+;
-* TypeScript;
-* CoffeeScript;
-* jQuery.
+- JavaScript ES6+;
+- TypeScript;
+- CoffeeScript;
+- jQuery.
 
 ### Frontend
 
-* React.js;
-* Next.js;
-* Redux;
-* RTK Query;
-* Ember.js;
-* Zustand.
+- React.js;
+- Next.js;
+- Redux;
+- RTK Query;
+- Ember.js;
+- Zustand.
 
 ### UI / Component Libraries
 
-* Tailwind CSS;
-* shadcn/ui;
-* MUI;
-* Chakra UI;
-* Bootstrap.
+- Tailwind CSS;
+- shadcn/ui;
+- MUI;
+- Chakra UI;
+- Bootstrap.
 
 ### Testing & Documentation
 
-* Jest;
-* React Testing Library;
-* Storybook.
+- Jest;
+- React Testing Library;
+- Storybook.
 
 ### Backend / Data
 
-* Node.js;
-* Express.js;
-* Firebase;
-* Supabase;
-* MongoDB.
+- Node.js;
+- Express.js;
+- Firebase;
+- Supabase;
+- MongoDB.
 
 ### API
 
-* REST API;
-* Swagger.
+- REST API;
+- Swagger.
 
 ### Tooling
 
-* Webpack;
-* Vite;
-* Parcel;
-* EsBuild.
+- Webpack;
+- Vite;
+- Parcel;
+- EsBuild.
 
 ### Version Control & Workflow
 
-* GitHub;
-* GitLab;
-* Bitbucket;
-* Jira;
-* Confluence;
-* Trello;
-* Slack.
+- GitHub;
+- GitLab;
+- Bitbucket;
+- Jira;
+- Confluence;
+- Trello;
+- Slack.
 
 ### Languages
 
-* Russian — Native;
-* English — B2+.
+- Russian — Native;
+- English — B2+.
 
 ---
 
@@ -461,14 +461,14 @@ Department: Web Design and Computer Graphics
 
 Каждая карточка проекта должна содержать:
 
-* project title;
-* context/company, если можно;
-* role;
-* description;
-* responsibilities;
-* technologies;
-* result/impact;
-* NDA-safe badge, если ссылка недоступна.
+- project title;
+- context/company, если можно;
+- role;
+- description;
+- responsibilities;
+- technologies;
+- result/impact;
+- NDA-safe badge, если ссылка недоступна.
 
 Предварительный список проектов:
 
@@ -478,18 +478,18 @@ Department: Web Design and Computer Graphics
 
 Стек/акценты:
 
-* Sitecore CMS;
-* .NET;
-* native JS;
-* Preact;
-* React;
-* Next.js;
-* Tailwind CSS;
-* Storybook;
-* Uniform.dev;
-* Kontent.ai;
-* GitHub;
-* Vercel.
+- Sitecore CMS;
+- .NET;
+- native JS;
+- Preact;
+- React;
+- Next.js;
+- Tailwind CSS;
+- Storybook;
+- Uniform.dev;
+- Kontent.ai;
+- GitHub;
+- Vercel.
 
 ### Multi-project SaaS Frontend
 
@@ -497,13 +497,13 @@ Department: Web Design and Computer Graphics
 
 Стек/акценты:
 
-* React;
-* Redux;
-* RTK Query;
-* ESLint;
-* custom UI-kit;
-* frontend services;
-* product collaboration.
+- React;
+- Redux;
+- RTK Query;
+- ESLint;
+- custom UI-kit;
+- frontend services;
+- product collaboration.
 
 ### Core Platform Modernization
 
@@ -511,14 +511,14 @@ Department: Web Design and Computer Graphics
 
 Стек/акценты:
 
-* Ember.js;
-* React.js;
-* Zustand;
-* TypeScript;
-* SCSS;
-* performance optimization;
-* legacy refactoring;
-* 20% performance improvement.
+- Ember.js;
+- React.js;
+- Zustand;
+- TypeScript;
+- SCSS;
+- performance optimization;
+- legacy refactoring;
+- 20% performance improvement.
 
 ### Drupal / CMS Content Platform
 
@@ -526,12 +526,12 @@ Department: Web Design and Computer Graphics
 
 Стек/акценты:
 
-* Drupal CMF;
-* admin panel components;
-* CKEditor 4.x API;
-* WebMD;
-* Lundberg Design;
-* reusable modules.
+- Drupal CMF;
+- admin panel components;
+- CKEditor 4.x API;
+- WebMD;
+- Lundberg Design;
+- reusable modules.
 
 ### E-commerce Frontend Platform
 
@@ -539,11 +539,11 @@ Department: Web Design and Computer Graphics
 
 Стек/акценты:
 
-* Fishpond;
-* Australian online store;
-* cross-browser frontend;
-* reusable components;
-* performance and usability improvements.
+- Fishpond;
+- Australian online store;
+- cross-browser frontend;
+- reusable components;
+- performance and usability improvements.
 
 ### Frontend Education Program
 
@@ -551,13 +551,13 @@ Department: Web Design and Computer Graphics
 
 Стек/акценты:
 
-* HTML;
-* CSS;
-* JavaScript;
-* mentoring;
-* 500+ students;
-* frontend education;
-* course materials.
+- HTML;
+- CSS;
+- JavaScript;
+- mentoring;
+- 500+ students;
+- frontend education;
+- course materials.
 
 ---
 
@@ -577,11 +577,11 @@ Location: Krakow, Poland
 
 Требования:
 
-* email через `mailto:`;
-* телефон не показывать;
-* внешние ссылки открываются в новой вкладке;
-* у иконок должны быть `aria-label`;
-* форма, backend и CAPTCHA не нужны.
+- email через `mailto:`;
+- телефон не показывать;
+- внешние ссылки открываются в новой вкладке;
+- у иконок должны быть `aria-label`;
+- форма, backend и CAPTCHA не нужны.
 
 ---
 
@@ -589,10 +589,10 @@ Location: Krakow, Poland
 
 Требования:
 
-* CV доступен как PDF;
-* кнопка `Download CV` есть в header и hero;
-* файл хранится в `/public/files/`;
-* файл открывается/скачивается без ошибок.
+- CV доступен как PDF;
+- кнопка `Download CV` есть в header и hero;
+- файл хранится в `/public/files/`;
+- файл открывается/скачивается без ошибок.
 
 Рекомендуемое имя файла:
 
@@ -617,26 +617,26 @@ cv-by.pdf
 
 Сайт должен быть:
 
-* dark-first;
-* современным;
-* техническим;
-* аккуратным;
-* не перегруженным;
-* визуально демонстрирующим frontend-экспертизу.
+- dark-first;
+- современным;
+- техническим;
+- аккуратным;
+- не перегруженным;
+- визуально демонстрирующим frontend-экспертизу.
 
 Фото не используется.
 
 Визуальный стиль строится на:
 
-* typography;
-* code-like элементах;
-* cards;
-* badges;
-* terminal/code blocks;
-* gradients;
-* animated borders;
-* subtle glow effects;
-* developer-inspired UI.
+- typography;
+- code-like элементах;
+- cards;
+- badges;
+- terminal/code blocks;
+- gradients;
+- animated borders;
+- subtle glow effects;
+- developer-inspired UI.
 
 ---
 
@@ -644,17 +644,17 @@ cv-by.pdf
 
 Сайт должен иметь полноценные:
 
-* dark theme;
-* light theme.
+- dark theme;
+- light theme.
 
 Требования:
 
-* по умолчанию тема определяется через системные настройки браузера;
-* ручной переключатель темы обязателен;
-* выбранная тема сохраняется в `localStorage`;
-* не должно быть flash of incorrect theme;
-* обе темы должны быть визуально полноценными;
-* dark theme остаётся основной по характеру сайта, но light theme не должна выглядеть второстепенно или сломанно.
+- по умолчанию тема определяется через системные настройки браузера;
+- ручной переключатель темы обязателен;
+- выбранная тема сохраняется в `localStorage`;
+- не должно быть flash of incorrect theme;
+- обе темы должны быть визуально полноценными;
+- dark theme остаётся основной по характеру сайта, но light theme не должна выглядеть второстепенно или сломанно.
 
 ---
 
@@ -664,19 +664,19 @@ cv-by.pdf
 
 ### Dark theme
 
-* фон: dark gray / near black;
-* основной текст: white / light gray;
-* secondary text: muted gray;
-* primary accent: blue или green;
-* secondary accent: burgundy-purple / magenta.
+- фон: dark gray / near black;
+- основной текст: white / light gray;
+- secondary text: muted gray;
+- primary accent: blue или green;
+- secondary accent: burgundy-purple / magenta.
 
 ### Light theme
 
-* фон: white / soft gray;
-* основной текст: dark gray / near black;
-* secondary text: medium gray;
-* primary accent: blue или green;
-* secondary accent: burgundy-purple / magenta.
+- фон: white / soft gray;
+- основной текст: dark gray / near black;
+- secondary text: medium gray;
+- primary accent: blue или green;
+- secondary accent: burgundy-purple / magenta.
 
 ---
 
@@ -684,12 +684,12 @@ cv-by.pdf
 
 Основной шрифт:
 
-* JetBrains Mono.
+- JetBrains Mono.
 
 Допустимая комбинация:
 
-* JetBrains Mono для заголовков, code blocks, badges, UI accents;
-* Inter или system font для длинных текстов, если это улучшит читаемость.
+- JetBrains Mono для заголовков, code blocks, badges, UI accents;
+- Inter или system font для длинных текстов, если это улучшит читаемость.
 
 ---
 
@@ -699,24 +699,24 @@ cv-by.pdf
 
 Требования:
 
-* анимации должны быть оригинальными;
-* анимации должны хорошо работать на мобильных устройствах;
-* performance не должен страдать;
-* использовать `prefers-reduced-motion`;
-* избегать тяжёлого WebGL/canvas в первой версии;
-* анимации должны быть реализованы через CSS, Framer Motion или Motion One.
+- анимации должны быть оригинальными;
+- анимации должны хорошо работать на мобильных устройствах;
+- performance не должен страдать;
+- использовать `prefers-reduced-motion`;
+- избегать тяжёлого WebGL/canvas в первой версии;
+- анимации должны быть реализованы через CSS, Framer Motion или Motion One.
 
 Рекомендованные анимации:
 
-* animated hero code block;
-* staggered section reveal;
-* animated cards;
-* hover glow;
-* gradient borders;
-* active navigation indicator;
-* timeline reveal;
-* smooth scrolling;
-* subtle background grid animation.
+- animated hero code block;
+- staggered section reveal;
+- animated cards;
+- hover glow;
+- gradient borders;
+- active navigation indicator;
+- timeline reveal;
+- smooth scrolling;
+- subtle background grid animation.
 
 ---
 
@@ -724,20 +724,20 @@ cv-by.pdf
 
 Сайт должен корректно работать на:
 
-* mobile от 320px;
-* tablet от 768px;
-* desktop от 1024px;
-* large desktop от 1440px.
+- mobile от 320px;
+- tablet от 768px;
+- desktop от 1024px;
+- large desktop от 1440px.
 
 Требования:
 
-* отсутствие горизонтального скролла;
-* mobile-first подход;
-* адаптивное меню;
-* удобные tap targets;
-* readable typography;
-* оптимизированные анимации на mobile;
-* карточки перестраиваются в одну колонку на небольших экранах.
+- отсутствие горизонтального скролла;
+- mobile-first подход;
+- адаптивное меню;
+- удобные tap targets;
+- readable typography;
+- оптимизированные анимации на mobile;
+- карточки перестраиваются в одну колонку на небольших экранах.
 
 ---
 
@@ -746,24 +746,24 @@ cv-by.pdf
 Целевые Lighthouse-метрики:
 
 ```text
-Performance: 95–100
-Accessibility: 95–100
-Best Practices: 95–100
+Performance: 95-100
+Accessibility: 95-100
+Best Practices: 95-100
 SEO: 90+ на фазе 1
 SEO: 95+ на фазе 2
 ```
 
 Требования:
 
-* static generation, где возможно;
-* минимальный JS bundle;
-* оптимизация шрифтов;
-* отсутствие лишних библиотек;
-* lazy loading;
-* dynamic imports для тяжёлых компонентов;
-* оптимизированные изображения, если появятся;
-* bundle analysis перед релизом;
-* отсутствие ошибок в browser console.
+- static generation, где возможно;
+- минимальный JS bundle;
+- оптимизация шрифтов;
+- отсутствие лишних библиотек;
+- lazy loading;
+- dynamic imports для тяжёлых компонентов;
+- оптимизированные изображения, если появятся;
+- bundle analysis перед релизом;
+- отсутствие ошибок в browser console.
 
 ---
 
@@ -771,14 +771,14 @@ SEO: 95+ на фазе 2
 
 Требования:
 
-* semantic HTML;
-* корректная heading hierarchy;
-* keyboard navigation;
-* visible focus states;
-* aria-label для icon links;
-* достаточный contrast ratio;
-* поддержка `prefers-reduced-motion`;
-* корректное поведение mobile menu для screen readers.
+- semantic HTML;
+- корректная heading hierarchy;
+- keyboard navigation;
+- visible focus states;
+- aria-label для icon links;
+- достаточный contrast ratio;
+- поддержка `prefers-reduced-motion`;
+- корректное поведение mobile menu для screen readers.
 
 ---
 
@@ -786,24 +786,24 @@ SEO: 95+ на фазе 2
 
 Фаза 1:
 
-* title;
-* meta description;
-* Open Graph;
-* favicon;
-* semantic HTML;
-* корректные heading levels;
-* readable URLs/anchors.
+- title;
+- meta description;
+- Open Graph;
+- favicon;
+- semantic HTML;
+- корректные heading levels;
+- readable URLs/anchors.
 
 Фаза 2:
 
-* sitemap.xml;
-* robots.txt;
-* canonical URLs;
-* multilingual SEO;
-* structured data;
-* Google Search Console;
-* custom domain;
-* extended social previews.
+- sitemap.xml;
+- robots.txt;
+- canonical URLs;
+- multilingual SEO;
+- structured data;
+- Google Search Console;
+- custom domain;
+- extended social previews.
 
 ---
 
@@ -813,9 +813,9 @@ SEO: 95+ на фазе 2
 
 Контент первой версии формируется из:
 
-* CV;
-* LinkedIn;
-* дополнительных правок владельца сайта.
+- CV;
+- LinkedIn;
+- дополнительных правок владельца сайта.
 
 Контент должен храниться в простом формате, без CMS.
 
@@ -827,11 +827,11 @@ SEO: 95+ на фазе 2
 
 Нельзя раскрывать:
 
-* закрытые клиентские данные;
-* внутренние URL;
-* конфиденциальные метрики;
-* непубличные детали архитектуры;
-* приватные названия проектов.
+- закрытые клиентские данные;
+- внутренние URL;
+- конфиденциальные метрики;
+- непубличные детали архитектуры;
+- приватные названия проектов.
 
 ---
 
@@ -841,13 +841,13 @@ SEO: 95+ на фазе 2
 
 Фаза 1 не включает:
 
-* CMS;
-* backend;
-* contact form;
-* paid services;
-* analytics;
-* custom domain;
-* legal pages.
+- CMS;
+- backend;
+- contact form;
+- paid services;
+- analytics;
+- custom domain;
+- legal pages.
 
 ---
 
@@ -855,11 +855,11 @@ SEO: 95+ на фазе 2
 
 Фаза 1:
 
-* дефолтный Vercel domain.
+- дефолтный Vercel domain.
 
 Фаза 2:
 
-* покупка и подключение custom domain.
+- покупка и подключение custom domain.
 
 ---
 
@@ -867,16 +867,16 @@ SEO: 95+ на фазе 2
 
 Фаза 1:
 
-* privacy policy не нужна;
-* cookie banner не нужен;
-* обработка персональных данных через форму отсутствует.
+- privacy policy не нужна;
+- cookie banner не нужен;
+- обработка персональных данных через форму отсутствует.
 
 Фаза 2:
 
-* privacy policy;
-* cookie notice;
-* cookie banner при аналитике;
-* юридические страницы при необходимости.
+- privacy policy;
+- cookie notice;
+- cookie banner при аналитике;
+- юридические страницы при необходимости.
 
 ---
 
@@ -900,16 +900,15 @@ Vercel
 
 Использовать:
 
-* shadcn/ui как базу для компонентов;
-* Tailwind CSS для кастомной стилизации;
-* кастомные компоненты для:
-
-  * hero;
-  * timeline;
-  * skill cards;
-  * project cards;
-  * theme switcher;
-  * animated code block.
+- shadcn/ui как базу для компонентов;
+- Tailwind CSS для кастомной стилизации;
+- кастомные компоненты для:
+  - hero;
+  - timeline;
+  - skill cards;
+  - project cards;
+  - theme switcher;
+  - animated code block.
 
 Важно: сайт не должен выглядеть как стандартный shadcn template. shadcn/ui используется как строительная база, а не как готовый визуальный стиль.
 
@@ -935,11 +934,11 @@ Vercel
 
 Фаза 1:
 
-* заполнен только `/en`.
+- заполнен только `/en`.
 
 Фаза 2:
 
-* добавляются `/ru`, `/pl`, `/by`.
+- добавляются `/ru`, `/pl`, `/by`.
 
 ---
 
@@ -947,12 +946,12 @@ Vercel
 
 Требования:
 
-* GitHub repository;
-* production branch: `main`;
-* Vercel deployment;
-* automatic production deploy после merge в `main`;
-* preview deployments для Pull Requests;
-* README с инструкциями запуска.
+- GitHub repository;
+- production branch: `main`;
+- Vercel deployment;
+- automatic production deploy после merge в `main`;
+- preview deployments для Pull Requests;
+- README с инструкциями запуска.
 
 ---
 
@@ -960,150 +959,149 @@ Vercel
 
 ## 6.1. General
 
-* [ ] Сайт доступен по Vercel URL.
-* [ ] Сайт реализован на Next.js, React и TypeScript.
-* [ ] Используются Tailwind CSS и shadcn/ui.
-* [ ] Основной язык первой версии — English.
-* [ ] Контент хранится в простой структуре без CMS.
-* [ ] Архитектура позволяет быстро добавить RU, PL и BY.
-* [ ] Сайт не использует backend.
-* [ ] Сайт не использует contact form.
-* [ ] Сайт не показывает телефон.
+- [ ] Сайт доступен по Vercel URL.
+- [ ] Сайт реализован на Next.js, React и TypeScript.
+- [ ] Используются Tailwind CSS и shadcn/ui.
+- [ ] Основной язык первой версии — English.
+- [ ] Контент хранится в простой структуре без CMS.
+- [ ] Архитектура позволяет быстро добавить RU, PL и BY.
+- [ ] Сайт не использует backend.
+- [ ] Сайт не использует contact form.
+- [ ] Сайт не показывает телефон.
 
 ## 6.2. Structure
 
-* [ ] Есть Header.
-* [ ] Есть Hero.
-* [ ] Есть About.
-* [ ] Есть Experience.
-* [ ] Есть Skills.
-* [ ] Есть Education.
-* [ ] Есть Projects.
-* [ ] Есть Teaching / Mentoring.
-* [ ] Есть Contact.
-* [ ] Есть Footer.
-* [ ] Навигация ведёт к соответствующим секциям.
-* [ ] Архитектура допускает добавление отдельных страниц в будущем.
+- [ ] Есть Header.
+- [ ] Есть Hero.
+- [ ] Есть About.
+- [ ] Есть Experience.
+- [ ] Есть Skills.
+- [ ] Есть Education.
+- [ ] Есть Projects.
+- [ ] Есть Teaching / Mentoring.
+- [ ] Есть Contact.
+- [ ] Есть Footer.
+- [ ] Навигация ведёт к соответствующим секциям.
+- [ ] Архитектура допускает добавление отдельных страниц в будущем.
 
 ## 6.3. Hero
 
-* [ ] Hero содержит `Yuri Semenenko`.
-* [ ] Hero содержит `Senior Frontend Engineer & Mentor and Trainer`.
-* [ ] Hero содержит `Based in Krakow, Poland`.
-* [ ] Hero отображает статус `Open to work`.
-* [ ] Hero отображает статус `Available for remote roles`.
-* [ ] Hero не использует фото.
-* [ ] Hero содержит кнопку `Download CV`.
-* [ ] Hero содержит кнопку перехода к контактам, опыту или LinkedIn.
-* [ ] Hero содержит оригинальный developer visual element.
+- [ ] Hero содержит `Yuri Semenenko`.
+- [ ] Hero содержит `Senior Frontend Engineer & Mentor and Trainer`.
+- [ ] Hero содержит `Based in Krakow, Poland`.
+- [ ] Hero отображает статус `Open to work`.
+- [ ] Hero отображает статус `Available for remote roles`.
+- [ ] Hero не использует фото.
+- [ ] Hero содержит кнопку `Download CV`.
+- [ ] Hero содержит кнопку перехода к контактам, опыту или LinkedIn.
+- [ ] Hero содержит оригинальный developer visual element.
 
 ## 6.4. Contacts
 
-* [ ] Email работает через `mailto:no1dor.job@gmail.com`.
-* [ ] LinkedIn ведёт на `https://www.linkedin.com/in/yuri-semenenko/`.
-* [ ] GitHub ведёт на `https://github.com/yuri-semenenko`.
-* [ ] Telegram отображается как `@frontdev85`.
-* [ ] Телефон не отображается.
-* [ ] Внешние ссылки открываются в новой вкладке.
-* [ ] У иконок есть доступные `aria-label`.
+- [ ] Email работает через `mailto:no1dor.job@gmail.com`.
+- [ ] LinkedIn ведёт на `https://www.linkedin.com/in/yuri-semenenko/`.
+- [ ] GitHub ведёт на `https://github.com/yuri-semenenko`.
+- [ ] Telegram отображается как `@frontdev85`.
+- [ ] Телефон не отображается.
+- [ ] Внешние ссылки открываются в новой вкладке.
+- [ ] У иконок есть доступные `aria-label`.
 
 ## 6.5. CV
 
-* [ ] CV PDF доступен для скачивания.
-* [ ] Кнопка `Download CV` есть в Header.
-* [ ] Кнопка `Download CV` есть в Hero.
-* [ ] PDF открывается корректно.
-* [ ] Имя файла понятно пользователю.
-* [ ] Ссылка на CV не ведёт на 404.
+- [ ] CV PDF доступен для скачивания.
+- [ ] Кнопка `Download CV` есть в Header.
+- [ ] Кнопка `Download CV` есть в Hero.
+- [ ] PDF открывается корректно.
+- [ ] Имя файла понятно пользователю.
+- [ ] Ссылка на CV не ведёт на 404.
 
 ## 6.6. Experience
 
-* [ ] StoneX отображается как отдельная позиция.
-* [ ] Synder отображается как отдельная позиция.
-* [ ] Monterosa отображается как отдельная позиция.
-* [ ] Belitsoft 2014–2018 отображается как отдельная позиция.
-* [ ] EPAM Systems отображается как отдельная позиция.
-* [ ] Startup Labs отображается как отдельная позиция.
-* [ ] Belitsoft 2011–2013 отображается как отдельная позиция.
-* [ ] Для каждой позиции есть роль, компания, период и описание.
-* [ ] Описание опыта не перегружает страницу.
-* [ ] Достижения визуально отделены от обязанностей.
+- [ ] StoneX отображается как отдельная позиция.
+- [ ] Synder отображается как отдельная позиция.
+- [ ] Monterosa отображается как отдельная позиция.
+- [ ] Belitsoft 2014-2018 отображается как отдельная позиция.
+- [ ] EPAM Systems отображается как отдельная позиция.
+- [ ] Startup Labs отображается как отдельная позиция.
+- [ ] Belitsoft 2011-2013 отображается как отдельная позиция.
+- [ ] Для каждой позиции есть роль, компания, период и описание.
+- [ ] Описание опыта не перегружает страницу.
+- [ ] Достижения визуально отделены от обязанностей.
 
 ## 6.7. Teaching / Mentoring
 
-* [ ] IT-Academy.by отображается как отдельный блок или отдельная выделенная experience-card.
-* [ ] Указан период Apr 2017 — Jul 2025.
-* [ ] Указана роль Trainer of Front-end Development Courses.
-* [ ] Указано 500+ trained students.
-* [ ] Блок подчёркивает mentoring/training expertise.
+- [ ] IT-Academy.by отображается как отдельный блок или отдельная выделенная experience-card.
+- [ ] Указан период Apr 2017 — Jul 2025.
+- [ ] Указана роль Trainer of Front-end Development Courses.
+- [ ] Указано 500+ trained students.
+- [ ] Блок подчёркивает mentoring/training expertise.
 
 ## 6.8. Skills
 
-* [ ] Навыки сгруппированы по категориям.
-* [ ] Есть frontend skills.
-* [ ] Есть styling/UI skills.
-* [ ] Есть testing skills.
-* [ ] Есть tooling skills.
-* [ ] Есть API/backend basics.
-* [ ] Есть workflow/tools.
-* [ ] Есть languages.
-* [ ] Skills-секция не выглядит как длинный plain list.
+- [ ] Навыки сгруппированы по категориям.
+- [ ] Есть frontend skills.
+- [ ] Есть styling/UI skills.
+- [ ] Есть testing skills.
+- [ ] Есть tooling skills.
+- [ ] Есть API/backend basics.
+- [ ] Есть workflow/tools.
+- [ ] Есть languages.
+- [ ] Skills-секция не выглядит как длинный plain list.
 
 ## 6.9. Projects
 
-* [ ] Проекты сформированы на основе CV.
-* [ ] Проекты можно показывать без внешних ссылок.
-* [ ] Для NDA-проектов используется нейтральное описание.
-* [ ] Карточки содержат роль, стек, задачи и результат.
-* [ ] Отсутствие ссылок не ухудшает UX.
-* [ ] Project section помогает понять инженерный уровень.
+- [ ] Проекты сформированы на основе CV.
+- [ ] Проекты можно показывать без внешних ссылок.
+- [ ] Для NDA-проектов используется нейтральное описание.
+- [ ] Карточки содержат роль, стек, задачи и результат.
+- [ ] Отсутствие ссылок не ухудшает UX.
+- [ ] Project section помогает понять инженерный уровень.
 
 ## 6.10. Theme
 
-* [ ] Реализована dark theme.
-* [ ] Реализована полноценная light theme.
-* [ ] Тема определяется через системные настройки браузера.
-* [ ] Есть ручной theme switcher.
-* [ ] Выбранная тема сохраняется.
-* [ ] Нет flash of incorrect theme при загрузке.
-* [ ] Обе темы выглядят завершённо.
+- [ ] Реализована dark theme.
+- [ ] Реализована полноценная light theme.
+- [ ] Тема определяется через системные настройки браузера.
+- [ ] Есть ручной theme switcher.
+- [ ] Выбранная тема сохраняется.
+- [ ] Нет flash of incorrect theme при загрузке.
+- [ ] Обе темы выглядят завершённо.
 
 ## 6.11. Animations
 
-* [ ] Есть оригинальные frontend-анимации.
-* [ ] Анимации не перегружают интерфейс.
-* [ ] Анимации плавно работают на desktop.
-* [ ] Анимации плавно работают на mobile.
-* [ ] Поддерживается `prefers-reduced-motion`.
-* [ ] Анимации не снижают Lighthouse Performance ниже 95.
+- [ ] Есть оригинальные frontend-анимации.
+- [ ] Анимации не перегружают интерфейс.
+- [ ] Анимации плавно работают на desktop.
+- [ ] Анимации плавно работают на mobile.
+- [ ] Поддерживается `prefers-reduced-motion`.
+- [ ] Анимации не снижают Lighthouse Performance ниже 95.
 
 ## 6.12. Responsive
 
-* [ ] Сайт корректно работает от 320px.
-* [ ] Нет горизонтального скролла.
-* [ ] Header адаптируется в mobile menu.
-* [ ] Карточки перестраиваются в одну колонку на mobile.
-* [ ] Текст читаемый на маленьких экранах.
-* [ ] Tap targets удобные.
+- [ ] Сайт корректно работает от 320px.
+- [ ] Нет горизонтального скролла.
+- [ ] Header адаптируется в mobile menu.
+- [ ] Карточки перестраиваются в одну колонку на mobile.
+- [ ] Текст читаемый на маленьких экранах.
+- [ ] Tap targets удобные.
 
 ## 6.13. Performance
 
-* [ ] Lighthouse Performance — минимум 95.
-* [ ] Lighthouse Accessibility — минимум 95.
-* [ ] Lighthouse Best Practices — минимум 95.
-* [ ] Lighthouse SEO — минимум 90 на фазе 1.
-* [ ] Нет критических ошибок в console.
-* [ ] Шрифты оптимизированы.
-* [ ] Bundle не содержит очевидно лишних зависимостей.
+- [ ] Lighthouse Performance — минимум 95.
+- [ ] Lighthouse Accessibility — минимум 95.
+- [ ] Lighthouse Best Practices — минимум 95.
+- [ ] Lighthouse SEO — минимум 90 на фазе 1.
+- [ ] Нет критических ошибок в console.
+- [ ] Шрифты оптимизированы.
+- [ ] Bundle не содержит очевидно лишних зависимостей.
 
 ## 6.14. Deployment
 
-* [ ] Код хранится в GitHub.
-* [ ] Настроен Vercel deployment.
-* [ ] Production deploy идёт из `main`.
-* [ ] Pull Requests получают preview deployments.
-* [ ] README содержит инструкции по запуску проекта.
-
+- [ ] Код хранится в GitHub.
+- [ ] Настроен Vercel deployment.
+- [ ] Production deploy идёт из `main`.
+- [ ] Pull Requests получают preview deployments.
+- [ ] README содержит инструкции по запуску проекта.
 
 # 7. Контентные модели
 
@@ -1151,12 +1149,7 @@ export type Locale = "en" | "ru" | "pl" | "by";
 
 export type Theme = "light" | "dark" | "system";
 
-export type SocialType =
-  | "email"
-  | "linkedin"
-  | "github"
-  | "telegram"
-  | "location";
+export type SocialType = "email" | "linkedin" | "github" | "telegram" | "location";
 
 export type SkillLevel = "basic" | "intermediate" | "advanced" | "expert";
 
@@ -1568,15 +1561,7 @@ export const experience: ExperienceItemModel[] = [
       "Trained and supervised junior colleagues.",
       "Contributed to WebMD and Lundberg Design projects.",
     ],
-    technologies: [
-      "HTML",
-      "CSS",
-      "JavaScript",
-      "Drupal",
-      "CKEditor API",
-      "Animations",
-      "Testing",
-    ],
+    technologies: ["HTML", "CSS", "JavaScript", "Drupal", "CKEditor API", "Animations", "Testing"],
   },
   {
     company: "EPAM Systems",
@@ -1608,8 +1593,7 @@ export const experience: ExperienceItemModel[] = [
       end: "2013-12",
       label: "Apr 2012 — Dec 2013",
     },
-    summary:
-      "Developed websites of different complexity levels and supported an Australian online store.",
+    summary: "Developed websites of different complexity levels and supported an Australian online store.",
     responsibilities: [
       "Developed websites from simple HTML pages to complex web applications.",
       "Supported and enhanced a prominent Australian online store.",
@@ -1630,8 +1614,7 @@ export const experience: ExperienceItemModel[] = [
       end: "2013-04",
       label: "Jul 2011 — Apr 2013",
     },
-    summary:
-      "Early frontend engineering role focused on markup, styling, JavaScript, and delivery of web interfaces.",
+    summary: "Early frontend engineering role focused on markup, styling, JavaScript, and delivery of web interfaces.",
     responsibilities: [
       "Developed frontend interfaces for commercial projects.",
       "Worked with HTML, CSS, JavaScript, and reusable UI parts.",
@@ -1685,10 +1668,7 @@ export const teaching: TeachingItemModel[] = [
     },
     summary:
       "Conducted frontend development courses, mentored students, and supported a learning community focused on HTML, CSS, JavaScript, and web application development.",
-    courses: [
-      "Web Development with HTML, CSS, and JavaScript",
-      "Web Application Development with JavaScript",
-    ],
+    courses: ["Web Development with HTML, CSS, and JavaScript", "Web Application Development with JavaScript"],
     responsibilities: [
       "Conducted frontend development courses.",
       "Created an inclusive and supportive learning environment.",
@@ -1981,16 +1961,7 @@ export const projects: ProjectItemModel[] = [
       "Increased platform performance by 20%.",
       "Received positive feedback from users and stakeholders.",
     ],
-    technologies: [
-      "Ember.js",
-      "React",
-      "Zustand",
-      "TypeScript",
-      "JavaScript",
-      "CoffeeScript",
-      "SCSS",
-      "Handlebars",
-    ],
+    technologies: ["Ember.js", "React", "Zustand", "TypeScript", "JavaScript", "CoffeeScript", "SCSS", "Handlebars"],
     badges: [{ label: "Performance" }, { label: "Legacy refactoring" }],
     featured: true,
   },
@@ -2019,8 +1990,7 @@ export const projects: ProjectItemModel[] = [
     title: "E-commerce Frontend Platform",
     company: "Startup Labs / EPAM Systems",
     visibility: "archived",
-    summary:
-      "Frontend development and support for an Australian online store and related commercial web projects.",
+    summary: "Frontend development and support for an Australian online store and related commercial web projects.",
     role: "Frontend Developer",
     responsibilities: [
       "Developed frontend interfaces for websites of different complexity.",
@@ -2121,18 +2091,18 @@ export function getContent(locale: Locale = "en") {
 
 ## Content Models
 
-* [ ] Все данные сайта вынесены в `/src/content`.
-* [ ] Контент типизирован через TypeScript.
-* [ ] Нет захардкоженных текстов в UI-компонентах, кроме технических fallback-значений.
-* [ ] EN-контент полностью заполнен.
-* [ ] RU, PL, BY предусмотрены архитектурно.
-* [ ] При отсутствии локализации используется fallback на EN.
-* [ ] Контактные данные управляются через `contacts.ts`.
-* [ ] Статусы в Hero управляются через `profile.ts`.
-* [ ] Навигация управляется через `navigation.ts`.
-* [ ] Опыт, проекты, навыки и образование управляются отдельными файлами.
-* [ ] Телефон не отображается в публичном контенте.
-* [ ] CV-ссылка управляется через `profile.cv`.
+- [ ] Все данные сайта вынесены в `/src/content`.
+- [ ] Контент типизирован через TypeScript.
+- [ ] Нет захардкоженных текстов в UI-компонентах, кроме технических fallback-значений.
+- [ ] EN-контент полностью заполнен.
+- [ ] RU, PL, BY предусмотрены архитектурно.
+- [ ] При отсутствии локализации используется fallback на EN.
+- [ ] Контактные данные управляются через `contacts.ts`.
+- [ ] Статусы в Hero управляются через `profile.ts`.
+- [ ] Навигация управляется через `navigation.ts`.
+- [ ] Опыт, проекты, навыки и образование управляются отдельными файлами.
+- [ ] Телефон не отображается в публичном контенте.
+- [ ] CV-ссылка управляется через `profile.cv`.
 
 ---
 
@@ -2142,32 +2112,32 @@ export function getContent(locale: Locale = "en") {
 
 Включает:
 
-* Next.js-проект;
-* EN-версию;
-* все основные секции;
-* dark и light theme;
-* theme switcher;
-* адаптивность;
-* анимации уровня B;
-* CV download;
-* контакты без формы;
-* GitHub + Vercel CI/CD;
-* базовое SEO;
-* Lighthouse optimization.
+- Next.js-проект;
+- EN-версию;
+- все основные секции;
+- dark и light theme;
+- theme switcher;
+- адаптивность;
+- анимации уровня B;
+- CV download;
+- контакты без формы;
+- GitHub + Vercel CI/CD;
+- базовое SEO;
+- Lighthouse optimization.
 
 ## Фаза 2 — Growth / SEO / Localization
 
 Включает:
 
-* RU, PL, BY;
-* custom domain;
-* sitemap.xml;
-* robots.txt;
-* canonical URLs;
-* structured data;
-* Google Search Console;
-* analytics;
-* legal pages при необходимости;
-* расширение Projects или Blog.
+- RU, PL, BY;
+- custom domain;
+- sitemap.xml;
+- robots.txt;
+- canonical URLs;
+- structured data;
+- Google Search Console;
+- analytics;
+- legal pages при необходимости;
+- расширение Projects или Blog.
 
 ---

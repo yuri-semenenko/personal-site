@@ -31,6 +31,6 @@ export const leadership: LeadershipStoryModel[] = [
     action:
       "Owned the design-system rewrite to the new visual language, restructured the component file layout, and accelerated build time — in parallel with progressive React migration.",
     outcome:
-      "Full design-system rewrite shipped. 20% performance gain on the legacy codebase through targeted refactoring. 80–85%+ unit test coverage on the new React modules.",
+      "Full design-system rewrite shipped. 20% performance gain on the legacy codebase through targeted refactoring. 80-85%+ unit test coverage on the new React modules.",
   },
 ];

@@ -13,13 +13,13 @@ export const experience: ExperienceItemModel[] = [
       "Own migration of major UI components from the legacy stack to React / Storybook / Tailwind.",
       "Built and maintain an internal client wrapping the Lightstreamer SDK for real-time data, used across multiple components.",
       "Act as one of the core required reviewers — without my +1, code does not merge.",
-      "Mentor 1–2 juniors and currently organising an internal frontend community across squads and geographies.",
+      "Mentor 1-2 juniors and currently organising an internal frontend community across squads and geographies.",
     ],
     achievements: [
-      "Migrated 10–15 major components (skeletons, tables, composite molecules) to the new stack — base atoms not included.",
+      "Migrated 10-15 major components (skeletons, tables, composite molecules) to the new stack — base atoms not included.",
       "Shipped internal Lightstreamer SDK client adopted by multiple components for real-time data flow.",
       "Defended and shipped ~5 of ~8 POCs in six months (~60% adoption rate).",
-      "Review 2–4 PRs per day as a required reviewer — gating quality at merge time.",
+      "Review 2-4 PRs per day as a required reviewer — gating quality at merge time.",
     ],
     technologies: [
       "React",
@@ -53,18 +53,11 @@ export const experience: ExperienceItemModel[] = [
       "Shipped new pages and frontend services to expand product functionality.",
     ],
     achievements: [
-      "ESLint overhaul (automated import sorting + stricter validation rules) cut PR review cycle by 30–40%.",
+      "ESLint overhaul (automated import sorting + stricter validation rules) cut PR review cycle by 30-40%.",
       "Component Library proposal accepted by leadership; established working channel with the design team and shipped first demo components.",
       "Worked across four products on different React versions without forcing premature consolidation — pragmatic over ideological.",
     ],
-    technologies: [
-      "React",
-      "Redux",
-      "RTK Query",
-      "TypeScript",
-      "ESLint",
-      "Microfrontends",
-    ],
+    technologies: ["React", "Redux", "RTK Query", "TypeScript", "ESLint", "Microfrontends"],
     featured: true,
   },
   {
@@ -84,7 +77,7 @@ export const experience: ExperienceItemModel[] = [
     achievements: [
       "Fully rewrote the design system to the new visual language; improved component file structure and accelerated project build.",
       "Delivered 20% performance gain on the legacy Ember.js codebase through targeted optimisation and refactoring.",
-      "Achieved 80–85%+ unit test coverage on the new React.js modules.",
+      "Achieved 80-85%+ unit test coverage on the new React.js modules.",
       "4+ year tenure on the same team — endorsed by the CTO and Engineering Lead as a high-trust contributor.",
     ],
     technologies: [
@@ -119,15 +112,7 @@ export const experience: ExperienceItemModel[] = [
       "Trained and supervised junior colleagues.",
       "Contributed to WebMD and Lundberg Design.",
     ],
-    technologies: [
-      "HTML",
-      "CSS",
-      "JavaScript",
-      "Drupal",
-      "CKEditor API",
-      "Animations",
-      "Testing",
-    ],
+    technologies: ["HTML", "CSS", "JavaScript", "Drupal", "CKEditor API", "Animations", "Testing"],
   },
   {
     company: "Earlier Career",
@@ -135,7 +120,7 @@ export const experience: ExperienceItemModel[] = [
     period: { start: "2011-07", end: "2014-08", label: "2011 — 2014" },
     location: "Belarus",
     summary:
-      "Three years of foundational frontend work across Belitsoft (2011–2013), Startup Labs (2012–2013) and EPAM Systems (2013–2014) — including the Fishpond.com.au Australian online store client engagement (with Belitsoft), corporate and advertising sites at EPAM, and reusable component work that became the foundation for the senior career since 2014.",
+      "Three years of foundational frontend work across Belitsoft (2011-2013), Startup Labs (2012-2013) and EPAM Systems (2013-2014) — including the Fishpond.com.au Australian online store client engagement (with Belitsoft), corporate and advertising sites at EPAM, and reusable component work that became the foundation for the senior career since 2014.",
     responsibilities: [],
     achievements: [],
     technologies: ["HTML", "CSS", "JavaScript", "jQuery"],
