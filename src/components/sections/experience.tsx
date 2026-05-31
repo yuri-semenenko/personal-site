@@ -43,7 +43,7 @@ export function ExperienceSection({ items }: Props) {
             {item.achievements.length > 0 && (
               <div className="mt-4">
                 <p className="font-mono text-xs uppercase tracking-wide text-foreground">
-                  Achievements
+                  Outcome
                 </p>
                 <ul className="mt-2 space-y-1.5">
                   {item.achievements.map((achievement) => (
@@ -65,7 +65,7 @@ export function ExperienceSection({ items }: Props) {
             {item.responsibilities.length > 0 && (
               <details className="mt-3 group" {...(index === 0 ? { open: true } : {})}>
                 <summary className="cursor-pointer font-mono text-xs uppercase tracking-wide text-muted-foreground transition-colors hover:text-foreground">
-                  Responsibilities
+                  Role
                 </summary>
                 <ul className="mt-2 space-y-1.5">
                   {item.responsibilities.map((responsibility) => (

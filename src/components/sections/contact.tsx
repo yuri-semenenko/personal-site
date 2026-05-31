@@ -27,7 +27,7 @@ export function ContactSection({ contacts }: Props) {
   const visibleItems = contacts.items.filter((item) => item.visible);
 
   return (
-    <Section id="contact" eyebrow="07 / Contact" title={contacts.title}>
+    <Section id="contact" eyebrow="11 / Contact" title={contacts.title}>
       <Reveal delay={0.08}>
         <p className="max-w-2xl text-base leading-relaxed text-muted-foreground">
           {contacts.description}

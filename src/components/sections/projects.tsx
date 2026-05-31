@@ -9,7 +9,7 @@ type Props = {
 
 export function ProjectsSection({ items }: Props) {
   return (
-    <Section id="projects" eyebrow="05 / Projects" title="Projects">
+    <Section id="projects" eyebrow="04 / Projects" title="Projects">
       <StaggeredList as="ul" className="grid gap-4 md:grid-cols-2">
         {items.map((item) => (
           <StaggeredItem

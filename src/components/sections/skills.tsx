@@ -9,7 +9,7 @@ type Props = {
 
 export function SkillsSection({ groups }: Props) {
   return (
-    <Section id="skills" eyebrow="03 / Skills" title="Skills & Expertise">
+    <Section id="skills" eyebrow="08 / Skills" title="Skills & Expertise">
       <StaggeredList className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
         {groups.map((group) => (
           <StaggeredItem key={group.title}>

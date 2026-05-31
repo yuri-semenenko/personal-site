@@ -4,10 +4,14 @@ import { Footer } from "@/components/footer";
 import { Hero } from "@/components/hero";
 import { AboutSection } from "@/components/sections/about";
 import { ExperienceSection } from "@/components/sections/experience";
-import { SkillsSection } from "@/components/sections/skills";
-import { EducationSection } from "@/components/sections/education";
+import { LeadershipSection } from "@/components/sections/leadership";
 import { ProjectsSection } from "@/components/sections/projects";
+import { PrinciplesSection } from "@/components/sections/principles";
 import { TeachingSection } from "@/components/sections/teaching";
+import { TestimonialsSection } from "@/components/sections/testimonials";
+import { SkillsSection } from "@/components/sections/skills";
+import { CertificationsSection } from "@/components/sections/certifications";
+import { EducationSection } from "@/components/sections/education";
 import { ContactSection } from "@/components/sections/contact";
 
 export default function Home() {
@@ -16,10 +20,14 @@ export default function Home() {
     navigation,
     contacts,
     experience,
-    skills,
-    education,
+    leadership,
     projects,
+    principles,
     teaching,
+    testimonials,
+    skills,
+    certifications,
+    education,
   } = getContent("en");
   const emailContact = contacts.items.find((item) => item.type === "email");
 
@@ -31,10 +39,14 @@ export default function Home() {
         <Hero profile={profile} emailContact={emailContact} />
         <AboutSection profile={profile} />
         <ExperienceSection items={experience} />
-        <SkillsSection groups={skills} />
-        <EducationSection items={education} />
+        <LeadershipSection items={leadership} />
         <ProjectsSection items={projects} />
+        <PrinciplesSection items={principles} />
         <TeachingSection items={teaching} />
+        <TestimonialsSection items={testimonials} />
+        <SkillsSection groups={skills} />
+        <CertificationsSection items={certifications} />
+        <EducationSection items={education} />
         <ContactSection contacts={contacts} />
       </main>
 

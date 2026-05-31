@@ -8,7 +8,7 @@ type Props = {
 
 export function EducationSection({ items }: Props) {
   return (
-    <Section id="education" eyebrow="04 / Education" title="Education">
+    <Section id="education" eyebrow="10 / Education" title="Education">
       <StaggeredList as="ul" className="grid gap-4 sm:grid-cols-2">
         {items.map((item) => (
           <StaggeredItem

@@ -5,10 +5,10 @@ export const navigation: NavigationModel = {
   items: [
     { label: "About", href: "#about", sectionId: "about" },
     { label: "Experience", href: "#experience", sectionId: "experience" },
-    { label: "Skills", href: "#skills", sectionId: "skills" },
-    { label: "Education", href: "#education", sectionId: "education" },
+    { label: "Leadership", href: "#leadership", sectionId: "leadership" },
     { label: "Projects", href: "#projects", sectionId: "projects" },
     { label: "Teaching", href: "#teaching", sectionId: "teaching" },
+    { label: "Skills", href: "#skills", sectionId: "skills" },
     { label: "Contact", href: "#contact", sectionId: "contact" },
   ],
   actions: [
