@@ -146,6 +146,49 @@ export interface ProjectItemModel {
   featured?: boolean;
 }
 
+export interface CertificationModel {
+  title: string;
+  issuer: string;
+  issued: string;
+  issuedLabel: string;
+  expires?: string;
+  expiresLabel?: string;
+  credentialUrl?: string;
+  skills?: string[];
+}
+
+export type TestimonialRelationship =
+  | "direct-manager"
+  | "peer"
+  | "cross-functional"
+  | "mentee";
+
+export interface TestimonialModel {
+  quote: string;
+  author: string;
+  role: string;
+  relationship: TestimonialRelationship;
+  relationshipLabel: string;
+  date: string;
+  sourceUrl?: string;
+}
+
+export type LeadershipStoryStatus = "ongoing" | "delivered";
+
+export interface LeadershipStoryModel {
+  title: string;
+  organization: string;
+  status: LeadershipStoryStatus;
+  context: string;
+  action: string;
+  outcome: string;
+}
+
+export interface PrincipleModel {
+  title: string;
+  body: string;
+}
+
 export interface LocaleContent {
   profile: ProfileModel;
   contacts: ContactsModel;
@@ -155,4 +198,8 @@ export interface LocaleContent {
   skills: SkillGroupModel[];
   education: EducationItemModel[];
   projects: ProjectItemModel[];
+  certifications: CertificationModel[];
+  testimonials: TestimonialModel[];
+  leadership: LeadershipStoryModel[];
+  principles: PrincipleModel[];
 }

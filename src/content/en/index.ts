@@ -7,6 +7,10 @@ import { teaching } from "./teaching";
 import { skills } from "./skills";
 import { education } from "./education";
 import { projects } from "./projects";
+import { certifications } from "./certifications";
+import { testimonials } from "./testimonials";
+import { leadership } from "./leadership";
+import { principles } from "./principles";
 
 export const enContent: LocaleContent = {
   profile,
@@ -17,4 +21,8 @@ export const enContent: LocaleContent = {
   skills,
   education,
   projects,
+  certifications,
+  testimonials,
+  leadership,
+  principles,
 };

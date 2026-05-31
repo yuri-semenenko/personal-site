@@ -2,19 +2,19 @@ import type { ProfileModel } from "../types";
 
 export const profile: ProfileModel = {
   name: "Yuri Semenenko",
-  headline: "Senior Frontend Engineer & Mentor and Trainer",
+  headline: "Senior Frontend Engineer — Tech Lead Scope",
   location: "Based in Krakow, Poland",
   summary:
-    "Senior Frontend Engineer focused on building scalable, performant, and maintainable web applications with React, Next.js, TypeScript, and modern UI tooling. Experienced in legacy modernization, reusable components, UI architecture, performance optimization, code review, mentoring, and frontend education.",
+    "I help teams modernise frontend platforms, raise engineering quality, and ship scalable React applications. Fourteen years across FinTech, SaaS, CMS, and enterprise products — combining hands-on engineering with technical leadership, mentoring, and frontend education.",
   statuses: [
     { label: "Open to work", variant: "success" },
     { label: "Available for remote roles", variant: "primary" },
   ],
   highlights: [
-    "React, Next.js and TypeScript expertise",
-    "Performance optimization and legacy modernization",
-    "Reusable components and UI architecture",
-    "Frontend mentor and trainer with 500+ students trained",
+    "14+ years building production React platforms",
+    "20% perf gain refactoring legacy Ember.js at Monterosa",
+    "500+ students trained over 8 years at IT Academy",
+    "Manager-vouched by CTOs and Engineering Leads",
   ],
   cv: {
     label: "Download CV",
@@ -22,18 +22,20 @@ export const profile: ProfileModel = {
     fileName: "yuri-semenenko-senior-frontend-engineer-cv.pdf",
   },
   seo: {
-    title: "Yuri Semenenko — Senior Frontend Engineer",
+    title: "Yuri Semenenko — Senior Frontend Engineer & Tech Lead",
     description:
-      "Personal portfolio and CV website of Yuri Semenenko, Senior Frontend Engineer based in Krakow, Poland.",
+      "Senior Frontend Engineer with Tech Lead scope, based in Krakow. Building scalable React and Next.js platforms, improving engineering quality, and mentoring 500+ developers since 2017.",
     keywords: [
       "Yuri Semenenko",
       "Senior Frontend Engineer",
-      "Frontend Developer",
-      "React Developer",
-      "Next.js Developer",
-      "TypeScript",
-      "Krakow",
+      "Tech Lead",
+      "Frontend Architect",
+      "React Engineer",
+      "Next.js Engineer",
+      "TypeScript Engineer",
       "Frontend Mentor",
+      "Frontend Consultant",
+      "Krakow",
     ],
   },
 };
