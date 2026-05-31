@@ -5,7 +5,8 @@ import { Hero } from "@/components/hero";
 import { AboutSection } from "@/components/sections/about";
 import { ExperienceSection } from "@/components/sections/experience";
 import { LeadershipSection } from "@/components/sections/leadership";
-import { ProjectsSection } from "@/components/sections/projects";
+// Projects section temporarily hidden — see comment near the JSX usage below.
+// import { ProjectsSection } from "@/components/sections/projects";
 import { PrinciplesSection } from "@/components/sections/principles";
 import { TeachingSection } from "@/components/sections/teaching";
 import { TestimonialsSection } from "@/components/sections/testimonials";
@@ -21,7 +22,9 @@ export default function Home() {
     contacts,
     experience,
     leadership,
-    projects,
+    // Projects content kept in src/content/en/projects.ts but not rendered;
+    // see the commented <ProjectsSection /> below for the reason.
+    // projects,
     principles,
     teaching,
     testimonials,
@@ -40,7 +43,16 @@ export default function Home() {
         <AboutSection profile={profile} />
         <ExperienceSection items={experience} />
         <LeadershipSection items={leadership} />
-        <ProjectsSection items={projects} />
+        {/*
+          Projects section hidden (2026-05-31).
+          After C/R/O rewrite of Experience, the Projects cards largely
+          duplicated the same companies, outcomes and tech. Will re-enable
+          when there is non-overlapping content to show — OSS, side
+          projects, talks, or named platforms outside the employment
+          history. Data lives in src/content/en/projects.ts and is still
+          exported from the locale aggregator so re-enabling is one line.
+        */}
+        {/* <ProjectsSection items={projects} /> */}
         <PrinciplesSection items={principles} />
         <TeachingSection items={teaching} />
         <TestimonialsSection items={testimonials} />
