@@ -20,15 +20,14 @@ export function Section({
   const headingId = `${id}-heading`;
   return (
     <section
-      id={id}
       aria-labelledby={headingId}
       className={cn(
-        "scroll-mt-20 border-t border-border/50 px-4 py-20 sm:px-6 sm:py-24",
+        "border-t border-border/50 px-4 py-20 sm:px-6 sm:py-24",
         className,
       )}
       {...rest}
     >
-      <div className="mx-auto max-w-6xl">
+      <div id={id} className="mx-auto max-w-6xl scroll-mt-20">
         <Reveal className="mb-10 flex flex-col gap-2">
           {eyebrow && (
             <p className="font-mono text-xs uppercase tracking-widest text-primary">
