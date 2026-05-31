@@ -115,14 +115,18 @@ export const experience: ExperienceItemModel[] = [
     technologies: ["HTML", "CSS", "JavaScript", "Drupal", "CKEditor API", "Animations", "Testing"],
   },
   {
-    company: "Earlier Career",
-    role: "Front-end Developer",
+    company: "Belitsoft · Startup Labs · EPAM",
+    role: "Earlier Career",
     period: { start: "2011-07", end: "2014-08", label: "2011 — 2014" },
     location: "Belarus",
     summary:
-      "Three years of foundational frontend work across Belitsoft (2011-2013), Startup Labs (2012-2013) and EPAM Systems (2013-2014) — including the Fishpond.com.au Australian online store client engagement (with Belitsoft), corporate and advertising sites at EPAM, and reusable component work that became the foundation for the senior career since 2014.",
+      "Three years of foundational frontend work across three studios. Built cross-browser web applications and reusable component libraries (Belitsoft 2011-2013, with the Fishpond.com.au Australian online store client engagement). Supported and enhanced commercial e-commerce frontends (Startup Labs 2012-2013), and shipped corporate sites, advertising microsites and email templates (EPAM Systems 2013-2014). This is the foundation the senior career since 2014 was built on.",
     responsibilities: [],
-    achievements: [],
+    achievements: [
+      "Shipped reusable component sets that accelerated delivery across multiple client projects.",
+      "Supported the Fishpond.com.au online store as a frontend contributor.",
+      "Built cross-browser corporate and advertising sites and email templates at EPAM.",
+    ],
     technologies: ["HTML", "CSS", "JavaScript", "jQuery"],
   },
 ];

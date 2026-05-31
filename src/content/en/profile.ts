@@ -2,7 +2,7 @@ import type { ProfileModel } from "../types";
 
 export const profile: ProfileModel = {
   name: "Yuri Semenenko",
-  headline: "Senior Frontend Engineer — Tech Lead Scope",
+  headline: "Senior Frontend Engineer, Mentor & Trainer — Tech Lead Scope",
   location: "Based in Krakow, Poland",
   summary:
     "I help teams modernise frontend platforms, raise engineering quality, and ship scalable React applications. Fourteen years across FinTech, SaaS, CMS, and enterprise products — combining hands-on engineering with technical leadership, mentoring, and frontend education.",

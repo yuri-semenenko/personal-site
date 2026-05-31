@@ -1,3 +1,4 @@
+import { ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { StaggeredItem, StaggeredList } from "@/components/reveal";
 import { Section } from "@/components/section";
@@ -63,9 +64,18 @@ export function ExperienceSection({ items }: Props) {
             )}
 
             {item.responsibilities.length > 0 && (
-              <details className="mt-3 group" {...(index === 0 ? { open: true } : {})}>
-                <summary className="cursor-pointer font-mono text-xs uppercase tracking-wide text-muted-foreground transition-colors hover:text-foreground">
-                  Role
+              <details
+                className="group mt-3"
+                open={index === 0}
+              >
+                <summary className="inline-flex cursor-pointer list-none items-center gap-1.5 rounded-md px-1.5 py-1 -ml-1.5 font-mono text-xs uppercase tracking-wide text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background [&::-webkit-details-marker]:hidden">
+                  <ChevronRight
+                    aria-hidden
+                    className="h-3.5 w-3.5 shrink-0 transition-transform duration-200 group-open:rotate-90"
+                  />
+                  <span className="underline decoration-dotted underline-offset-4 decoration-muted-foreground/40 group-hover:decoration-foreground/60">
+                    Role
+                  </span>
                 </summary>
                 <ul className="mt-2 space-y-1.5">
                   {item.responsibilities.map((responsibility) => (

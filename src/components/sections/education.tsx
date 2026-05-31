@@ -32,6 +32,11 @@ export function EducationSection({ items }: Props) {
                 {item.department}
               </p>
             )}
+            {item.description && (
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                {item.description}
+              </p>
+            )}
           </StaggeredItem>
         ))}
       </StaggeredList>

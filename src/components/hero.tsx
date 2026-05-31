@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { Download, Mail } from "lucide-react";
+import { ArrowRight, Download, Mail } from "lucide-react";
 import { useReducedMotion } from "motion/react";
 import { cn } from "@/lib/utils";
 import { HeroCodeCard } from "@/components/hero-code-card";
@@ -174,9 +174,13 @@ export function Hero({ profile, emailContact }: Props) {
               )}
               <a
                 href="#experience"
-                className="font-mono text-sm text-muted-foreground transition-colors hover:text-primary"
+                className="group inline-flex items-center gap-1.5 font-mono text-sm text-muted-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
               >
-                View experience →
+                View experience
+                <ArrowRight
+                  aria-hidden
+                  className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5"
+                />
               </a>
             </div>
           </div>
