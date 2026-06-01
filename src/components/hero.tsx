@@ -79,7 +79,7 @@ export function Hero({ profile, emailContact }: Props) {
           willChange: "transform",
         }}
       >
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,var(--border)_1px,transparent_0)] bg-size-[28px_28px]" />
+        <div className="hero-dots absolute inset-0" />
       </div>
 
       <div
@@ -98,14 +98,14 @@ export function Hero({ profile, emailContact }: Props) {
 
       <div
         aria-hidden
-        className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-primary/15 blur-3xl motion-safe:transition-transform motion-safe:duration-500 motion-safe:ease-out sm:h-96 sm:w-96"
+        className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-primary/25 blur-3xl motion-safe:transition-transform motion-safe:duration-500 motion-safe:ease-out sm:h-96 sm:w-96"
         style={{
           transform: "translate3d(calc(var(--mx, 0) * -20px), calc(var(--my, 0) * -20px), 0)",
         }}
       />
       <div
         aria-hidden
-        className="pointer-events-none absolute -left-20 top-1/2 h-64 w-64 -translate-y-1/2 rounded-full bg-highlight/10 blur-3xl motion-safe:transition-transform motion-safe:duration-500 motion-safe:ease-out"
+        className="pointer-events-none absolute -left-20 top-1/2 h-64 w-64 -translate-y-1/2 rounded-full bg-highlight/20 blur-3xl motion-safe:transition-transform motion-safe:duration-500 motion-safe:ease-out"
         style={{
           transform: "translate(0, -50%) translate3d(calc(var(--mx, 0) * 24px), calc(var(--my, 0) * 24px), 0)",
         }}
@@ -116,7 +116,7 @@ export function Hero({ profile, emailContact }: Props) {
         className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover/hero:opacity-100 motion-reduce:hidden"
         style={{
           background:
-            "radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), color-mix(in oklch, var(--primary) 14%, transparent), transparent 65%)",
+            "radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), color-mix(in oklch, var(--primary) 22%, transparent), transparent 65%)",
         }}
       />
 

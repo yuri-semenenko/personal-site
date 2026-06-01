@@ -153,6 +153,21 @@
   }
 }
 
+@layer components {
+  .hero-dots {
+    background-image: radial-gradient(
+      circle at 1px 1px,
+      color-mix(in oklch, var(--foreground) 18%, transparent) 1px,
+      transparent 0
+    );
+    background-size: 28px 28px;
+  }
+
+  main > section:nth-of-type(even) {
+    background-color: color-mix(in oklch, var(--foreground) 4%, var(--background));
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

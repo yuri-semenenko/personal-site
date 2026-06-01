@@ -14,7 +14,7 @@ export function Section({ id, title, eyebrow, className, children, ...rest }: Pr
   return (
     <section
       aria-labelledby={headingId}
-      className={cn("border-t border-border/50 px-4 py-16 sm:px-6 sm:py-20", className)}
+      className={cn("px-4 py-16 sm:px-6 sm:py-20", className)}
       {...rest}
     >
       <div id={id} className="mx-auto max-w-6xl scroll-mt-4">
