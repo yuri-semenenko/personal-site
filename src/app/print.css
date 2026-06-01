@@ -138,6 +138,14 @@
   }
 
   /* Page breaks */
+  /* h2 lives inside a Reveal <div> wrapper; putting break-after on the h2
+     itself is ignored by the browser — the break fires at the container.
+     Target the first child of each section's inner div (= the heading block). */
+  section > div > *:first-child {
+    break-after: avoid;
+    break-inside: avoid;
+  }
+
   h2,
   h3 {
     break-after: avoid;
