@@ -7,10 +7,16 @@ export function PrintHandler() {
     const root = document.documentElement;
 
     const before = () => {
+      // Cancel every WAAPI animation on the page BEFORE the browser captures
+      // the print layout. CSS !important cannot override WAAPI — animations sit
+      // above author !important in the cascade. cancel() removes the effect so
+      // CSS (opacity:1 default + [data-printing] rules) takes over immediately.
+      document.querySelectorAll<Element>("*").forEach((el) => {
+        el.getAnimations().forEach((a) => a.cancel());
+      });
+
       root.dataset.printing = "true";
-      // CSS alone can't force-open <details> in Chrome 131+ (content hidden
-      // via ::details-content internal pseudo, not display:none on children).
-      // Adding the open attribute is the only cross-browser reliable approach.
+
       document.querySelectorAll("details:not([open])").forEach((el) => {
         el.setAttribute("open", "");
         el.setAttribute("data-print-opened", "");
