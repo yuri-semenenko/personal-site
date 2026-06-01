@@ -40,7 +40,7 @@ export function Header({ navigation }: Props) {
                   "relative font-mono text-xs uppercase tracking-wide transition-colors",
                   isActive ? "text-primary" : "text-muted-foreground hover:text-foreground",
                 )}
-                aria-current={isActive ? "true" : undefined}
+                aria-current={isActive ? "page" : undefined}
               >
                 {item.label}
                 {isActive && (

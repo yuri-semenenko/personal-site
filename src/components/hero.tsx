@@ -160,14 +160,14 @@ export function Hero({ profile, emailContact }: Props) {
                   className="inline-flex items-center gap-2 rounded-md border border-border bg-card/80 px-4 py-2.5 font-mono text-sm font-medium text-foreground backdrop-blur-sm transition-colors hover:border-primary hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                 >
                   <Mail className="h-4 w-4" />
-                  Contact me
+                  {profile.cta.contact}
                 </a>
               )}
               <a
                 href="#experience"
                 className="group inline-flex items-center gap-1.5 font-mono text-sm text-muted-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
               >
-                View experience
+                {profile.cta.experience}
                 <ArrowRight
                   aria-hidden
                   className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5"

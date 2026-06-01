@@ -63,6 +63,10 @@ export interface ProfileModel {
     fileUrl: string;
     fileName: string;
   };
+  cta: {
+    contact: string;
+    experience: string;
+  };
   seo: SeoModel;
 }
 
