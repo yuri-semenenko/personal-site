@@ -19,12 +19,14 @@
   display: none !important;
 }
 
+/* summary stays visible as a static label; hide only the chevron icon */
 [data-printing] details > summary {
-  display: none !important;
+  pointer-events: none !important;
+  cursor: default !important;
 }
 
-[data-printing] details > *:not(summary) {
-  display: block !important;
+[data-printing] details > summary svg {
+  display: none !important;
 }
 
 @media print {
@@ -124,17 +126,15 @@
     overflow: visible !important;
   }
 
-  /* Expand all <details> (Experience roles, Skills collapsible groups) */
-  details {
-    display: block !important;
-  }
-
+  /* <details> are force-opened by PrintHandler JS (beforeprint event).
+     CSS fallback: hide chevron, strip summary interactivity. */
   details > summary {
-    display: none !important;
+    pointer-events: none !important;
+    cursor: default !important;
   }
 
-  details > *:not(summary) {
-    display: block !important;
+  details > summary svg {
+    display: none !important;
   }
 
   /* Page breaks */
