@@ -2,10 +2,12 @@ import type { Metadata } from "next";
 import { JetBrains_Mono, Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { PrintHandler } from "@/components/print-handler";
 import { ScrollProgress } from "@/components/scroll-progress";
 import { ThemeProvider } from "@/components/theme-provider";
 import { getContent } from "@/content";
 import "./globals.css";
+import "./print.css";
 
 const { profile, contacts } = getContent("en");
 const siteUrl = "https://yuri-semenenko.dev";
@@ -108,6 +110,7 @@ export default function RootLayout({
           }}
         />
         <ThemeProvider>
+          <PrintHandler />
           <ScrollProgress />
           {children}
         </ThemeProvider>

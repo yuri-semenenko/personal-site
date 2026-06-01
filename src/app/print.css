@@ -1,3 +1,24 @@
+/* Override Framer Motion WAAPI animations that CSS @media print cannot reach.
+   beforeprint event sets data-printing on <html>; afterprint removes it. */
+[data-printing],
+[data-printing] * {
+  animation: none !important;
+  transition: none !important;
+  opacity: 1 !important;
+  transform: none !important;
+  visibility: visible !important;
+}
+
+[data-printing] .no-print {
+  display: none !important;
+}
+
+[data-printing] header,
+[data-printing] footer,
+[data-printing] .fixed {
+  display: none !important;
+}
+
 @media print {
   @page {
     size: A4 portrait;
