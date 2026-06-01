@@ -4,7 +4,7 @@ Project-level guidance for Claude Code working in this repository. Global user p
 
 ## What this is
 
-Personal CV / portfolio website for **Yuri Semenenko** (Senior Frontend Engineer & Mentor, based in Krakow). Single-page landing with anchored sections, dark-first design, multi-locale ready. Full functional and non-functional spec lives in [`docs/spec.md`](docs/spec.md) — treat it as the source of truth for requirements.
+Personal CV / portfolio website for **Yuri Semenenko** (Senior Frontend Engineer & Mentor, based in Krakow). Single-page landing with anchored sections, dark-first design, multi-locale ready. Current architecture, theming, typography, and conventions live in [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) — keep it in sync when structure changes.
 
 ## Stack
 
@@ -40,10 +40,10 @@ npm run lint     # eslint
 ## Layout conventions
 
 - `src/app/` — App Router pages, layouts, route handlers
-- `src/content/{locale}/` — typed content modules (`profile`, `experience`, `skills`, `projects`, `teaching`, `education`, `contacts`, `navigation`). Models defined in `docs/spec.md` §7.
+- `src/content/{locale}/` — typed content modules (`profile`, `experience`, `skills`, `projects`, `teaching`, `education`, `contacts`, `navigation`). Models defined in `src/content/types.ts`.
 - `src/components/` — reusable UI components
 - `public/files/` — downloadable assets (CV PDF)
-- `docs/spec.md` — full project specification
+- `docs/ARCHITECTURE.md` — architecture snapshot, color scheme, typography, conventions
 
 ## Decision principles
 

@@ -29,7 +29,7 @@ src/
 public/
   files/             # Downloadable assets (CV PDF)
 docs/
-  spec.md            # Full project specification
+  ARCHITECTURE.md    # Architecture, theming, typography, conventions
 ```
 
 ## Roadmap
@@ -37,7 +37,7 @@ docs/
 - **Phase 1:** MVP — EN-only landing page with all sections (Hero, About, Experience, Skills, Education, Projects, Teaching, Contact), dark/light theme, animations, Vercel deploy.
 - **Phase 2:** RU/PL/BY locales, custom domain, SEO (sitemap, robots, canonical, structured data), analytics, possible Blog or extended Projects section.
 
-Full requirements and acceptance criteria: [`docs/spec.md`](docs/spec.md).
+Architecture and conventions: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
 
 ## License
 
