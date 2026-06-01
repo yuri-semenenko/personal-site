@@ -68,13 +68,16 @@ src/
   lib/
     utils.ts               # cn() and small helpers
 tests/
-  e2e/                     # Playwright smoke tests (Chromium, headless)
+  unit/                    # Vitest — content validators, use-active-section, print-handler
+  e2e/                     # Playwright smoke + a11y (Chromium, headless)
 public/
   files/                   # Downloadable CV PDF
 docs/
   ARCHITECTURE.md          # This file
 next.config.ts             # Security headers + bundle analyzer toggle
 playwright.config.ts       # Playwright config — webServer + projects + reporters
+vitest.config.ts           # Vitest config — happy-dom + @/* alias
+lighthouserc.json          # @lhci/cli config — assertions + collect settings
 ```
 
 ### Routing & rendering
@@ -229,10 +232,14 @@ Vercel:
 
 Pragmatic, narrow surface. Tests target real risk areas, not coverage %.
 
+- **Vitest unit (`tests/unit/`)** — happy-dom env, `@/*` alias. Three suites:
+  - `content.test.ts` — invariants on typed content: nav `href` ↔ `sectionId` consistency, contact URL schemes, status keys match `STATUS_CATALOG`, profile CV file exists on disk, testimonials use HTTPS. Catches molecular bugs that strict TS can't (e.g. valid-but-wrong values).
+  - `use-active-section.test.tsx` — covers the `IntersectionObserver` hook with a fake observer: initial state, multi-entry resolution (highest ratio wins), missing DOM nodes, cleanup on unmount, observer init params (rootMargin / threshold).
+  - `print-handler.test.tsx` — covers the beforeprint/afterprint state machine: `data-printing` toggling, `<details>` open/restore, atomic break wrap and unwrap, WAAPI `finish()` invocation, listener cleanup. `document.getAnimations` stubbed since happy-dom doesn't ship it.
 - **Playwright smoke (`tests/e2e/smoke.spec.ts`)** — Chromium-only, headless. Covers: page loads with key landmarks, primary nav anchors scroll to sections, theme toggle flips `html.dark`, CV PDF responds 200, mobile menu opens on small viewport.
 - **Playwright A11y (`tests/e2e/a11y.spec.ts`)** — `@axe-core/playwright` scans against WCAG 2.0/2.1 A & AA tags on the main page in both themes plus the mobile menu open state. Theme is forced via `localStorage` `addInitScript` before navigation; the mobile-menu test waits for the Sheet's opacity transition to settle (Base UI animates `opacity 0→1`, scanning mid-transition reads partially-transparent pixels and trips contrast).
-- **CI** — `e2e` job in `.github/workflows/ci.yml` builds the site then runs the full Playwright suite. Playwright browsers cached by `@playwright/test` version key. HTML report uploaded as an artifact (7-day retention) for failure inspection.
-- **Not tested** — pure presentation components (display from typed props), Tailwind classes, snapshot of RSC output. Adding RTL tests for `(props) => <jsx>` components would be noise.
+- **CI** — separate jobs: `unit` (Vitest, ~30s), `e2e` (Playwright + browser caching, ~1min), `lighthouse` (post-merge only). Reports archived as GitHub artifacts.
+- **Not tested** — pure presentation components (display from typed props), Tailwind classes, snapshot of RSC output. RTL tests for `(props) => <jsx>` would be noise, not signal.
 
 Run locally with `npm run test:e2e`; debug interactively with `npm run test:e2e:ui`.
 
