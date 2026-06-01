@@ -61,6 +61,8 @@ npm run lint           # ESLint
 npm run typecheck      # tsc --noEmit
 npm run format         # Prettier write
 npm run format:check   # Prettier check (CI-friendly)
+npm run test:e2e       # Playwright smoke tests (Chromium, headless)
+npm run test:e2e:ui    # Playwright Test UI runner for debugging
 ANALYZE=true npm run build   # bundle analyzer report
 ```
 
