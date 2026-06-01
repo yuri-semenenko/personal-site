@@ -18,7 +18,7 @@ export function SkillsSection({ groups }: Props) {
       <div className="space-y-10">
         {coreGroup && (
           <Reveal>
-            <div className="rounded-xl border border-primary/30 bg-primary/[0.04] p-6 sm:p-8">
+            <div className="rounded-xl border border-primary/30 bg-primary/4 p-6 sm:p-8">
               <h3 className="font-mono text-sm uppercase tracking-wide text-primary">{coreGroup.title}</h3>
               <ul className="mt-5 flex flex-wrap gap-2">
                 {coreGroup.items.map((skill) => (
