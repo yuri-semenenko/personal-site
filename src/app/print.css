@@ -19,6 +19,14 @@
   display: none !important;
 }
 
+[data-printing] details > summary {
+  display: none !important;
+}
+
+[data-printing] details > *:not(summary) {
+  display: block !important;
+}
+
 @media print {
   @page {
     size: A4 portrait;
@@ -126,7 +134,7 @@
   }
 
   details > *:not(summary) {
-    display: revert !important;
+    display: block !important;
   }
 
   /* Page breaks */
