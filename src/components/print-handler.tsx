@@ -2,16 +2,18 @@
 
 import { useEffect } from "react";
 
+const PRINT_WRAP_ATTR = "data-print-wrap";
+
 export function PrintHandler() {
   useEffect(() => {
     const root = document.documentElement;
 
     const before = () => {
-      // Cancel every WAAPI animation — CSS !important cannot override them
-      // (animations sit above author !important in the cascade).
-      document.querySelectorAll<Element>("*").forEach((el) => {
-        el.getAnimations().forEach((a) => a.cancel());
-      });
+      // Finish every WAAPI animation — CSS !important cannot override them
+      // (animations sit above author !important in the cascade). finish()
+      // jumps to the end state so Reveals stay visible if print is cancelled;
+      // cancel() would revert to Motion's initial opacity:0.
+      document.getAnimations().forEach((a) => a.finish());
 
       root.dataset.printing = "true";
 
@@ -22,15 +24,21 @@ export function PrintHandler() {
         el.setAttribute("data-print-opened", "");
       });
 
-      // Double-constrain heading→content page breaks via inline styles.
-      // Inline styles have higher specificity than any stylesheet rule, so
-      // this is the last resort when CSS break-after/before is ignored.
-      document.querySelectorAll<HTMLElement>("section > div > *:first-child").forEach((heading) => {
-        heading.style.breakAfter = "avoid";
-        const content = heading.nextElementSibling as HTMLElement | null;
-        if (content) {
-          content.style.breakBefore = "avoid";
-        }
+      // Wrap each section's heading + first content block into a single box
+      // with break-inside:avoid. Chromium honors break-after/before:avoid on
+      // siblings unreliably; merging both nodes into one atomic block forces
+      // them onto the same page.
+      document.querySelectorAll<HTMLElement>("section > div").forEach((sectionDiv) => {
+        const heading = sectionDiv.firstElementChild as HTMLElement | null;
+        const firstContent = heading?.nextElementSibling as HTMLElement | null;
+        if (!heading || !firstContent) return;
+
+        const wrapper = document.createElement("div");
+        wrapper.style.breakInside = "avoid";
+        wrapper.setAttribute(PRINT_WRAP_ATTR, "");
+        sectionDiv.insertBefore(wrapper, heading);
+        wrapper.appendChild(heading);
+        wrapper.appendChild(firstContent);
       });
     };
 
@@ -42,13 +50,13 @@ export function PrintHandler() {
         el.removeAttribute("data-print-opened");
       });
 
-      // Clean up inline break styles
-      document.querySelectorAll<HTMLElement>("section > div > *:first-child").forEach((heading) => {
-        heading.style.breakAfter = "";
-        const content = heading.nextElementSibling as HTMLElement | null;
-        if (content) {
-          content.style.breakBefore = "";
+      document.querySelectorAll<HTMLElement>(`[${PRINT_WRAP_ATTR}]`).forEach((wrapper) => {
+        const parent = wrapper.parentNode;
+        if (!parent) return;
+        while (wrapper.firstChild) {
+          parent.insertBefore(wrapper.firstChild, wrapper);
         }
+        wrapper.remove();
       });
     };
 
