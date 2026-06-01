@@ -144,7 +144,7 @@ export function Hero({ profile, emailContact }: Props) {
                 })}
             </div>
 
-            <div className="mt-10 flex flex-wrap items-center gap-3">
+            <div className="no-print mt-10 flex flex-wrap items-center gap-3">
               <a
                 href={profile.cv.fileUrl}
                 aria-label={`Download ${profile.name}'s CV`}
