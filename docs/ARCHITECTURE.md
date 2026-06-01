@@ -110,14 +110,16 @@ CSS variables defined in `src/app/globals.css`, declared in **OKLCH** for percep
 | `--foreground`       | `0.14 0.005 240`                       | `0.96 0 0`                         | Body text                    |
 | `--card`             | `1 0 0`                                | `0.17 0.005 240`                   | Cards, callouts              |
 | `--muted`            | `0.96 0.005 240`                       | `0.22 0.005 240`                   | Subtle panels                |
-| `--muted-foreground` | `0.45 0.005 240`                       | `0.65 0.005 240`                   | Secondary text               |
+| `--muted-foreground` | `0.4 0.005 240`                        | `0.65 0.005 240`                   | Secondary text               |
 | `--border`           | `0.9 0.005 240`                        | `1 0 0 / 10%`                      | Hairlines                    |
-| `--primary`          | `0.55 0.18 245` (blue)                 | `0.68 0.16 245` (lifted blue)      | CTAs, accents, ring          |
-| `--highlight`        | `0.55 0.22 340` (magenta)              | `0.65 0.21 340`                    | Secondary accent (chart-2)   |
+| `--primary`          | `0.5 0.18 245` (blue)                  | `0.68 0.16 245` (lifted blue)      | CTAs, accents, ring          |
+| `--highlight`        | `0.5 0.22 340` (magenta)               | `0.65 0.21 340`                    | Secondary accent (chart-2)   |
 | `--destructive`      | `0.577 0.245 27.325`                   | `0.704 0.191 22.216`               | Errors (rare)                |
 | `--chart-{1..5}`     | blue / magenta / teal / amber / violet | lifted versions                    | Reserved for future data viz |
 
 **Dark mode is the default** (`next-themes` with `defaultTheme="system"`, but design tuned for dark first).
+
+Light-theme accents (`--primary`, `--highlight`, `--muted-foreground`) sit at lower lightness than the original shadcn palette so `text-primary` / `bg-primary` clear the WCAG 2.1 AA 4.5:1 threshold on `--background`. Re-tune in OKLCH if these tokens move — keep the axe a11y suite green.
 
 Section striping: every even `<section>` inside `<main>` gets `color-mix(in oklch, var(--foreground) 4%, var(--background))` — a 4% tint, theme-aware via OKLCH mixing. See `globals.css` `@layer components`.
 
@@ -223,14 +225,16 @@ Vercel:
 
 Pragmatic, narrow surface. Tests target real risk areas, not coverage %.
 
-- **Playwright smoke (`tests/e2e/`)** — Chromium-only, headless. Covers: page loads with key landmarks, primary nav anchors scroll to sections, theme toggle flips `html.dark`, CV PDF responds 200, mobile menu opens on small viewport. Run locally with `npm run test:e2e`; debug interactively with `npm run test:e2e:ui`.
-- **CI** — `e2e` job in `.github/workflows/ci.yml` builds the site then runs Playwright. Playwright browsers cached by `@playwright/test` version key. HTML report uploaded as an artifact (7-day retention) for failure inspection.
+- **Playwright smoke (`tests/e2e/smoke.spec.ts`)** — Chromium-only, headless. Covers: page loads with key landmarks, primary nav anchors scroll to sections, theme toggle flips `html.dark`, CV PDF responds 200, mobile menu opens on small viewport.
+- **Playwright A11y (`tests/e2e/a11y.spec.ts`)** — `@axe-core/playwright` scans against WCAG 2.0/2.1 A & AA tags on the main page in both themes plus the mobile menu open state. Theme is forced via `localStorage` `addInitScript` before navigation; the mobile-menu test waits for the Sheet's opacity transition to settle (Base UI animates `opacity 0→1`, scanning mid-transition reads partially-transparent pixels and trips contrast).
+- **CI** — `e2e` job in `.github/workflows/ci.yml` builds the site then runs the full Playwright suite. Playwright browsers cached by `@playwright/test` version key. HTML report uploaded as an artifact (7-day retention) for failure inspection.
 - **Not tested** — pure presentation components (display from typed props), Tailwind classes, snapshot of RSC output. Adding RTL tests for `(props) => <jsx>` components would be noise.
+
+Run locally with `npm run test:e2e`; debug interactively with `npm run test:e2e:ui`.
 
 Future tiers (not yet wired):
 
-- **A11y (`@axe-core/playwright`)** — axe assertions on light + dark.
-- **Lighthouse CI** — enforces the gate above as a CI job on Vercel preview URLs.
+- **Lighthouse CI** — enforces the perf/a11y gate as a CI job on Vercel preview URLs.
 - **Vitest** — point tests for `use-active-section`, `print-handler` state, content validators (e.g. navigation hrefs must match existing section IDs).
 
 ## Roadmap
