@@ -13,9 +13,9 @@ export function TeachingSection({ items, mentoring }: Props) {
     <Section id="teaching" eyebrow="06 / Teaching" title="Teaching & Mentoring">
       <Reveal delay={0.08} className="grid gap-6">
         {items.map((item) => (
-          <article key={item.organization} className="overflow-hidden rounded-lg border border-border bg-card">
+          <article key={item.organization} className="overflow-hidden rounded-lg border border-primary/30 bg-card">
             <div className="grid gap-0 lg:grid-cols-[280px_1fr]">
-              <div className="flex flex-col justify-center gap-3 border-b border-border bg-highlight/10 p-6 lg:border-b-0 lg:border-r">
+              <div className="flex flex-col justify-center gap-3 border-b border-primary/30 bg-highlight/10 p-6 lg:border-b-0 lg:border-r">
                 <GraduationCap className="h-6 w-6 text-highlight" />
                 <p className="font-mono text-7xl leading-none text-highlight">500+</p>
                 <p className="font-mono text-xs uppercase tracking-wide text-muted-foreground">Students trained</p>
@@ -75,7 +75,7 @@ export function TeachingSection({ items, mentoring }: Props) {
 
       {mentoring && (
         <Reveal delay={0.12} className="mt-8">
-          <div className="rounded-lg border border-primary/30 bg-primary/[0.04] p-6 sm:p-8">
+          <div className="rounded-lg border border-primary/30 bg-primary/4 p-6 sm:p-8">
             <div className="flex flex-wrap items-start justify-between gap-x-6 gap-y-4">
               <div className="max-w-2xl">
                 <div className="flex items-center gap-2">
@@ -90,7 +90,7 @@ export function TeachingSection({ items, mentoring }: Props) {
                 aria-label={mentoring.cta.ariaLabel}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2.5 font-mono text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                className="inline-flex items-center gap-2 rounded-md bg-primary/20 px-4 py-2.5 font-mono text-sm font-medium text-secondary-foreground transition-colors hover:bg-primary hover:text-primary-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background dark:bg-highlight/20 dark:hover:bg-highlight dark:hover:text-secondary-foreground"
               >
                 {mentoring.cta.label}
                 <ArrowUpRight className="h-4 w-4" />
