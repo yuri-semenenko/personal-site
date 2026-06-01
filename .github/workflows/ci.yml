@@ -116,3 +116,39 @@ jobs:
           name: playwright-report
           path: playwright-report
           retention-days: 7
+
+  lighthouse:
+    name: Lighthouse
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    # Lighthouse only audits the production artifact. Running on every PR
+    # adds ~1.5 min of CI for doc/test/meta PRs that physically cannot
+    # change the score. We run it post-merge against main instead — if a
+    # regression slips in, the job goes red on main and we open a revert.
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+
+      - name: Build site
+        run: npm run build
+        env:
+          NEXT_TELEMETRY_DISABLED: "1"
+
+      - name: Run Lighthouse CI
+        run: npm run lhci
+        env:
+          NEXT_TELEMETRY_DISABLED: "1"
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+
+      - name: Upload Lighthouse reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-reports
+          path: .lighthouseci
+          retention-days: 7
