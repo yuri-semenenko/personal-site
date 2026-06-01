@@ -241,13 +241,52 @@ Pragmatic, narrow surface. Tests target real risk areas, not coverage %.
 - **CI** — separate jobs: `unit` (Vitest, ~30s), `e2e` (Playwright + browser caching, ~1min), `lighthouse` (post-merge only). Reports archived as GitHub artifacts.
 - **Not tested** — pure presentation components (display from typed props), Tailwind classes, snapshot of RSC output. RTL tests for `(props) => <jsx>` would be noise, not signal.
 
-Run locally with `npm run test:e2e`; debug interactively with `npm run test:e2e:ui`.
-
 - **Lighthouse CI (`lighthouserc.json`)** — `@lhci/cli` runs Lighthouse 3 times against the production server, asserts category scores against the perf/a11y/best-practices/seo gate, and uploads reports to LHCI's temporary public storage (URLs printed in the job log; expire after ~7 days). Desktop preset; `--headless=new` Chrome. Reports also archived as a GitHub artifact for 7 days. **Runs only on push to `main`** — see Performance section for the rationale. Run `npm run lhci` to validate a specific PR locally before merge.
 
-Future tiers (not yet wired):
+Run locally with `npm test` (Vitest), `npm run test:e2e` (Playwright + axe), `npm run lhci` (Lighthouse).
 
-- **Vitest** — point tests for `use-active-section`, `print-handler` state, content validators (e.g. navigation hrefs must match existing section IDs).
+## Dependencies
+
+**Policy: manual, batched, deliberate.** No Dependabot version updates, no Dependabot security updates, no Renovate.
+
+Why this and not auto-PRs:
+
+- **Lockfile is the source of truth.** `package-lock.json` pins exact versions for the full dep tree (incl. transitive). `npm ci` in CI is strict against the lockfile — the `^` ranges in `package.json` have no practical effect on installed code.
+- **PR-noise budget is small** on a solo repo. Daily/weekly automated PRs would dominate the PR tab without proportional benefit.
+- **CVE response is covered separately** (see below).
+
+What is enabled:
+
+- **Dependabot alerts** (Settings → Code security) — notifications only, no PRs. Surfaces CVEs in dependencies as they're published.
+- **Dependabot malware alerts** — same channel, specifically for malware-flagged packages.
+
+What is explicitly **not** enabled (and was a considered choice, not an oversight):
+
+- Dependabot version updates
+- Dependabot security updates
+- Grouped security updates
+
+### Manual upgrade workflow
+
+```bash
+npx npm-check-updates             # see what's outdated
+npx npm-check-updates -u          # apply to package.json
+npm install                       # refresh lockfile
+npm run lint && npm run typecheck && npm test && npm run test:e2e
+npm run build                     # final smoke
+```
+
+Cadence: monthly or quarterly, plus immediate response to any CVE alert that affects this codebase. Each upgrade batch lands as a single PR (`chore/deps-YYYY-MM`) with the changelog of the batch in the PR body.
+
+### Trade-off accepted
+
+The clear cost of this policy is **slower CVE response than auto-PR security updates would give**. The user accepts that risk because:
+
+1. This is a static, no-backend, no-auth, no-user-input site — the attack surface for a typical npm CVE is minimal.
+2. Dependabot alerts arrive immediately and are reviewable in seconds.
+3. Discipline is enforced by the alert channel, not by automation.
+
+If you find yourself ignoring alerts or postponing batches for >3 months, that's the signal to revisit and turn Dependabot security updates on.
 
 ## Roadmap
 
