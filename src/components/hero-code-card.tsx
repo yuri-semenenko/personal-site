@@ -1,5 +1,6 @@
 "use client";
 
+import { useMemo } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { cn } from "@/lib/utils";
 
@@ -16,55 +17,58 @@ type Props = {
 export function HeroCodeCard({ className, name, role, also, location, focus, statuses }: Props) {
   const reduced = useReducedMotion();
 
-  const lines: Line[] = [
-    [{ type: "kw", text: "const" }, { type: "sp" }, { type: "id", text: "yuri" }, { type: "p", text: " = {" }],
-    [
-      { type: "indent" },
-      { type: "key", text: "name" },
-      { type: "p", text: ": " },
-      { type: "str", text: `"${name}"` },
-      { type: "p", text: "," },
-    ],
-    [
-      { type: "indent" },
-      { type: "key", text: "role" },
-      { type: "p", text: ": " },
-      { type: "str", text: `"${role}"` },
-      { type: "p", text: "," },
-    ],
-    [
-      { type: "indent" },
-      { type: "key", text: "also" },
-      { type: "p", text: ": " },
-      { type: "str", text: `"${also}"` },
-      { type: "p", text: "," },
-    ],
-    [
-      { type: "indent" },
-      { type: "key", text: "location" },
-      { type: "p", text: ": " },
-      { type: "str", text: `"${location}"` },
-      { type: "p", text: "," },
-    ],
-    [
-      { type: "indent" },
-      { type: "key", text: "focus" },
-      { type: "p", text: ": [" },
-      ...focus.flatMap<Token>((value, index) => [
-        { type: "str", text: `"${value}"` },
-        { type: "p", text: index < focus.length - 1 ? ", " : "" },
+  const lines = useMemo<Line[]>(
+    () => [
+      [{ type: "kw", text: "const" }, { type: "sp" }, { type: "id", text: "yuri" }, { type: "p", text: " = {" }],
+      [
+        { type: "indent" },
+        { type: "key", text: "name" },
+        { type: "p", text: ": " },
+        { type: "str", text: `"${name}"` },
+        { type: "p", text: "," },
+      ],
+      [
+        { type: "indent" },
+        { type: "key", text: "role" },
+        { type: "p", text: ": " },
+        { type: "str", text: `"${role}"` },
+        { type: "p", text: "," },
+      ],
+      [
+        { type: "indent" },
+        { type: "key", text: "also" },
+        { type: "p", text: ": " },
+        { type: "str", text: `"${also}"` },
+        { type: "p", text: "," },
+      ],
+      [
+        { type: "indent" },
+        { type: "key", text: "location" },
+        { type: "p", text: ": " },
+        { type: "str", text: `"${location}"` },
+        { type: "p", text: "," },
+      ],
+      [
+        { type: "indent" },
+        { type: "key", text: "focus" },
+        { type: "p", text: ": [" },
+        ...focus.flatMap<Token>((value, index) => [
+          { type: "str", text: `"${value}"` },
+          { type: "p", text: index < focus.length - 1 ? ", " : "" },
+        ]),
+        { type: "p", text: "]," },
+      ],
+      [{ type: "indent" }, { type: "key", text: "status" }, { type: "p", text: ": [" }],
+      ...statuses.map<Line>((status, index) => [
+        { type: "indent2" },
+        { type: "str", text: `"${status}"` },
+        { type: "p", text: index < statuses.length - 1 ? "," : "" },
       ]),
-      { type: "p", text: "]," },
+      [{ type: "indent" }, { type: "p", text: "]," }],
+      [{ type: "p", text: "};" }],
     ],
-    [{ type: "indent" }, { type: "key", text: "status" }, { type: "p", text: ": [" }],
-    ...statuses.map<Line>((status, index) => [
-      { type: "indent2" },
-      { type: "str", text: `"${status}"` },
-      { type: "p", text: index < statuses.length - 1 ? "," : "" },
-    ]),
-    [{ type: "indent" }, { type: "p", text: "]," }],
-    [{ type: "p", text: "};" }],
-  ];
+    [name, role, also, location, focus, statuses],
+  );
 
   return (
     <div className={cn("overflow-hidden rounded-lg border border-border bg-card shadow-sm", className)} aria-hidden>

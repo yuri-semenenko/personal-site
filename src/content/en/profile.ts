@@ -30,6 +30,10 @@ export const profile: ProfileModel = {
     fileUrl: "/files/yuri-semenenko-senior-frontend-engineer-cv.pdf",
     fileName: "yuri-semenenko-senior-frontend-engineer-cv.pdf",
   },
+  cta: {
+    contact: "Contact me",
+    experience: "View experience",
+  },
   seo: {
     title: "Yuri Semenenko — Senior Frontend Engineer & Tech Lead",
     description:

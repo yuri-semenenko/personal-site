@@ -89,11 +89,11 @@ export function SkillsSection({ groups }: Props) {
               <p className="text-sm text-muted-foreground">
                 {languagesGroup.items.map((skill, index) => (
                   <span key={skill.name}>
-                    {index > 0 && (
+                    {index > 0 ? (
                       <span aria-hidden className="mx-2 text-muted-foreground/40">
                         ·
                       </span>
-                    )}
+                    ) : null}
                     {skill.name}
                   </span>
                 ))}
