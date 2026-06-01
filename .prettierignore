@@ -7,3 +7,6 @@ coverage
 public
 *.log
 package-lock.json
+test-results
+playwright-report
+playwright/.cache

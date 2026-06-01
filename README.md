@@ -19,6 +19,7 @@ npm run build
 npm run lint
 npm run typecheck
 npm run format:check
+npm run test:e2e     # Playwright smoke tests
 ```
 
 Requires Node 20+.
@@ -30,6 +31,8 @@ src/
   app/               # Next.js App Router routes and layouts
   content/           # Typed content modules per locale
   components/        # UI components
+tests/
+  e2e/               # Playwright smoke tests
 public/
   files/             # Downloadable assets (CV PDF)
 docs/

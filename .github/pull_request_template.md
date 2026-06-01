@@ -43,6 +43,7 @@
 - [ ] `npm run typecheck` passes
 - [ ] `npm run format:check` passes
 - [ ] `npm run build` passes
+- [ ] `npm run test:e2e` passes (or N/A if change is doc-only)
 - [ ] No new copy hardcoded in components (content goes to `src/content/`)
 - [ ] Updated `docs/ARCHITECTURE.md` if structure / theming / conventions changed
 - [ ] Lighthouse gate respected (Perf ≥ 95, A11y ≥ 95, BP ≥ 95, SEO ≥ 90)

@@ -67,11 +67,14 @@ src/
     use-active-section.ts  # IntersectionObserver — highlights nav for current section
   lib/
     utils.ts               # cn() and small helpers
+tests/
+  e2e/                     # Playwright smoke tests (Chromium, headless)
 public/
   files/                   # Downloadable CV PDF
 docs/
   ARCHITECTURE.md          # This file
 next.config.ts             # Security headers + bundle analyzer toggle
+playwright.config.ts       # Playwright config — webServer + projects + reporters
 ```
 
 ### Routing & rendering
@@ -203,8 +206,10 @@ npm run dev          # Next dev server on :3000
 npm run build        # Production build
 npm run start        # Serve production build locally
 npm run lint         # ESLint (eslint-config-next + prettier compat)
+npm run typecheck    # tsc --noEmit
 npm run format       # Prettier write
 npm run format:check # Prettier check (CI-friendly)
+npm run test:e2e     # Playwright smoke tests
 ANALYZE=true npm run build   # Bundle analyzer report
 ```
 
@@ -213,6 +218,20 @@ Vercel:
 - Auto-deploy on push to `main`.
 - Preview deploys for any branch / PR.
 - Analytics + Speed Insights wired through `@vercel/analytics` and `@vercel/speed-insights`.
+
+## Testing
+
+Pragmatic, narrow surface. Tests target real risk areas, not coverage %.
+
+- **Playwright smoke (`tests/e2e/`)** — Chromium-only, headless. Covers: page loads with key landmarks, primary nav anchors scroll to sections, theme toggle flips `html.dark`, CV PDF responds 200, mobile menu opens on small viewport. Run locally with `npm run test:e2e`; debug interactively with `npm run test:e2e:ui`.
+- **CI** — `e2e` job in `.github/workflows/ci.yml` builds the site then runs Playwright. Playwright browsers cached by `@playwright/test` version key. HTML report uploaded as an artifact (7-day retention) for failure inspection.
+- **Not tested** — pure presentation components (display from typed props), Tailwind classes, snapshot of RSC output. Adding RTL tests for `(props) => <jsx>` components would be noise.
+
+Future tiers (not yet wired):
+
+- **A11y (`@axe-core/playwright`)** — axe assertions on light + dark.
+- **Lighthouse CI** — enforces the gate above as a CI job on Vercel preview URLs.
+- **Vitest** — point tests for `use-active-section`, `print-handler` state, content validators (e.g. navigation hrefs must match existing section IDs).
 
 ## Roadmap
 
