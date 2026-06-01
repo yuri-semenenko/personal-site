@@ -1,5 +1,7 @@
 # Personal Site — Yuri Semenenko
 
+[![CI](https://github.com/yuri-semenenko/personal-site/actions/workflows/ci.yml/badge.svg)](https://github.com/yuri-semenenko/personal-site/actions/workflows/ci.yml)
+
 Personal CV / portfolio website. Senior Frontend Engineer & Mentor, based in Krakow, Poland.
 
 **Live:** https://yuri-semenenko.dev
@@ -15,6 +17,8 @@ npm install
 npm run dev          # http://localhost:3000
 npm run build
 npm run lint
+npm run typecheck
+npm run format:check
 ```
 
 Requires Node 20+.

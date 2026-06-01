@@ -40,8 +40,9 @@
 - [ ] PR title follows Conventional Commits
 - [ ] Branch name uses a valid prefix (`feat/`, `fix/`, `chore/`, `docs/`, `test/`, `refactor/`, `ci/`, `perf/`)
 - [ ] `npm run lint` passes
-- [ ] `npm run build` passes
+- [ ] `npm run typecheck` passes
 - [ ] `npm run format:check` passes
+- [ ] `npm run build` passes
 - [ ] No new copy hardcoded in components (content goes to `src/content/`)
 - [ ] Updated `docs/ARCHITECTURE.md` if structure / theming / conventions changed
 - [ ] Lighthouse gate respected (Perf ≥ 95, A11y ≥ 95, BP ≥ 95, SEO ≥ 90)
