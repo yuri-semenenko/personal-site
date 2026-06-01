@@ -201,6 +201,8 @@ Levers in place:
 
 A new dependency or animation that risks the gate gets rejected, period.
 
+The gate is **enforced**, not aspirational — Lighthouse CI runs against the production server on every PR (see Testing § Lighthouse CI). A score drop fails the merge.
+
 ## Build & deploy
 
 ```bash
@@ -232,9 +234,10 @@ Pragmatic, narrow surface. Tests target real risk areas, not coverage %.
 
 Run locally with `npm run test:e2e`; debug interactively with `npm run test:e2e:ui`.
 
+- **Lighthouse CI (`lighthouserc.json`)** — `@lhci/cli` runs Lighthouse 3 times against the production server in CI, asserts category scores against the perf/a11y/best-practices/seo gate, and uploads reports to LHCI's temporary public storage (URLs printed in the job log; expire after ~7 days). Desktop preset; `--headless=new` Chrome. Reports also archived as a GitHub artifact for 7 days.
+
 Future tiers (not yet wired):
 
-- **Lighthouse CI** — enforces the perf/a11y gate as a CI job on Vercel preview URLs.
 - **Vitest** — point tests for `use-active-section`, `print-handler` state, content validators (e.g. navigation hrefs must match existing section IDs).
 
 ## Roadmap

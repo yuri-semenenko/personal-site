@@ -19,7 +19,8 @@ npm run build
 npm run lint
 npm run typecheck
 npm run format:check
-npm run test:e2e     # Playwright smoke tests
+npm run test:e2e     # Playwright smoke + a11y
+npm run lhci         # Lighthouse CI (Perf ≥95 / A11y ≥95 / BP ≥95 / SEO ≥90)
 ```
 
 Requires Node 20+.
