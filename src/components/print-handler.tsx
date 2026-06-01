@@ -27,11 +27,9 @@ export function PrintHandler() {
       // this is the last resort when CSS break-after/before is ignored.
       document.querySelectorAll<HTMLElement>("section > div > *:first-child").forEach((heading) => {
         heading.style.breakAfter = "avoid";
-        heading.style.pageBreakAfter = "avoid";
         const content = heading.nextElementSibling as HTMLElement | null;
         if (content) {
           content.style.breakBefore = "avoid";
-          content.style.pageBreakBefore = "avoid";
         }
       });
     };
@@ -47,11 +45,9 @@ export function PrintHandler() {
       // Clean up inline break styles
       document.querySelectorAll<HTMLElement>("section > div > *:first-child").forEach((heading) => {
         heading.style.breakAfter = "";
-        heading.style.pageBreakAfter = "";
         const content = heading.nextElementSibling as HTMLElement | null;
         if (content) {
           content.style.breakBefore = "";
-          content.style.pageBreakBefore = "";
         }
       });
     };
