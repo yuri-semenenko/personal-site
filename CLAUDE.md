@@ -57,3 +57,10 @@ npm run lint     # eslint
 
 - **Phase 1 (in progress):** MVP — EN-only landing, dark/light theme, animations, Vercel deploy.
 - **Phase 2:** RU/PL/BY locales via `next-intl`, custom domain (`yuri-semenenko.dev`), sitemap/robots/canonical, structured data, analytics dashboards.
+
+## Workflow
+
+- Trunk-based with short-lived feature branches. Branch prefixes: `feat/`, `fix/`, `chore/`, `docs/`, `test/`, `refactor/`, `ci/`, `perf/`.
+- Commit messages and PR titles follow [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) (`type: imperative summary`). PR title = squash-merge commit on `main`.
+- Squash merge only. No direct pushes to `main`.
+- Full workflow doc: [`CONTRIBUTING.md`](CONTRIBUTING.md). Don't restate its rules here.

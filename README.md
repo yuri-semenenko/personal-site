@@ -39,6 +39,8 @@ docs/
 
 Architecture and conventions: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
 
+Workflow (branches, commits, PRs): [`CONTRIBUTING.md`](CONTRIBUTING.md).
+
 ## License
 
 Personal project. Content © Yuri Semenenko.
