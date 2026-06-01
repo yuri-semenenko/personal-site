@@ -143,6 +143,7 @@
      Also applied as inline styles in PrintHandler for maximum priority. */
   section > div > *:first-child {
     break-after: avoid;
+    break-inside: avoid;
   }
 
   section > div > *:first-child + * {
