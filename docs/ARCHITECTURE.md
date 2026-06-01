@@ -288,6 +288,20 @@ The clear cost of this policy is **slower CVE response than auto-PR security upd
 
 If you find yourself ignoring alerts or postponing batches for >3 months, that's the signal to revisit and turn Dependabot security updates on.
 
+### npm `overrides`
+
+`package.json` carries an `overrides` block to pin **transitive** versions when a CVE patch exists for a sub-dependency but the direct parent has not yet released an upgrade (or is already on its latest).
+
+Current overrides:
+
+| Package   | Pinned to | Reason                                                                                                                                              |
+| --------- | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `postcss` | `^8.5.10` | XSS in CSS Stringify (GHSA-qx2v-qp2m-jg93). Next.js 16.2.6 still ships postcss 8.4.31 internally and there is no newer stable Next yet.             |
+| `tmp`     | `^0.2.6`  | Path Traversal (GHSA-ph9p-34f9-6g65) + symlink write (GHSA-52f5-9888-hmc6). Pulled in via `@lhci/cli@0.15.1` (current latest), no upstream fix yet. |
+| `uuid`    | `^11.1.1` | Buffer bounds check (GHSA-w5hq-g745-h8pq). Same path: `@lhci/cli` ships `uuid@8.3.2`.                                                               |
+
+When the direct parent (`next`, `@lhci/cli`) releases a version that already includes the patched sub-dep, **remove the override** — leaving stale overrides masks future regressions in those packages. Verify with `npm ls <pkg>` after the parent upgrade that the resolved version is still ≥ the patched line.
+
 ## Roadmap
 
 - **Phase 1 (active)** — EN landing, dark/light, animations, print, SEO baseline, Vercel deploy.
