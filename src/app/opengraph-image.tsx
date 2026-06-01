@@ -143,8 +143,7 @@ export default async function OpengraphImage() {
                       width: 8,
                       height: 8,
                       borderRadius: "50%",
-                      background:
-                        variant === "success" ? "#10b981" : variant === "secondary" ? "#c084fc" : "#4c84ff",
+                      background: variant === "success" ? "#10b981" : variant === "secondary" ? "#c084fc" : "#4c84ff",
                       display: "flex",
                     }}
                   />

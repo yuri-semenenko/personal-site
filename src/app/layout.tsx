@@ -10,9 +10,7 @@ import "./globals.css";
 const { profile, contacts } = getContent("en");
 const siteUrl = "https://yuri-semenenko.dev";
 
-const sameAs = contacts.items
-  .filter((c) => c.external && c.visible && c.href)
-  .map((c) => c.href as string);
+const sameAs = contacts.items.filter((c) => c.external && c.visible && c.href).map((c) => c.href as string);
 
 const jsonLd = {
   "@context": "https://schema.org",

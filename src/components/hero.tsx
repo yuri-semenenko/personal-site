@@ -137,10 +137,7 @@ export function Hero({ profile, emailContact }: Props) {
                       key={s.key}
                       className="inline-flex items-center gap-2 rounded-md border border-border bg-card/80 px-3 py-1.5 font-mono text-xs text-foreground backdrop-blur-sm"
                     >
-                      <span
-                        aria-hidden
-                        className={cn("h-1.5 w-1.5 rounded-full", statusDotVariants[variant])}
-                      />
+                      <span aria-hidden className={cn("h-1.5 w-1.5 rounded-full", statusDotVariants[variant])} />
                       {label}
                     </span>
                   );

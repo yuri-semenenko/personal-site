@@ -40,8 +40,7 @@ export default function AppleIcon() {
           style={{
             width: 80,
             height: 3,
-            background:
-              "linear-gradient(90deg, oklch(0.68 0.16 245), oklch(0.65 0.21 340))",
+            background: "linear-gradient(90deg, oklch(0.68 0.16 245), oklch(0.65 0.21 340))",
             borderRadius: 2,
             display: "flex",
           }}
