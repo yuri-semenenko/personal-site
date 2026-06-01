@@ -121,6 +121,11 @@ jobs:
     name: Lighthouse
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    # Lighthouse only audits the production artifact. Running on every PR
+    # adds ~1.5 min of CI for doc/test/meta PRs that physically cannot
+    # change the score. We run it post-merge against main instead — if a
+    # regression slips in, the job goes red on main and we open a revert.
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
