@@ -1,5 +1,6 @@
 import { ImageResponse } from "next/og";
 import { getContent } from "@/content";
+import { STATUS_CATALOG } from "@/content/statuses";
 
 export const alt = "Yuri Semenenko — Senior Frontend Engineer";
 export const size = { width: 1200, height: 630 };
@@ -117,35 +118,40 @@ export default async function OpengraphImage() {
         }}
       >
         <div style={{ display: "flex", gap: 16 }}>
-          {profile.statuses.map((status) => (
-            <span
-              key={status.label}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 10,
-                padding: "10px 18px",
-                borderRadius: 8,
-                border: "1px solid rgba(255,255,255,0.12)",
-                fontFamily: "monospace",
-                fontSize: 20,
-                color: "#e5e7eb",
-                background: "rgba(255,255,255,0.04)",
-              }}
-            >
-              <span
-                style={{
-                  width: 8,
-                  height: 8,
-                  borderRadius: "50%",
-                  background:
-                    status.variant === "success" ? "#10b981" : status.variant === "secondary" ? "#c084fc" : "#4c84ff",
-                  display: "flex",
-                }}
-              />
-              {status.label}
-            </span>
-          ))}
+          {profile.statuses
+            .filter((s) => s.enabled)
+            .map((s) => {
+              const { label, variant } = STATUS_CATALOG[s.key];
+              return (
+                <span
+                  key={s.key}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 10,
+                    padding: "10px 18px",
+                    borderRadius: 8,
+                    border: "1px solid rgba(255,255,255,0.12)",
+                    fontFamily: "monospace",
+                    fontSize: 20,
+                    color: "#e5e7eb",
+                    background: "rgba(255,255,255,0.04)",
+                  }}
+                >
+                  <span
+                    style={{
+                      width: 8,
+                      height: 8,
+                      borderRadius: "50%",
+                      background:
+                        variant === "success" ? "#10b981" : variant === "secondary" ? "#c084fc" : "#4c84ff",
+                      display: "flex",
+                    }}
+                  />
+                  {label}
+                </span>
+              );
+            })}
         </div>
         <span
           style={{

@@ -7,8 +7,17 @@ export const profile: ProfileModel = {
   summary:
     "I help teams modernise frontend platforms, raise engineering quality, and ship scalable React applications. Fourteen years across FinTech, SaaS, CMS, and enterprise products — combining hands-on engineering with technical leadership, mentoring, and frontend education.",
   statuses: [
-    { label: "Open to work", variant: "success" },
-    { label: "Available for remote roles", variant: "primary" },
+    { key: "open-to-work", enabled: false },
+    { key: "available-remote", enabled: true },
+    { key: "open-to-projects", enabled: true },
+    { key: "open-to-offers", enabled: false },
+    { key: "not-looking", enabled: false },
+    { key: "available-hybrid", enabled: false },
+    { key: "available-onsite", enabled: false },
+    { key: "consulting", enabled: false },
+    { key: "freelance", enabled: false },
+    { key: "mentoring", enabled: true },
+    { key: "relocatable", enabled: false },
   ],
   highlights: [
     "14+ years building production React platforms",

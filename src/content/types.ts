@@ -1,5 +1,26 @@
 export type Locale = "en" | "ru" | "pl" | "by";
 
+export type BadgeVariant = "default" | "primary" | "secondary" | "success" | "muted";
+
+// Phase 2: move STATUS_CATALOG labels to locale-specific files when next-intl lands.
+export type StatusKey =
+  | "open-to-work"
+  | "open-to-projects"
+  | "open-to-offers"
+  | "not-looking"
+  | "available-remote"
+  | "available-hybrid"
+  | "available-onsite"
+  | "consulting"
+  | "freelance"
+  | "mentoring"
+  | "relocatable";
+
+export interface StatusEntry {
+  key: StatusKey;
+  enabled: boolean;
+}
+
 export type Theme = "light" | "dark" | "system";
 
 export type SocialType = "email" | "linkedin" | "github" | "telegram" | "location" | "mentoring";
@@ -20,7 +41,7 @@ export interface SeoModel {
 
 export interface BadgeModel {
   label: string;
-  variant?: "default" | "primary" | "secondary" | "success" | "muted";
+  variant?: BadgeVariant;
 }
 
 export interface LinkModel {
@@ -35,7 +56,7 @@ export interface ProfileModel {
   headline: string;
   location: string;
   summary: string;
-  statuses: BadgeModel[];
+  statuses: StatusEntry[];
   highlights: string[];
   cv: {
     label: string;

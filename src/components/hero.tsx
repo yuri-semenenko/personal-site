@@ -5,6 +5,7 @@ import { ArrowRight, Download, Mail } from "lucide-react";
 import { useReducedMotion } from "motion/react";
 import { cn } from "@/lib/utils";
 import { HeroCodeCard } from "@/components/hero-code-card";
+import { STATUS_CATALOG } from "@/content/statuses";
 import type { ContactItemModel, ProfileModel } from "@/content/types";
 
 const statusDotVariants: Record<string, string> = {
@@ -72,13 +73,13 @@ export function Hero({ profile, emailContact }: Props) {
     >
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 [mask-image:radial-gradient(ellipse_70%_60%_at_50%_40%,#000_30%,transparent_100%)] motion-safe:transition-transform motion-safe:duration-300 motion-safe:ease-out"
+        className="pointer-events-none absolute inset-0 mask-[radial-gradient(ellipse_70%_60%_at_50%_40%,#000_30%,transparent_100%)] motion-safe:transition-transform motion-safe:duration-300 motion-safe:ease-out"
         style={{
           transform: "translate3d(calc(var(--mx, 0) * -8px), calc(var(--my, 0) * -8px), 0)",
           willChange: "transform",
         }}
       >
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,var(--border)_1px,transparent_0)] [background-size:28px_28px]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,var(--border)_1px,transparent_0)] bg-size-[28px_28px]" />
       </div>
 
       <div
@@ -127,18 +128,23 @@ export function Hero({ profile, emailContact }: Props) {
             <p className="mt-4 max-w-xl text-xl text-muted-foreground sm:text-2xl">{profile.headline}</p>
 
             <div className="mt-8 flex flex-wrap gap-2">
-              {profile.statuses.map((status) => (
-                <span
-                  key={status.label}
-                  className="inline-flex items-center gap-2 rounded-md border border-border bg-card/80 px-3 py-1.5 font-mono text-xs text-foreground backdrop-blur-sm"
-                >
-                  <span
-                    aria-hidden
-                    className={cn("h-1.5 w-1.5 rounded-full", statusDotVariants[status.variant ?? "default"])}
-                  />
-                  {status.label}
-                </span>
-              ))}
+              {profile.statuses
+                .filter((s) => s.enabled)
+                .map((s) => {
+                  const { label, variant } = STATUS_CATALOG[s.key];
+                  return (
+                    <span
+                      key={s.key}
+                      className="inline-flex items-center gap-2 rounded-md border border-border bg-card/80 px-3 py-1.5 font-mono text-xs text-foreground backdrop-blur-sm"
+                    >
+                      <span
+                        aria-hidden
+                        className={cn("h-1.5 w-1.5 rounded-full", statusDotVariants[variant])}
+                      />
+                      {label}
+                    </span>
+                  );
+                })}
             </div>
 
             <div className="mt-10 flex flex-wrap items-center gap-3">
@@ -180,7 +186,7 @@ export function Hero({ profile, emailContact }: Props) {
             also="Mentor & Trainer"
             location="Krakow, Poland"
             focus={["React", "Next.js", "TypeScript", "Performance"]}
-            statuses={profile.statuses.map((status) => status.label)}
+            statuses={profile.statuses.filter((s) => s.enabled).map((s) => STATUS_CATALOG[s.key].label)}
           />
         </div>
       </div>
