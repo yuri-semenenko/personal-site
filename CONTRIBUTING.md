@@ -61,6 +61,8 @@ npm run lint           # ESLint
 npm run typecheck      # tsc --noEmit
 npm run format         # Prettier write
 npm run format:check   # Prettier check (CI-friendly)
+npm test               # Vitest — unit tests (content validators, hooks, print handler)
+npm run test:watch     # Vitest in watch mode
 npm run test:e2e       # Playwright smoke + a11y (Chromium, headless)
 npm run test:e2e:ui    # Playwright Test UI runner for debugging
 npm run lhci           # Lighthouse CI — collect + assert against the perf/a11y gate

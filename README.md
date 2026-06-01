@@ -19,11 +19,12 @@ npm run build
 npm run lint
 npm run typecheck
 npm run format:check
+npm test             # Vitest unit tests
 npm run test:e2e     # Playwright smoke + a11y
 npm run lhci         # Lighthouse CI (Perf ≥95 / A11y ≥95 / BP ≥95 / SEO ≥90)
 ```
 
-Requires Node 20+.
+Requires **Node 24 LTS** (see `.nvmrc`). This matches Vercel's current default runtime and what CI runs on.
 
 ## Project structure
 
@@ -33,7 +34,8 @@ src/
   content/           # Typed content modules per locale
   components/        # UI components
 tests/
-  e2e/               # Playwright smoke tests
+  unit/              # Vitest unit tests (content validators, hooks, print handler)
+  e2e/               # Playwright smoke + a11y
 public/
   files/             # Downloadable assets (CV PDF)
 docs/
