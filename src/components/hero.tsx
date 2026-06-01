@@ -74,8 +74,7 @@ export function Hero({ profile, emailContact }: Props) {
         aria-hidden
         className="pointer-events-none absolute inset-0 [mask-image:radial-gradient(ellipse_70%_60%_at_50%_40%,#000_30%,transparent_100%)] motion-safe:transition-transform motion-safe:duration-300 motion-safe:ease-out"
         style={{
-          transform:
-            "translate3d(calc(var(--mx, 0) * -8px), calc(var(--my, 0) * -8px), 0)",
+          transform: "translate3d(calc(var(--mx, 0) * -8px), calc(var(--my, 0) * -8px), 0)",
           willChange: "transform",
         }}
       >
@@ -100,16 +99,14 @@ export function Hero({ profile, emailContact }: Props) {
         aria-hidden
         className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-primary/15 blur-3xl motion-safe:transition-transform motion-safe:duration-500 motion-safe:ease-out sm:h-96 sm:w-96"
         style={{
-          transform:
-            "translate3d(calc(var(--mx, 0) * -20px), calc(var(--my, 0) * -20px), 0)",
+          transform: "translate3d(calc(var(--mx, 0) * -20px), calc(var(--my, 0) * -20px), 0)",
         }}
       />
       <div
         aria-hidden
         className="pointer-events-none absolute -left-20 top-1/2 h-64 w-64 -translate-y-1/2 rounded-full bg-highlight/10 blur-3xl motion-safe:transition-transform motion-safe:duration-500 motion-safe:ease-out"
         style={{
-          transform:
-            "translate(0, -50%) translate3d(calc(var(--mx, 0) * 24px), calc(var(--my, 0) * 24px), 0)",
+          transform: "translate(0, -50%) translate3d(calc(var(--mx, 0) * 24px), calc(var(--my, 0) * 24px), 0)",
         }}
       />
 
@@ -125,15 +122,9 @@ export function Hero({ profile, emailContact }: Props) {
       <div className="relative mx-auto max-w-6xl">
         <div className="grid items-center gap-12 lg:grid-cols-[1.15fr_1fr] lg:gap-16">
           <div>
-            <p className="font-mono text-sm text-muted-foreground">
-              {profile.location}
-            </p>
-            <h1 className="mt-4 text-5xl tracking-tight text-foreground sm:text-6xl lg:text-7xl">
-              {profile.name}
-            </h1>
-            <p className="mt-4 max-w-xl text-xl text-muted-foreground sm:text-2xl">
-              {profile.headline}
-            </p>
+            <p className="font-mono text-sm text-muted-foreground">{profile.location}</p>
+            <h1 className="mt-4 text-5xl tracking-tight text-foreground sm:text-6xl lg:text-7xl">{profile.name}</h1>
+            <p className="mt-4 max-w-xl text-xl text-muted-foreground sm:text-2xl">{profile.headline}</p>
 
             <div className="mt-8 flex flex-wrap gap-2">
               {profile.statuses.map((status) => (
@@ -143,10 +134,7 @@ export function Hero({ profile, emailContact }: Props) {
                 >
                   <span
                     aria-hidden
-                    className={cn(
-                      "h-1.5 w-1.5 rounded-full",
-                      statusDotVariants[status.variant ?? "default"],
-                    )}
+                    className={cn("h-1.5 w-1.5 rounded-full", statusDotVariants[status.variant ?? "default"])}
                   />
                   {status.label}
                 </span>

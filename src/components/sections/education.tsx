@@ -16,26 +16,12 @@ export function EducationSection({ items }: Props) {
             key={`${item.institution}-${item.period.start}`}
             className="rounded-lg border border-border bg-card p-5"
           >
-            <p className="font-mono text-xs uppercase tracking-wide text-muted-foreground">
-              {item.period.label}
-            </p>
-            <h3 className="mt-2 text-lg leading-tight text-foreground">
-              {item.institution}
-            </h3>
-            {item.faculty && (
-              <p className="mt-2 text-sm text-muted-foreground">
-                {item.faculty}
-              </p>
-            )}
-            {item.department && (
-              <p className="mt-1 font-mono text-xs text-muted-foreground">
-                {item.department}
-              </p>
-            )}
+            <p className="font-mono text-xs uppercase tracking-wide text-muted-foreground">{item.period.label}</p>
+            <h3 className="mt-2 text-lg leading-tight text-foreground">{item.institution}</h3>
+            {item.faculty && <p className="mt-2 text-sm text-muted-foreground">{item.faculty}</p>}
+            {item.department && <p className="mt-1 font-mono text-xs text-muted-foreground">{item.department}</p>}
             {item.description && (
-              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                {item.description}
-              </p>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{item.description}</p>
             )}
           </StaggeredItem>
         ))}

@@ -17,44 +17,26 @@ export function ProjectsSection({ items }: Props) {
             key={`${item.title}-${item.company ?? "x"}`}
             className={cn(
               "flex flex-col gap-4 rounded-lg border bg-card p-5 transition-colors",
-              item.featured
-                ? "border-primary/30"
-                : "border-border hover:border-primary/30",
+              item.featured ? "border-primary/30" : "border-border hover:border-primary/30",
             )}
           >
             <div>
               <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
-                <h3 className="text-lg leading-tight text-foreground">
-                  {item.title}
-                </h3>
-                {item.company && (
-                  <span className="font-mono text-xs text-muted-foreground">
-                    · {item.company}
-                  </span>
-                )}
+                <h3 className="text-lg leading-tight text-foreground">{item.title}</h3>
+                {item.company && <span className="font-mono text-xs text-muted-foreground">· {item.company}</span>}
               </div>
               <p className="mt-1 font-mono text-xs text-primary">{item.role}</p>
             </div>
 
-            <p className="text-sm leading-relaxed text-muted-foreground">
-              {item.summary}
-            </p>
+            <p className="text-sm leading-relaxed text-muted-foreground">{item.summary}</p>
 
             {item.impact.length > 0 && (
               <div>
-                <p className="font-mono text-xs uppercase tracking-wide text-foreground">
-                  Impact
-                </p>
+                <p className="font-mono text-xs uppercase tracking-wide text-foreground">Impact</p>
                 <ul className="mt-2 space-y-1">
                   {item.impact.map((line) => (
-                    <li
-                      key={line}
-                      className="flex items-start gap-2 text-sm text-foreground"
-                    >
-                      <span
-                        aria-hidden
-                        className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-primary"
-                      />
+                    <li key={line} className="flex items-start gap-2 text-sm text-foreground">
+                      <span aria-hidden className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-primary" />
                       {line}
                     </li>
                   ))}

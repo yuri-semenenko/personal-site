@@ -1,25 +1,25 @@
 "use client";
 
 import { motion, type HTMLMotionProps } from "motion/react";
-import type { ReactNode } from "react";
+import { useMemo, type ReactNode } from "react";
 
 type RevealProps = Omit<HTMLMotionProps<"div">, "ref"> & {
   delay?: number;
   children: ReactNode;
 };
 
-export function Reveal({
-  delay = 0,
-  children,
-  className,
-  ...props
-}: RevealProps) {
+const REVEAL_INITIAL = { opacity: 0, y: 28 };
+const REVEAL_ANIMATE = { opacity: 1, y: 0 };
+const VIEWPORT = { once: true, margin: "0px 0px -120px 0px" };
+const REVEAL_EASE = [0.22, 1, 0.36, 1] as const;
+
+export function Reveal({ delay = 0, children, className, ...props }: RevealProps) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 28 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "0px 0px -120px 0px" }}
-      transition={{ duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] }}
+      initial={REVEAL_INITIAL}
+      whileInView={REVEAL_ANIMATE}
+      viewport={VIEWPORT}
+      transition={{ duration: 0.7, delay, ease: REVEAL_EASE }}
       className={className}
       {...props}
     >
@@ -37,20 +37,14 @@ type StaggeredListProps = {
   stagger?: number;
 };
 
-export function StaggeredList({
-  children,
-  className,
-  as = "div",
-  stagger = 0.09,
-}: StaggeredListProps) {
+export function StaggeredList({ children, className, as = "div", stagger = 0.09 }: StaggeredListProps) {
+  const variants = useMemo(() => ({ hidden: {}, visible: { transition: { staggerChildren: stagger } } }), [stagger]);
+
   const sharedProps = {
     initial: "hidden" as const,
     whileInView: "visible" as const,
-    viewport: { once: true, margin: "0px 0px -120px 0px" },
-    variants: {
-      hidden: {},
-      visible: { transition: { staggerChildren: stagger } },
-    },
+    viewport: VIEWPORT,
+    variants,
     className,
     children,
   };
@@ -77,11 +71,7 @@ const itemVariants = {
   },
 };
 
-export function StaggeredItem({
-  children,
-  className,
-  as = "div",
-}: StaggeredItemProps) {
+export function StaggeredItem({ children, className, as = "div" }: StaggeredItemProps) {
   if (as === "li") {
     return (
       <motion.li variants={itemVariants} className={className}>

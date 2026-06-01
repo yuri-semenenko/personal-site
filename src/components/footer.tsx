@@ -1,10 +1,6 @@
 import { Mail } from "lucide-react";
 import type { ComponentType } from "react";
-import {
-  GithubIcon,
-  LinkedinIcon,
-  TelegramIcon,
-} from "@/components/icons/social";
+import { GithubIcon, LinkedinIcon, TelegramIcon } from "@/components/icons/social";
 import type { ContactItemModel, SocialType } from "@/content/types";
 
 type IconComp = ComponentType<{ className?: string }>;
@@ -23,9 +19,7 @@ type Props = {
 };
 
 export function Footer({ contacts, logo, name }: Props) {
-  const socialItems = contacts.filter(
-    (item) => item.href && iconMap[item.type] && item.visible,
-  );
+  const socialItems = contacts.filter((item) => item.href && iconMap[item.type] && item.visible);
 
   return (
     <footer className="border-t border-border">

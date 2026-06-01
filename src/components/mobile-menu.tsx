@@ -2,14 +2,7 @@
 
 import { Download, Menu } from "lucide-react";
 import { cn } from "@/lib/utils";
-import {
-  Sheet,
-  SheetContent,
-  SheetClose,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetClose, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import type { NavigationModel } from "@/content/types";
 
 type Props = {

@@ -7,10 +7,7 @@ export const teaching: TeachingItemModel[] = [
     period: { start: "2017-04", end: "2025-07", label: "Apr 2017 — Jul 2025" },
     summary:
       "Conducted frontend development courses, mentored students, and supported a learning community focused on HTML, CSS, JavaScript, and web application development.",
-    courses: [
-      "Web Development with HTML, CSS, and JavaScript",
-      "Web Application Development with JavaScript",
-    ],
+    courses: ["Web Development with HTML, CSS, and JavaScript", "Web Application Development with JavaScript"],
     responsibilities: [
       "Conducted frontend development courses.",
       "Created an inclusive and supportive learning environment.",
@@ -23,13 +20,7 @@ export const teaching: TeachingItemModel[] = [
       "Helped many students secure positions in big tech companies.",
       "Received excellent feedback and testimonials for teaching and mentoring quality.",
     ],
-    technologies: [
-      "HTML",
-      "CSS",
-      "JavaScript",
-      "Frontend Development",
-      "Mentoring",
-    ],
+    technologies: ["HTML", "CSS", "JavaScript", "Frontend Development", "Mentoring"],
     links: [
       {
         label: "View course",

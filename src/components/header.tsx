@@ -15,10 +15,7 @@ type Props = {
 
 export function Header({ navigation }: Props) {
   const sectionIds = useMemo(
-    () =>
-      navigation.items
-        .map((item) => item.sectionId)
-        .filter((id): id is string => Boolean(id)),
+    () => navigation.items.map((item) => item.sectionId).filter((id): id is string => Boolean(id)),
     [navigation.items],
   );
 
@@ -26,19 +23,13 @@ export function Header({ navigation }: Props) {
   const downloadAction = navigation.actions[0];
 
   return (
-    <header className="sticky top-0 z-40 border-b border-border bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-40 border-b border-border bg-background/80 backdrop-blur supports-backdrop-filter:bg-background/60">
       <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4 sm:px-6">
-        <a
-          href="#"
-          className="font-mono text-sm font-medium text-foreground transition-colors hover:text-primary"
-        >
+        <a href="#" className="font-mono text-sm font-medium text-foreground transition-colors hover:text-primary">
           {navigation.logo}
         </a>
 
-        <nav
-          className="hidden items-center gap-6 md:flex"
-          aria-label="Primary"
-        >
+        <nav className="hidden items-center gap-6 md:flex" aria-label="Primary">
           {navigation.items.map((item) => {
             const isActive = activeId === item.sectionId;
             return (
@@ -47,9 +38,7 @@ export function Header({ navigation }: Props) {
                 href={item.href}
                 className={cn(
                   "relative font-mono text-xs uppercase tracking-wide transition-colors",
-                  isActive
-                    ? "text-primary"
-                    : "text-muted-foreground hover:text-foreground",
+                  isActive ? "text-primary" : "text-muted-foreground hover:text-foreground",
                 )}
                 aria-current={isActive ? "true" : undefined}
               >

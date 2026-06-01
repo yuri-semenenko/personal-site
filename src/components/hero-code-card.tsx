@@ -13,24 +13,11 @@ type Props = {
   statuses: string[];
 };
 
-export function HeroCodeCard({
-  className,
-  name,
-  role,
-  also,
-  location,
-  focus,
-  statuses,
-}: Props) {
+export function HeroCodeCard({ className, name, role, also, location, focus, statuses }: Props) {
   const reduced = useReducedMotion();
 
   const lines: Line[] = [
-    [
-      { type: "kw", text: "const" },
-      { type: "sp" },
-      { type: "id", text: "yuri" },
-      { type: "p", text: " = {" },
-    ],
+    [{ type: "kw", text: "const" }, { type: "sp" }, { type: "id", text: "yuri" }, { type: "p", text: " = {" }],
     [
       { type: "indent" },
       { type: "key", text: "name" },
@@ -69,11 +56,7 @@ export function HeroCodeCard({
       ]),
       { type: "p", text: "]," },
     ],
-    [
-      { type: "indent" },
-      { type: "key", text: "status" },
-      { type: "p", text: ": [" },
-    ],
+    [{ type: "indent" }, { type: "key", text: "status" }, { type: "p", text: ": [" }],
     ...statuses.map<Line>((status, index) => [
       { type: "indent2" },
       { type: "str", text: `"${status}"` },
@@ -84,20 +67,12 @@ export function HeroCodeCard({
   ];
 
   return (
-    <div
-      className={cn(
-        "overflow-hidden rounded-lg border border-border bg-card shadow-sm",
-        className,
-      )}
-      aria-hidden
-    >
+    <div className={cn("overflow-hidden rounded-lg border border-border bg-card shadow-sm", className)} aria-hidden>
       <div className="flex items-center gap-2 border-b border-border bg-background/50 px-4 py-2.5">
         <span className="h-2.5 w-2.5 rounded-full bg-destructive/60" />
         <span className="h-2.5 w-2.5 rounded-full bg-chart-4/60" />
         <span className="h-2.5 w-2.5 rounded-full bg-chart-3/60" />
-        <span className="ml-3 font-mono text-xs text-muted-foreground">
-          profile.ts
-        </span>
+        <span className="ml-3 font-mono text-xs text-muted-foreground">profile.ts</span>
       </div>
       <pre className="overflow-x-auto p-5 font-mono text-[0.8125rem] leading-6">
         <code>

@@ -9,11 +9,7 @@ type Props = {
 
 export function CertificationsSection({ items }: Props) {
   return (
-    <Section
-      id="certifications"
-      eyebrow="09 / Certifications"
-      title="Certifications"
-    >
+    <Section id="certifications" eyebrow="09 / Certifications" title="Certifications">
       <StaggeredList className="grid gap-4 sm:grid-cols-2">
         {items.map((item) => (
           <StaggeredItem
@@ -21,18 +17,13 @@ export function CertificationsSection({ items }: Props) {
             className="flex flex-col rounded-lg border border-border bg-card p-5"
           >
             <div className="flex items-start justify-between gap-3">
-              <ShieldCheck
-                aria-hidden
-                className="h-5 w-5 shrink-0 text-primary"
-              />
+              <ShieldCheck aria-hidden className="h-5 w-5 shrink-0 text-primary" />
               <p className="font-mono text-xs uppercase tracking-wide text-muted-foreground">
                 {item.issuedLabel}
                 {item.expiresLabel ? ` — ${item.expiresLabel}` : ""}
               </p>
             </div>
-            <h3 className="mt-3 text-base leading-snug text-foreground">
-              {item.title}
-            </h3>
+            <h3 className="mt-3 text-base leading-snug text-foreground">{item.title}</h3>
             <p className="mt-1 font-mono text-xs text-primary">{item.issuer}</p>
             {item.skills && item.skills.length > 0 && (
               <ul className="mt-4 flex flex-wrap gap-1.5">

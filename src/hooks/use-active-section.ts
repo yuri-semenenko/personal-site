@@ -23,9 +23,7 @@ export function useActiveSection(sectionIds: readonly string[]) {
       },
     );
 
-    const elements = sectionIds
-      .map((id) => document.getElementById(id))
-      .filter((el): el is HTMLElement => el !== null);
+    const elements = sectionIds.map((id) => document.getElementById(id)).filter((el): el is HTMLElement => el !== null);
 
     elements.forEach((el) => observer.observe(el));
 
