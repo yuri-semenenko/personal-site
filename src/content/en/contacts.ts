@@ -42,6 +42,15 @@ export const contacts: ContactsModel = {
       ariaLabel: "Contact Yuri Semenenko on Telegram",
     },
     {
+      type: "mentoring",
+      label: "Mentoring",
+      value: "Book on ADPList",
+      href: "https://adplist.org/mentors/yuri-semenenko",
+      visible: true,
+      external: true,
+      ariaLabel: "Book a mentoring session with Yuri Semenenko on ADPList",
+    },
+    {
       type: "location",
       label: "Location",
       value: "Krakow, Poland",

@@ -2,13 +2,13 @@ import type { LeadershipStoryModel } from "../types";
 
 export const leadership: LeadershipStoryModel[] = [
   {
-    title: "Building a cross-squad frontend community",
+    title: "Building a company-wide frontend community",
     organization: "StoneX Group Inc.",
     status: "ongoing",
     context:
-      "Three frontend squads across multiple geographies, with limited horizontal communication. Duplicate work and inconsistent review standards were creeping in.",
+      "Frontend engineers distributed across 4+ technical teams in multiple offices and countries. Horizontal communication between teams was limited; duplicate work and inconsistent review standards were creeping in.",
     action:
-      "Currently organising an internal frontend community across squads and countries to share patterns, align review standards, and create a shared space for engineers across the org.",
+      "Currently organising a company-wide frontend community spanning all technical teams and locations — to share patterns, align review standards, and create a shared space for frontend engineers across the entire organisation.",
     outcome: "In flight.",
   },
   {

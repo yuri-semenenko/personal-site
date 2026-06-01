@@ -4,6 +4,7 @@ import { contacts } from "./contacts";
 import { navigation } from "./navigation";
 import { experience } from "./experience";
 import { teaching } from "./teaching";
+import { mentoring } from "./mentoring";
 import { skills } from "./skills";
 import { education } from "./education";
 import { projects } from "./projects";
@@ -18,6 +19,7 @@ export const enContent: LocaleContent = {
   navigation,
   experience,
   teaching,
+  mentoring,
   skills,
   education,
   projects,

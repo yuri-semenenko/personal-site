@@ -13,7 +13,7 @@ export const experience: ExperienceItemModel[] = [
       "Own migration of major UI components from the legacy stack to React / Storybook / Tailwind.",
       "Built and maintain an internal client wrapping the Lightstreamer SDK for real-time data, used across multiple components.",
       "Act as one of the core required reviewers — without my +1, code does not merge.",
-      "Mentor 1-2 juniors and currently organising an internal frontend community across squads and geographies.",
+      "Mentor 1-2 juniors and currently organising a company-wide frontend community spanning 4+ technical teams across multiple offices and countries.",
     ],
     achievements: [
       "Migrated 10-15 major components (skeletons, tables, composite molecules) to the new stack — base atoms not included.",

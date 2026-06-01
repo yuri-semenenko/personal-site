@@ -1,10 +1,6 @@
-import { MapPin, Mail } from "lucide-react";
+import { MapPin, Mail, MessagesSquare } from "lucide-react";
 import type { ComponentType } from "react";
-import {
-  GithubIcon,
-  LinkedinIcon,
-  TelegramIcon,
-} from "@/components/icons/social";
+import { GithubIcon, LinkedinIcon, TelegramIcon } from "@/components/icons/social";
 import { Reveal, StaggeredItem, StaggeredList } from "@/components/reveal";
 import { Section } from "@/components/section";
 import type { ContactsModel, SocialType } from "@/content/types";
@@ -17,6 +13,7 @@ const iconMap: Record<SocialType, IconComp> = {
   github: GithubIcon,
   telegram: TelegramIcon,
   location: MapPin,
+  mentoring: MessagesSquare,
 };
 
 type Props = {
@@ -29,9 +26,7 @@ export function ContactSection({ contacts }: Props) {
   return (
     <Section id="contact" eyebrow="11 / Contact" title={contacts.title}>
       <Reveal delay={0.08}>
-        <p className="max-w-2xl text-base leading-relaxed text-muted-foreground">
-          {contacts.description}
-        </p>
+        <p className="max-w-2xl text-base leading-relaxed text-muted-foreground">{contacts.description}</p>
       </Reveal>
       <StaggeredList as="ul" className="mt-8 grid gap-3 sm:grid-cols-2">
         {visibleItems.map((item) => {
@@ -42,9 +37,7 @@ export function ContactSection({ contacts }: Props) {
                 <Icon className="h-4 w-4" />
               </span>
               <span className="flex min-w-0 flex-col">
-                <span className="font-mono text-xs uppercase tracking-wide text-muted-foreground">
-                  {item.label}
-                </span>
+                <span className="font-mono text-xs uppercase tracking-wide text-muted-foreground">{item.label}</span>
                 <span className="truncate text-sm text-foreground transition-colors group-hover:text-primary">
                   {item.value}
                 </span>

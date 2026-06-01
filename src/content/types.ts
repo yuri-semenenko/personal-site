@@ -2,12 +2,7 @@ export type Locale = "en" | "ru" | "pl" | "by";
 
 export type Theme = "light" | "dark" | "system";
 
-export type SocialType =
-  | "email"
-  | "linkedin"
-  | "github"
-  | "telegram"
-  | "location";
+export type SocialType = "email" | "linkedin" | "github" | "telegram" | "location" | "mentoring";
 
 export type SkillLevel = "basic" | "intermediate" | "advanced" | "expert";
 
@@ -117,9 +112,13 @@ export interface SkillItemModel {
   featured?: boolean;
 }
 
+export type SkillGroupEmphasis = "core" | "standard" | "muted" | "languages";
+
 export interface SkillGroupModel {
   title: string;
   description?: string;
+  emphasis?: SkillGroupEmphasis;
+  collapsible?: boolean;
   items: SkillItemModel[];
 }
 
@@ -157,11 +156,7 @@ export interface CertificationModel {
   skills?: string[];
 }
 
-export type TestimonialRelationship =
-  | "direct-manager"
-  | "peer"
-  | "cross-functional"
-  | "mentee";
+export type TestimonialRelationship = "direct-manager" | "peer" | "cross-functional" | "mentee";
 
 export interface TestimonialModel {
   quote: string;
@@ -189,12 +184,25 @@ export interface PrincipleModel {
   body: string;
 }
 
+export interface MentoringModel {
+  title: string;
+  description: string;
+  platform: string;
+  cta: {
+    label: string;
+    href: string;
+    ariaLabel: string;
+  };
+  topics: string[];
+}
+
 export interface LocaleContent {
   profile: ProfileModel;
   contacts: ContactsModel;
   navigation: NavigationModel;
   experience: ExperienceItemModel[];
   teaching: TeachingItemModel[];
+  mentoring: MentoringModel;
   skills: SkillGroupModel[];
   education: EducationItemModel[];
   projects: ProjectItemModel[];

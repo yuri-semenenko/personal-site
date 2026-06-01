@@ -27,6 +27,7 @@ export default function Home() {
     // projects,
     principles,
     teaching,
+    mentoring,
     testimonials,
     skills,
     certifications,
@@ -54,7 +55,7 @@ export default function Home() {
         */}
         {/* <ProjectsSection items={projects} /> */}
         <PrinciplesSection items={principles} />
-        <TeachingSection items={teaching} />
+        <TeachingSection items={teaching} mentoring={mentoring} />
         <TestimonialsSection items={testimonials} />
         <SkillsSection groups={skills} />
         <CertificationsSection items={certifications} />
@@ -62,11 +63,7 @@ export default function Home() {
         <ContactSection contacts={contacts} />
       </main>
 
-      <Footer
-        contacts={contacts.items}
-        logo={navigation.logo}
-        name={profile.name}
-      />
+      <Footer contacts={contacts.items} logo={navigation.logo} name={profile.name} />
     </div>
   );
 }
