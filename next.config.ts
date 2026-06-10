@@ -22,6 +22,7 @@ const contentSecurityPolicy = [
   "img-src 'self' data: blob: https:",
   "connect-src 'self' https://va.vercel-scripts.com https://vitals.vercel-insights.com",
   "frame-ancestors 'none'",
+  "object-src 'none'",
   "base-uri 'self'",
   "form-action 'self'",
   "upgrade-insecure-requests",
