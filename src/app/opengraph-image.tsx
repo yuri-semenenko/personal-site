@@ -31,7 +31,9 @@ export default async function OpengraphImage() {
           left: 0,
           right: 0,
           height: 6,
-          background: "linear-gradient(90deg, oklch(0.68 0.16 245), oklch(0.65 0.21 340))",
+          // sRGB hex, not OKLCH: Satori (the next/og engine) has no oklch()
+          // support and silently drops the stops, rendering the bar invisible.
+          background: "linear-gradient(90deg, #4c84ff, #dc64c8)",
           display: "flex",
         }}
       />
