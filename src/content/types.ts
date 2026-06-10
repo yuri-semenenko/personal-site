@@ -101,7 +101,8 @@ export interface NavigationModel {
 
 export interface PeriodModel {
   start: string;
-  end: string;
+  /** Omit for ongoing roles — the human-readable span lives in `label`. */
+  end?: string;
   label: string;
 }
 

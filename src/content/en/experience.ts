@@ -4,7 +4,7 @@ export const experience: ExperienceItemModel[] = [
   {
     company: "StoneX Group Inc.",
     role: "Front-end Engineer",
-    period: { start: "2024-11", end: "2026-03", label: "Nov 2024 — Present" },
+    period: { start: "2024-11", label: "Nov 2024 — Present" },
     location: "Cracow, Poland",
     summary:
       "Business-critical FinTech platform at a NYSE-listed institutional brokerage serving multi-asset traders. Built on legacy Sitecore CMS, .NET, native JavaScript and Preact, mid-migration to a modern React / Next.js / Tailwind stack across three frontend squads. Joined mid-stage — platform architecture was already set; my focus is landing component-level migration and reliability of the new stack.",
