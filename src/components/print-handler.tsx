@@ -27,8 +27,10 @@ export function PrintHandler() {
       // Wrap each section's heading + first content block into a single box
       // with break-inside:avoid. Chromium honors break-after/before:avoid on
       // siblings unreliably; merging both nodes into one atomic block forces
-      // them onto the same page.
-      document.querySelectorAll<HTMLElement>("section > div").forEach((sectionDiv) => {
+      // them onto the same page. Scoped to the explicit [data-print-section]
+      // marker (set by <Section>) rather than a structural "section > div"
+      // selector, so hand-rolled sections like the hero are not mangled.
+      document.querySelectorAll<HTMLElement>("[data-print-section]").forEach((sectionDiv) => {
         const heading = sectionDiv.firstElementChild as HTMLElement | null;
         const firstContent = heading?.nextElementSibling as HTMLElement | null;
         if (!heading || !firstContent) return;

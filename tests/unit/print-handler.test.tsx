@@ -54,8 +54,8 @@ describe("PrintHandler — beforeprint", () => {
 
   it("wraps each section's heading + first content into a break-inside box", () => {
     document.body.innerHTML = `
-      <section id="s1"><div><h2>Heading 1</h2><p>Body 1</p><p>Body 2</p></div></section>
-      <section id="s2"><div><h2>Heading 2</h2><ul><li>x</li></ul></div></section>
+      <section id="s1"><div data-print-section><h2>Heading 1</h2><p>Body 1</p><p>Body 2</p></div></section>
+      <section id="s2"><div data-print-section><h2>Heading 2</h2><ul><li>x</li></ul></div></section>
     `;
     render(<PrintHandler />);
     fireWindowEvent("beforeprint");
@@ -71,7 +71,7 @@ describe("PrintHandler — beforeprint", () => {
 
   it("unwraps print wrappers on afterprint, preserving original child order", () => {
     document.body.innerHTML = `
-      <section><div><h2>H</h2><p>Body</p><p>Tail</p></div></section>
+      <section><div data-print-section><h2>H</h2><p>Body</p><p>Tail</p></div></section>
     `;
     render(<PrintHandler />);
     fireWindowEvent("beforeprint");
@@ -93,8 +93,8 @@ describe("PrintHandler — beforeprint", () => {
     expect(finish).toHaveBeenCalledTimes(3);
   });
 
-  it("does nothing when a section's first <div> child has no first/second elements", () => {
-    document.body.innerHTML = `<section><div><h2>Only heading</h2></div></section>`;
+  it("does nothing when a [data-print-section] block has no first/second elements", () => {
+    document.body.innerHTML = `<section><div data-print-section><h2>Only heading</h2></div></section>`;
     render(<PrintHandler />);
     fireWindowEvent("beforeprint");
     expect(document.querySelectorAll("[data-print-wrap]")).toHaveLength(0);

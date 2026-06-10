@@ -1,6 +1,7 @@
 import { ImageResponse } from "next/og";
 import { getContent } from "@/content";
 import { STATUS_CATALOG } from "@/content/statuses";
+import { SITE_HOST } from "@/lib/site";
 
 export const alt = "Yuri Semenenko — Senior Frontend Engineer";
 export const size = { width: 1200, height: 630 };
@@ -31,7 +32,9 @@ export default async function OpengraphImage() {
           left: 0,
           right: 0,
           height: 6,
-          background: "linear-gradient(90deg, oklch(0.68 0.16 245), oklch(0.65 0.21 340))",
+          // sRGB hex, not OKLCH: Satori (the next/og engine) has no oklch()
+          // support and silently drops the stops, rendering the bar invisible.
+          background: "linear-gradient(90deg, #4c84ff, #dc64c8)",
           display: "flex",
         }}
       />
@@ -159,7 +162,7 @@ export default async function OpengraphImage() {
             color: "#6b7280",
           }}
         >
-          yuri-semenenko.dev
+          {SITE_HOST}
         </span>
       </div>
     </div>,

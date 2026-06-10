@@ -4,8 +4,8 @@ export const experience: ExperienceItemModel[] = [
   {
     company: "StoneX Group Inc.",
     role: "Front-end Engineer",
-    period: { start: "2024-11", end: "2026-03", label: "Nov 2024 — Present" },
-    location: "Cracow, Poland",
+    period: { start: "2024-11", label: "Nov 2024 — Present" },
+    location: "Krakow, Poland",
     summary:
       "Business-critical FinTech platform at a NYSE-listed institutional brokerage serving multi-asset traders. Built on legacy Sitecore CMS, .NET, native JavaScript and Preact, mid-migration to a modern React / Next.js / Tailwind stack across three frontend squads. Joined mid-stage — platform architecture was already set; my focus is landing component-level migration and reliability of the new stack.",
     responsibilities: [
@@ -42,7 +42,7 @@ export const experience: ExperienceItemModel[] = [
     company: "Synder",
     role: "Senior Front-end Engineer",
     period: { start: "2023-11", end: "2024-09", label: "Nov 2023 — Sep 2024" },
-    location: "Cracow, Poland",
+    location: "Krakow, Poland",
     summary:
       "Synder is a Y-Combinator-backed FinTech B2B SaaS automating accounting workflows for QuickBooks, Xero and payment-platform integrations. Senior FE role across four microfrontend products built on different React versions, with inconsistent component states and varying levels of implementation. The product needed both day-to-day delivery and longer-term consolidation of frontend standards.",
     responsibilities: [
@@ -64,9 +64,9 @@ export const experience: ExperienceItemModel[] = [
     company: "Monterosa",
     role: "Front-end Engineer",
     period: { start: "2019-01", end: "2023-09", label: "Jan 2019 — Sep 2023" },
-    location: "Minsk → Cracow",
+    location: "Minsk → Krakow",
     summary:
-      "Monterosa builds live audience engagement products for sports and media — interactive polls, predictions and live events at broadcast scale. Worked on the core real-time engagement platform with a legacy Ember.js codebase and an evolving design system. The team needed both modernisation (Ember → React) and a unified UI direction. Joined the team from Minsk in January 2019; relocated to Cracow in March 2022 and continued on the same team with the same scope and delivery cadence.",
+      "Monterosa builds live audience engagement products for sports and media — interactive polls, predictions and live events at broadcast scale. Worked on the core real-time engagement platform with a legacy Ember.js codebase and an evolving design system. The team needed both modernisation (Ember → React) and a unified UI direction. Joined the team from Minsk in January 2019; relocated to Krakow in March 2022 and continued on the same team with the same scope and delivery cadence.",
     responsibilities: [
       "Owned the design-system rewrite to the new visual language.",
       "Refactored the legacy Ember.js codebase for performance and maintainability.",

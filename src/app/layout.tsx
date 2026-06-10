@@ -6,11 +6,11 @@ import { PrintHandler } from "@/components/print-handler";
 import { ScrollProgress } from "@/components/scroll-progress";
 import { ThemeProvider } from "@/components/theme-provider";
 import { getContent } from "@/content";
+import { SITE_URL } from "@/lib/site";
 import "./globals.css";
 import "./print.css";
 
 const { profile, contacts } = getContent("en");
-const siteUrl = "https://yuri-semenenko.dev";
 
 const sameAs = contacts.items.filter((c) => c.external && c.visible && c.href).map((c) => c.href as string);
 
@@ -18,10 +18,10 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
   name: profile.name,
-  url: siteUrl,
+  url: SITE_URL,
   jobTitle: "Senior Frontend Engineer",
   description: profile.seo.description,
-  image: `${siteUrl}/opengraph-image`,
+  image: `${SITE_URL}/opengraph-image`,
   address: {
     "@type": "PostalAddress",
     addressLocality: "Krakow",
@@ -44,14 +44,14 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: profile.seo.title,
     template: `%s — ${profile.name}`,
   },
   description: profile.seo.description,
   keywords: profile.seo.keywords,
-  authors: [{ name: profile.name, url: siteUrl }],
+  authors: [{ name: profile.name, url: SITE_URL }],
   creator: profile.name,
   alternates: {
     canonical: "/",
@@ -59,7 +59,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "profile",
     locale: "en_US",
-    url: siteUrl,
+    url: SITE_URL,
     siteName: profile.name,
     title: profile.seo.title,
     description: profile.seo.description,

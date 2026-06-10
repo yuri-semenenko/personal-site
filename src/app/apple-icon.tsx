@@ -40,7 +40,9 @@ export default function AppleIcon() {
           style={{
             width: 80,
             height: 3,
-            background: "linear-gradient(90deg, oklch(0.68 0.16 245), oklch(0.65 0.21 340))",
+            // sRGB hex, not OKLCH: Satori (the next/og engine) drops oklch()
+            // stops silently, which would render this underline invisible.
+            background: "linear-gradient(90deg, #4c84ff, #dc64c8)",
             borderRadius: 2,
             display: "flex",
           }}
