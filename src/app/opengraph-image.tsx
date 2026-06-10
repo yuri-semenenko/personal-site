@@ -1,6 +1,7 @@
 import { ImageResponse } from "next/og";
 import { getContent } from "@/content";
 import { STATUS_CATALOG } from "@/content/statuses";
+import { SITE_HOST } from "@/lib/site";
 
 export const alt = "Yuri Semenenko — Senior Frontend Engineer";
 export const size = { width: 1200, height: 630 };
@@ -161,7 +162,7 @@ export default async function OpengraphImage() {
             color: "#6b7280",
           }}
         >
-          yuri-semenenko.dev
+          {SITE_HOST}
         </span>
       </div>
     </div>,
