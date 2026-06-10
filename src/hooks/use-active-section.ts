@@ -8,13 +8,29 @@ export function useActiveSection(sectionIds: readonly string[]) {
   useEffect(() => {
     if (typeof window === "undefined" || sectionIds.length === 0) return;
 
+    // Track the latest ratio for every observed section across callbacks.
+    // IntersectionObserver only reports the entries that changed in a given
+    // tick, so picking the max within a single callback batch can miss the
+    // section that actually dominates the viewport (and leaves the active id
+    // stale on fast scrolls). Resolving over the full map fixes that.
+    const ratios = new Map<string, number>();
+
     const observer = new IntersectionObserver(
       (entries) => {
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-        if (visible) {
-          setActiveId(visible.target.id);
+        for (const entry of entries) {
+          ratios.set(entry.target.id, entry.isIntersecting ? entry.intersectionRatio : 0);
+        }
+
+        let bestId: string | undefined;
+        let bestRatio = 0;
+        for (const [id, ratio] of ratios) {
+          if (ratio > bestRatio) {
+            bestRatio = ratio;
+            bestId = id;
+          }
+        }
+        if (bestId) {
+          setActiveId(bestId);
         }
       },
       {
