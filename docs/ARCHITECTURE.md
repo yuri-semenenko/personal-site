@@ -103,6 +103,10 @@ Models live in `src/content/types.ts`. Notable ones:
 
 Status flags (`StatusKey`: `open-to-work`, `mentoring`, etc.) are catalog-driven — the profile lists which keys are enabled, the catalog provides labels.
 
+`PeriodModel.end` is optional: omit it for ongoing roles (the human-readable span lives in `label`). Only past periods carry an `end`.
+
+> **Phase 2 caveat.** `STATUS_CATALOG` labels (`src/content/statuses.ts`) are English and live _outside_ the locale dirs, so localization will have to touch them. This is the one exception to the "Phase 2 doesn't touch components" guarantee.
+
 ## Color scheme
 
 CSS variables defined in `src/app/globals.css`, declared in **OKLCH** for perceptually uniform tone control across light/dark. Tailwind v4 `@theme inline` maps them to utility classes (`bg-background`, `text-foreground`, `text-primary`, …).
@@ -161,7 +165,7 @@ Page chrome (`Header`, `Footer`, `Hero`, `ScrollProgress`, `MobileMenu`, `ThemeT
 - **Default motion:** `<Reveal>` — opacity 0→1 + 28px translateY, `whileInView` triggers once at viewport margin `-120px`, ease `cubic-bezier(0.22, 1, 0.36, 1)`, 700ms.
 - **Scroll progress bar** — top fixed bar bound to `useScroll().scrollYProgress`.
 - **`prefers-reduced-motion: reduce`** — global CSS in `globals.css` collapses all animation/transition durations to 0.01ms and disables smooth scroll.
-- **Print** — `print-handler.tsx` registers `beforeprint`/`afterprint` and sets `data-printing` on `<html>`. `print.css` then force-overrides Motion's inline WAAPI styles (CSS `@media print` alone can't reach WAAPI). This is the only reason for a separate `print.css`.
+- **Print** — `print-handler.tsx` registers `beforeprint`/`afterprint` and sets `data-printing` on `<html>`. `print.css` then force-overrides Motion's inline WAAPI styles (CSS `@media print` alone can't reach WAAPI). This is the only reason for a separate `print.css`. Page-break wrapping (heading + first content kept together) targets the `[data-print-section]` marker set by `<Section>`, not a structural selector, so hand-rolled sections like the hero are left alone.
 
 ## SEO & metadata
 
@@ -169,11 +173,14 @@ Centralized in `src/app/layout.tsx`:
 
 - **`metadata` export** — title template, description, keywords, canonical, OpenGraph (`type: "profile"`), Twitter card, robots config, format detection (no auto-link for email/address/phone).
 - **JSON-LD** — `Person` schema injected via inline `<script type="application/ld+json">` in `<body>`. Pulls from `profile.seo` + `contacts` (auto-derived `sameAs`).
-- **`opengraph-image.tsx`** — dynamic 1200×630 OG image generated at build.
+- **`opengraph-image.tsx`** — dynamic 1200×630 OG image generated at build. Colors must be sRGB (hex/rgb): Satori, the `next/og` engine, has no `oklch()` support and silently drops oklch stops, so OKLCH tokens render invisible here even though they're the source of truth in `globals.css`.
+
+The production origin is a single source: `SITE_URL` / `SITE_HOST` in `src/lib/site.ts`, imported by `layout.tsx` (`metadataBase`, JSON-LD), `sitemap.ts`, `robots.ts`, and `opengraph-image.tsx`. Don't re-hardcode the domain — a Phase 2 domain change is then a one-line edit.
+
 - **`icon.tsx` / `apple-icon.tsx` / `manifest.ts`** — PWA icons + manifest.
 - **`sitemap.ts` / `robots.ts`** — App Router conventions.
 
-Security headers configured in `next.config.ts`: `X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, restrictive `Permissions-Policy`, `X-DNS-Prefetch-Control: on`.
+Security headers configured in `next.config.ts`: `Content-Security-Policy` (incl. `object-src 'none'`, `frame-ancestors 'none'`), `Strict-Transport-Security` (HSTS, preload), `Cross-Origin-Opener-Policy: same-origin`, `X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, restrictive `Permissions-Policy`, `X-DNS-Prefetch-Control: on`. The CSP keeps `'unsafe-inline'` in `script-src` (JSON-LD block + next-themes anti-flash script) and `style-src` (next/font + React inline styles) — see the rationale comment in `next.config.ts`.
 
 ## Accessibility
 
@@ -311,7 +318,7 @@ When the direct parent (`next`, `@lhci/cli`) releases a version that already inc
 
 - **No hardcoded copy in components.** All strings come from `src/content/`. Aria labels and CV PDF filename are the only allowed inline fallbacks.
 - **shadcn primitives are seeds, not styles.** Override aggressively via CSS variables — the site must not look like a default shadcn template.
-- **`getContent(locale)` always accepts a locale arg**, even in Phase 1, so Phase 2 doesn't touch components.
+- **`getContent(locale)` always accepts a locale arg**, even in Phase 1, so Phase 2 doesn't touch components (one exception: `STATUS_CATALOG` labels in `statuses.ts` — see SEO/content notes).
 - **Section anchors are part of the URL contract.** Don't rename `#about`, `#experience`, etc. without updating `navigation.ts`.
 - **Animations gated by reduced-motion preference.** No exceptions.
 - **Run `npm run format` before committing.** Hooks don't enforce it yet.
