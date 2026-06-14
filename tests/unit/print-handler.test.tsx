@@ -93,6 +93,34 @@ describe("PrintHandler — beforeprint", () => {
     expect(finish).toHaveBeenCalledTimes(3);
   });
 
+  it("isolates a finish() failure so the rest of print prep still runs", () => {
+    const ok = vi.fn();
+    const boom = vi.fn(() => {
+      // Infinite animations throw InvalidStateError on finish().
+      throw new DOMException("cannot finish infinite animation", "InvalidStateError");
+    });
+    Object.defineProperty(document, "getAnimations", {
+      configurable: true,
+      value: vi.fn(() => [{ finish: boom }, { finish: ok }]),
+    });
+    document.body.innerHTML = `<section><div data-print-section><h2>H</h2><p>Body</p></div></section>`;
+    render(<PrintHandler />);
+    fireWindowEvent("beforeprint");
+
+    expect(boom).toHaveBeenCalled();
+    expect(ok).toHaveBeenCalled();
+    expect(document.documentElement.dataset.printing).toBe("true");
+    expect(document.querySelectorAll("[data-print-wrap]")).toHaveLength(1);
+  });
+
+  it("does not double-wrap when beforeprint fires twice without afterprint", () => {
+    document.body.innerHTML = `<section><div data-print-section><h2>H</h2><p>Body</p></div></section>`;
+    render(<PrintHandler />);
+    fireWindowEvent("beforeprint");
+    fireWindowEvent("beforeprint");
+    expect(document.querySelectorAll("[data-print-wrap]")).toHaveLength(1);
+  });
+
   it("does nothing when a [data-print-section] block has no first/second elements", () => {
     document.body.innerHTML = `<section><div data-print-section><h2>Only heading</h2></div></section>`;
     render(<PrintHandler />);

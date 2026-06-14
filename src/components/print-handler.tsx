@@ -13,7 +13,15 @@ export function PrintHandler() {
       // (animations sit above author !important in the cascade). finish()
       // jumps to the end state so Reveals stay visible if print is cancelled;
       // cancel() would revert to Motion's initial opacity:0.
-      document.getAnimations().forEach((a) => a.finish());
+      // finish() throws InvalidStateError on infinite animations, so isolate
+      // each call — one looping animation must not abort the rest of prep.
+      document.getAnimations().forEach((a) => {
+        try {
+          a.finish();
+        } catch {
+          // Infinite/uncommitted animation — nothing to jump to; skip it.
+        }
+      });
 
       root.dataset.printing = "true";
 
@@ -31,6 +39,11 @@ export function PrintHandler() {
       // marker (set by <Section>) rather than a structural "section > div"
       // selector, so hand-rolled sections like the hero are not mangled.
       document.querySelectorAll<HTMLElement>("[data-print-section]").forEach((sectionDiv) => {
+        // Skip if a prior beforeprint without an intervening afterprint already
+        // wrapped this section — re-wrapping would nest wrappers and corrupt the
+        // afterprint restore. The wrapper is always inserted as the first child.
+        if ((sectionDiv.firstElementChild as HTMLElement | null)?.hasAttribute(PRINT_WRAP_ATTR)) return;
+
         const heading = sectionDiv.firstElementChild as HTMLElement | null;
         const firstContent = heading?.nextElementSibling as HTMLElement | null;
         if (!heading || !firstContent) return;
