@@ -1,11 +1,12 @@
 import type { MetadataRoute } from "next";
+import { getContent } from "@/content";
 
 export default function manifest(): MetadataRoute.Manifest {
+  const { profile } = getContent("en");
   return {
-    name: "Yuri Semenenko — Senior Frontend Engineer",
-    short_name: "Yuri Semenenko",
-    description:
-      "Senior Frontend Engineer with Tech Lead scope, based in Krakow. Building scalable React and Next.js platforms.",
+    name: profile.seo.title,
+    short_name: profile.name,
+    description: profile.seo.description,
     start_url: "/",
     display: "standalone",
     background_color: "#0b0f15",
