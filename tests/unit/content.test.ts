@@ -3,6 +3,7 @@ import { existsSync } from "node:fs";
 import { resolve } from "node:path";
 import { getContent } from "@/content";
 import { STATUS_CATALOG } from "@/content/statuses";
+import type { LinkModel } from "@/content/types";
 
 const content = getContent("en");
 
@@ -100,6 +101,51 @@ describe("Content invariants", () => {
       for (const [key, entry] of Object.entries(STATUS_CATALOG)) {
         expect(entry.label.trim(), `status "${key}" label`).not.toBe("");
       }
+    });
+  });
+
+  describe("URL-bearing content fields", () => {
+    const isHttps = (u: string) => u.startsWith("https://");
+    const isLocal = (u: string) => u.startsWith("/") || u.startsWith("#");
+
+    function checkLinks(links: LinkModel[] | undefined, where: string) {
+      for (const link of links ?? []) {
+        expect(link.href, `${where} link "${link.label}" href`).toBeTruthy();
+        if (link.external) {
+          expect(isHttps(link.href), `${where} link "${link.label}" external scheme`).toBe(true);
+        } else {
+          expect(isLocal(link.href), `${where} link "${link.label}" local scheme`).toBe(true);
+        }
+      }
+    }
+
+    it("experience, teaching, and project links are https when external, local otherwise", () => {
+      content.experience.forEach((e, i) => checkLinks(e.links, `experience[${i}] ${e.company}`));
+      content.teaching.forEach((t, i) => checkLinks(t.links, `teaching[${i}] ${t.organization}`));
+      content.projects.forEach((p, i) => checkLinks(p.links, `projects[${i}] ${p.title}`));
+    });
+
+    it("certification credentialUrl (when present) is https", () => {
+      for (const c of content.certifications) {
+        if (!c.credentialUrl) continue;
+        expect(isHttps(c.credentialUrl), `certification "${c.title}" credentialUrl`).toBe(true);
+      }
+    });
+
+    it("mentoring CTA href is https or a local path", () => {
+      const { href, label } = content.mentoring.cta;
+      expect(href, `mentoring cta "${label}" href`).toBeTruthy();
+      expect(isHttps(href) || isLocal(href), `mentoring cta "${label}" scheme`).toBe(true);
+    });
+
+    it("profile CV fileUrl is a root-relative local path", () => {
+      expect(content.profile.cv.fileUrl.startsWith("/"), "profile.cv.fileUrl").toBe(true);
+    });
+
+    it("profile seo ogImage and canonicalUrl (when present) are https or local", () => {
+      const { ogImage, canonicalUrl } = content.profile.seo;
+      if (ogImage) expect(isHttps(ogImage) || isLocal(ogImage), "seo.ogImage").toBe(true);
+      if (canonicalUrl) expect(isHttps(canonicalUrl) || isLocal(canonicalUrl), "seo.canonicalUrl").toBe(true);
     });
   });
 });
