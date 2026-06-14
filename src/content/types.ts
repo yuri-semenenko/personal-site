@@ -54,6 +54,8 @@ export interface LinkModel {
 export interface ProfileModel {
   name: string;
   headline: string;
+  /** Concise role for structured data (schema.org jobTitle); not the long headline. */
+  jobTitle: string;
   location: string;
   summary: string;
   statuses: StatusEntry[];

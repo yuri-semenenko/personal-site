@@ -19,7 +19,7 @@ const jsonLd = {
   "@type": "Person",
   name: profile.name,
   url: SITE_URL,
-  jobTitle: "Senior Frontend Engineer",
+  jobTitle: profile.jobTitle,
   description: profile.seo.description,
   image: `${SITE_URL}/opengraph-image`,
   address: {
