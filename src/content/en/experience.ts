@@ -5,7 +5,6 @@ export const experience: ExperienceItemModel[] = [
     company: "StoneX Group Inc.",
     role: "Front-end Engineer",
     period: { start: "2024-11", label: "Nov 2024 — Present" },
-    location: "Krakow, Poland",
     summary:
       "Business-critical FinTech platform at a NYSE-listed institutional brokerage serving multi-asset traders. Built on legacy Sitecore CMS, .NET, native JavaScript and Preact, mid-migration to a modern React / Next.js / Tailwind stack across three frontend squads. Joined mid-stage — platform architecture was already set; my focus is landing component-level migration and reliability of the new stack.",
     responsibilities: [
@@ -41,8 +40,7 @@ export const experience: ExperienceItemModel[] = [
   {
     company: "Synder",
     role: "Senior Front-end Engineer",
-    period: { start: "2023-11", end: "2024-09", label: "Nov 2023 — Sep 2024" },
-    location: "Krakow, Poland",
+    period: { start: "2023-11", label: "Nov 2023 — Sep 2024" },
     summary:
       "Synder is a Y-Combinator-backed FinTech B2B SaaS automating accounting workflows for QuickBooks, Xero and payment-platform integrations. Senior FE role across four microfrontend products built on different React versions, with inconsistent component states and varying levels of implementation. The product needed both day-to-day delivery and longer-term consolidation of frontend standards.",
     responsibilities: [
@@ -63,8 +61,7 @@ export const experience: ExperienceItemModel[] = [
   {
     company: "Monterosa",
     role: "Front-end Engineer",
-    period: { start: "2019-01", end: "2023-09", label: "Jan 2019 — Sep 2023" },
-    location: "Minsk → Krakow",
+    period: { start: "2019-01", label: "Jan 2019 — Sep 2023" },
     summary:
       "Monterosa builds live audience engagement products for sports and media — interactive polls, predictions and live events at broadcast scale. Worked on the core real-time engagement platform with a legacy Ember.js codebase and an evolving design system. The team needed both modernisation (Ember → React) and a unified UI direction. Joined the team from Minsk in January 2019; relocated to Krakow in March 2022 and continued on the same team with the same scope and delivery cadence.",
     responsibilities: [
@@ -97,8 +94,7 @@ export const experience: ExperienceItemModel[] = [
   {
     company: "Belitsoft",
     role: "Front-end Developer",
-    period: { start: "2014-08", end: "2018-12", label: "Aug 2014 — Dec 2018" },
-    location: "Minsk, Belarus",
+    period: { start: "2014-08", label: "Aug 2014 — Dec 2018" },
     summary:
       "Long-term and short-term frontend work for CMS-based platforms and reusable component libraries — including the Bossrevolution and WebMD platforms and the Lundberg Design site.",
     responsibilities: [
@@ -117,8 +113,7 @@ export const experience: ExperienceItemModel[] = [
   {
     company: "Belitsoft · Startup Labs · EPAM",
     role: "Earlier Career",
-    period: { start: "2011-07", end: "2014-08", label: "2011 — 2014" },
-    location: "Belarus",
+    period: { start: "2011-07", label: "2011 — 2014" },
     summary:
       "Three years of foundational frontend work across three studios. Built cross-browser web applications and reusable component libraries (Belitsoft 2011-2013, with the Fishpond.com.au Australian online store client engagement). Supported and enhanced commercial e-commerce frontends (Startup Labs 2012-2013), and shipped corporate sites, advertising microsites and email templates (EPAM Systems 2013-2014). This is the foundation the senior career since 2014 was built on.",
     responsibilities: [],

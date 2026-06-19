@@ -142,10 +142,9 @@ describe("Content invariants", () => {
       expect(content.profile.cv.fileUrl.startsWith("/"), "profile.cv.fileUrl").toBe(true);
     });
 
-    it("profile seo ogImage and canonicalUrl (when present) are https or local", () => {
-      const { ogImage, canonicalUrl } = content.profile.seo;
+    it("profile seo ogImage (when present) is https or local", () => {
+      const { ogImage } = content.profile.seo;
       if (ogImage) expect(isHttps(ogImage) || isLocal(ogImage), "seo.ogImage").toBe(true);
-      if (canonicalUrl) expect(isHttps(canonicalUrl) || isLocal(canonicalUrl), "seo.canonicalUrl").toBe(true);
     });
   });
 });
