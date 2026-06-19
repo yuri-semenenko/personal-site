@@ -4,7 +4,6 @@ export const projects: ProjectItemModel[] = [
   {
     title: "Legacy CMS Migration Platform",
     company: "StoneX",
-    visibility: "internal",
     summary:
       "A legacy CMS-based product migration from Sitecore, native JavaScript, and Preact to a modern React and Next.js stack.",
     role: "Frontend Engineer",
@@ -37,7 +36,6 @@ export const projects: ProjectItemModel[] = [
   {
     title: "Multi-project SaaS Frontend",
     company: "Synder",
-    visibility: "internal",
     summary:
       "Frontend development across four SaaS projects of varying complexity with a focus on React, Redux, RTK Query, code quality, and UI consistency.",
     role: "Senior Frontend Engineer",
@@ -60,7 +58,6 @@ export const projects: ProjectItemModel[] = [
   {
     title: "Core Platform Modernization",
     company: "Monterosa",
-    visibility: "internal",
     summary:
       "Modernization and performance optimization of a core frontend platform built with legacy Ember.js and modern React modules.",
     role: "Frontend Engineer",
@@ -82,7 +79,6 @@ export const projects: ProjectItemModel[] = [
   {
     title: "Drupal / CMS Content Platform",
     company: "Epam Systems",
-    visibility: "internal",
     summary:
       "CMS-based frontend development involving Drupal, admin panel components, reusable modules, and CKEditor integrations.",
     role: "Frontend Developer",
@@ -103,7 +99,6 @@ export const projects: ProjectItemModel[] = [
   {
     title: "E-commerce Frontend Platform",
     company: "Belitsoft",
-    visibility: "archived",
     summary: "Frontend development and support for an Australian online store and related commercial web projects.",
     role: "Frontend Developer",
     responsibilities: [
@@ -123,7 +118,6 @@ export const projects: ProjectItemModel[] = [
   {
     title: "Frontend Education Program",
     company: "IT-Academy.by",
-    visibility: "public",
     summary:
       "Frontend education and mentoring program focused on HTML, CSS, JavaScript, and web application development.",
     role: "Frontend Trainer and Mentor",

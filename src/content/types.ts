@@ -25,18 +25,11 @@ export type Theme = "light" | "dark" | "system";
 
 export type SocialType = "email" | "linkedin" | "github" | "telegram" | "location" | "mentoring";
 
-export type SkillLevel = "basic" | "intermediate" | "advanced" | "expert";
-
-export type ProjectVisibility = "public" | "nda" | "archived" | "internal";
-
-export type WorkMode = "remote" | "hybrid" | "onsite";
-
 export interface SeoModel {
   title: string;
   description: string;
   keywords?: string[];
   ogImage?: string;
-  canonicalUrl?: string;
 }
 
 export interface BadgeModel {
@@ -103,8 +96,6 @@ export interface NavigationModel {
 
 export interface PeriodModel {
   start: string;
-  /** Omit for ongoing roles — the human-readable span lives in `label`. */
-  end?: string;
   label: string;
 }
 
@@ -112,8 +103,6 @@ export interface ExperienceItemModel {
   company: string;
   role: string;
   period: PeriodModel;
-  location?: string;
-  type?: "full-time" | "part-time" | "contract" | "freelance";
   summary: string;
   responsibilities: string[];
   achievements: string[];
@@ -136,7 +125,6 @@ export interface TeachingItemModel {
 
 export interface SkillItemModel {
   name: string;
-  level?: SkillLevel;
   featured?: boolean;
 }
 
@@ -162,7 +150,6 @@ export interface ProjectItemModel {
   title: string;
   company?: string;
   period?: string;
-  visibility: ProjectVisibility;
   summary: string;
   role: string;
   responsibilities: string[];
