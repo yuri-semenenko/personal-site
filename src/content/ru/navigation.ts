@@ -16,7 +16,7 @@ export const navigation: NavigationModel = {
       label: "Скачать CV",
       href: "/files/yuri-semenenko-senior-frontend-engineer-cv.pdf",
       external: false,
-      ariaLabel: "Скачать CV Юрия Семененко",
+      ariaLabel: "Скачать CV",
     },
   ],
 };
