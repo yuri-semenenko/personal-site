@@ -4,10 +4,10 @@ import { resolve } from "node:path";
 import { getContent } from "@/content";
 import { STATUS_VARIANTS } from "@/content/statuses";
 import type { LinkModel } from "@/content/types";
+import { ACTIVE_LOCALES } from "@/lib/locales";
 
-const content = getContent("en");
-
-describe("Content invariants", () => {
+describe.each(ACTIVE_LOCALES)("Content invariants (%s)", (locale) => {
+  const content = getContent(locale);
   describe("navigation", () => {
     it("every item href and sectionId stay in sync", () => {
       for (const item of content.navigation.items) {

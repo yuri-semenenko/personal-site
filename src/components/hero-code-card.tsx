@@ -68,14 +68,20 @@ export function HeroCodeCard({ className, name, fileName, role, also, location, 
   ];
 
   return (
-    <div className={cn("overflow-hidden rounded-lg border border-border bg-card shadow-sm", className)} aria-hidden>
+    <div
+      // min-w-0/max-w-full: as a non-stretched grid item the card sizes to its
+      // content and would otherwise escape its track and overlap the headline
+      // when a locale's lines run long (e.g. RU focus/status strings).
+      className={cn("min-w-0 max-w-full overflow-hidden rounded-lg border border-border bg-card shadow-sm", className)}
+      aria-hidden
+    >
       <div className="flex items-center gap-2 border-b border-border bg-background/50 px-4 py-2.5">
         <span className="h-2.5 w-2.5 rounded-full bg-destructive/60" />
         <span className="h-2.5 w-2.5 rounded-full bg-chart-4/60" />
         <span className="h-2.5 w-2.5 rounded-full bg-chart-3/60" />
         <span className="ml-3 font-mono text-xs text-muted-foreground">{fileName}</span>
       </div>
-      <pre className="overflow-x-auto p-5 font-mono text-[0.8125rem] leading-6">
+      <pre className="whitespace-pre-wrap p-5 font-mono text-[0.8125rem] leading-6">
         <code>
           {lines.map((line, lineIdx) => (
             <motion.span

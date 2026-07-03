@@ -9,7 +9,7 @@ import { SITE_URL } from "./site";
  * Adding a locale here (plus its `src/content/{locale}/` modules) is the
  * whole rollout switch — see docs/ARCHITECTURE.md "Localization".
  */
-export const ACTIVE_LOCALES: Locale[] = ["en"];
+export const ACTIVE_LOCALES: Locale[] = ["en", "ru"];
 
 /** English is canonical and served unprefixed at `/` (rewrite in next.config.ts). */
 export const DEFAULT_LOCALE: Locale = "en";
