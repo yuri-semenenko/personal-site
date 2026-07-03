@@ -1,20 +1,21 @@
 import { ChevronRight } from "lucide-react";
 import { Reveal, StaggeredItem, StaggeredList } from "@/components/reveal";
 import { Section } from "@/components/section";
-import type { SkillGroupModel } from "@/content/types";
+import type { SkillGroupModel, UiModel } from "@/content/types";
 
 type Props = {
   groups: SkillGroupModel[];
+  ui: UiModel;
 };
 
-export function SkillsSection({ groups }: Props) {
+export function SkillsSection({ groups, ui }: Props) {
   const coreGroup = groups.find((g) => g.emphasis === "core");
   const standardGroups = groups.filter((g) => g.emphasis === "standard");
   const collapsibleGroups = groups.filter((g) => g.emphasis === "muted" && g.collapsible);
   const languagesGroup = groups.find((g) => g.emphasis === "languages");
 
   return (
-    <Section id="skills" eyebrow="08 / Skills" title="Skills & Expertise">
+    <Section id="skills" eyebrow={ui.sections.skills.eyebrow} title={ui.sections.skills.title}>
       <div className="space-y-10">
         {coreGroup && (
           <Reveal>

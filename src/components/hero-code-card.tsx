@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 type Props = {
   className?: string;
   name: string;
+  fileName: string;
   role: string;
   also: string;
   location: string;
@@ -13,7 +14,7 @@ type Props = {
   statuses: string[];
 };
 
-export function HeroCodeCard({ className, name, role, also, location, focus, statuses }: Props) {
+export function HeroCodeCard({ className, name, fileName, role, also, location, focus, statuses }: Props) {
   const reduced = useReducedMotion();
 
   const lines: Line[] = [
@@ -72,7 +73,7 @@ export function HeroCodeCard({ className, name, role, also, location, focus, sta
         <span className="h-2.5 w-2.5 rounded-full bg-destructive/60" />
         <span className="h-2.5 w-2.5 rounded-full bg-chart-4/60" />
         <span className="h-2.5 w-2.5 rounded-full bg-chart-3/60" />
-        <span className="ml-3 font-mono text-xs text-muted-foreground">profile.ts</span>
+        <span className="ml-3 font-mono text-xs text-muted-foreground">{fileName}</span>
       </div>
       <pre className="overflow-x-auto p-5 font-mono text-[0.8125rem] leading-6">
         <code>

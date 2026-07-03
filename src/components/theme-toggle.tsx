@@ -2,8 +2,13 @@
 
 import { useTheme } from "next-themes";
 import { Moon, Sun } from "lucide-react";
+import type { UiModel } from "@/content/types";
 
-export function ThemeToggle() {
+type Props = {
+  a11y: Pick<UiModel["a11y"], "switchToLightTheme" | "switchToDarkTheme">;
+};
+
+export function ThemeToggle({ a11y }: Props) {
   const { resolvedTheme, setTheme } = useTheme();
   const isDark = resolvedTheme === "dark";
 
@@ -11,7 +16,7 @@ export function ThemeToggle() {
     <button
       type="button"
       onClick={() => setTheme(isDark ? "light" : "dark")}
-      aria-label={`Switch to ${isDark ? "light" : "dark"} theme`}
+      aria-label={isDark ? a11y.switchToLightTheme : a11y.switchToDarkTheme}
       suppressHydrationWarning
       className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-border bg-card text-foreground transition-colors hover:bg-accent hover:text-accent-foreground hover:cursor-pointer"
     >

@@ -5,8 +5,7 @@ import { ArrowRight, Download, Mail } from "lucide-react";
 import { useReducedMotion } from "motion/react";
 import { cn } from "@/lib/utils";
 import { HeroCodeCard } from "@/components/hero-code-card";
-import { STATUS_CATALOG } from "@/content/statuses";
-import type { ContactItemModel, ProfileModel } from "@/content/types";
+import type { BadgeVariant, ContactItemModel, ProfileModel, StatusKey } from "@/content/types";
 
 const statusDotVariants: Record<string, string> = {
   success: "bg-emerald-500",
@@ -16,12 +15,19 @@ const statusDotVariants: Record<string, string> = {
   muted: "bg-muted-foreground",
 };
 
+export type HeroStatus = {
+  key: StatusKey;
+  label: string;
+  variant: BadgeVariant;
+};
+
 type Props = {
   profile: ProfileModel;
+  statuses: HeroStatus[];
   emailContact?: ContactItemModel;
 };
 
-export function Hero({ profile, emailContact }: Props) {
+export function Hero({ profile, statuses, emailContact }: Props) {
   const sectionRef = useRef<HTMLElement>(null);
   const reduced = useReducedMotion();
 
@@ -128,26 +134,21 @@ export function Hero({ profile, emailContact }: Props) {
             <p className="mt-4 max-w-xl text-xl text-muted-foreground sm:text-2xl">{profile.headline}</p>
 
             <div className="mt-8 flex flex-wrap gap-2">
-              {profile.statuses
-                .filter((s) => s.enabled)
-                .map((s) => {
-                  const { label, variant } = STATUS_CATALOG[s.key];
-                  return (
-                    <span
-                      key={s.key}
-                      className="inline-flex items-center gap-2 rounded-md border border-border bg-card/80 px-3 py-1.5 font-mono text-xs text-foreground backdrop-blur-sm"
-                    >
-                      <span aria-hidden className={cn("h-1.5 w-1.5 rounded-full", statusDotVariants[variant])} />
-                      {label}
-                    </span>
-                  );
-                })}
+              {statuses.map((s) => (
+                <span
+                  key={s.key}
+                  className="inline-flex items-center gap-2 rounded-md border border-border bg-card/80 px-3 py-1.5 font-mono text-xs text-foreground backdrop-blur-sm"
+                >
+                  <span aria-hidden className={cn("h-1.5 w-1.5 rounded-full", statusDotVariants[s.variant])} />
+                  {s.label}
+                </span>
+              ))}
             </div>
 
             <div className="no-print mt-10 flex flex-wrap items-center gap-3">
               <a
                 href={profile.cv.fileUrl}
-                aria-label={`Download ${profile.name}'s CV`}
+                aria-label={profile.cv.ariaLabel}
                 className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2.5 font-mono text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
               >
                 <Download className="h-4 w-4" />
@@ -179,11 +180,12 @@ export function Hero({ profile, emailContact }: Props) {
           <HeroCodeCard
             className="lg:justify-self-end"
             name={profile.name}
-            role="Senior Frontend Engineer"
-            also="Mentor & Trainer"
-            location="Krakow, Poland"
-            focus={["React", "Next.js", "TypeScript", "Performance"]}
-            statuses={profile.statuses.filter((s) => s.enabled).map((s) => STATUS_CATALOG[s.key].label)}
+            fileName={profile.codeCard.fileName}
+            role={profile.codeCard.role}
+            also={profile.codeCard.also}
+            location={profile.codeCard.location}
+            focus={profile.codeCard.focus}
+            statuses={statuses.map((s) => s.label)}
           />
         </div>
       </div>

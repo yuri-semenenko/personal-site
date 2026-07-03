@@ -3,14 +3,15 @@
 import { Download, Menu } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Sheet, SheetContent, SheetClose, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import type { NavigationModel } from "@/content/types";
+import type { NavigationModel, UiModel } from "@/content/types";
 
 type Props = {
   navigation: NavigationModel;
+  a11y: Pick<UiModel["a11y"], "openMenu" | "mobileNav">;
   className?: string;
 };
 
-export function MobileMenu({ navigation, className }: Props) {
+export function MobileMenu({ navigation, a11y, className }: Props) {
   const downloadAction = navigation.actions[0];
 
   return (
@@ -20,7 +21,7 @@ export function MobileMenu({ navigation, className }: Props) {
           "inline-flex h-9 w-9 items-center justify-center rounded-md border border-border bg-card text-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
           className,
         )}
-        aria-label="Open menu"
+        aria-label={a11y.openMenu}
       >
         <Menu className="h-4 w-4" />
       </SheetTrigger>
@@ -28,7 +29,7 @@ export function MobileMenu({ navigation, className }: Props) {
         <SheetHeader>
           <SheetTitle className="font-mono">{navigation.logo}</SheetTitle>
         </SheetHeader>
-        <nav className="flex flex-col gap-1 px-4" aria-label="Mobile">
+        <nav className="flex flex-col gap-1 px-4" aria-label={a11y.mobileNav}>
           {navigation.items.map((item) => (
             <SheetClose
               key={item.href}

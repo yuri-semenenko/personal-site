@@ -1,15 +1,16 @@
 import { cn } from "@/lib/utils";
 import { StaggeredItem, StaggeredList } from "@/components/reveal";
 import { Section } from "@/components/section";
-import type { ProjectItemModel } from "@/content/types";
+import type { ProjectItemModel, UiModel } from "@/content/types";
 
 type Props = {
   items: ProjectItemModel[];
+  ui: UiModel;
 };
 
-export function ProjectsSection({ items }: Props) {
+export function ProjectsSection({ items, ui }: Props) {
   return (
-    <Section id="projects" eyebrow="04 / Projects" title="Projects">
+    <Section id="projects" eyebrow={ui.sections.projects.eyebrow} title={ui.sections.projects.title}>
       <StaggeredList as="ul" className="grid gap-4 md:grid-cols-2">
         {items.map((item) => (
           <StaggeredItem
@@ -32,7 +33,7 @@ export function ProjectsSection({ items }: Props) {
 
             {item.impact.length > 0 && (
               <div>
-                <p className="font-mono text-xs uppercase tracking-wide text-foreground">Impact</p>
+                <p className="font-mono text-xs uppercase tracking-wide text-foreground">{ui.labels.impact}</p>
                 <ul className="mt-2 space-y-1">
                   {item.impact.map((line) => (
                     <li key={line} className="flex items-start gap-2 text-sm text-foreground">

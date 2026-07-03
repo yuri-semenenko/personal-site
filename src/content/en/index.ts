@@ -1,5 +1,6 @@
 import type { LocaleContent } from "../types";
 import { profile } from "./profile";
+import { ui } from "./ui";
 import { contacts } from "./contacts";
 import { navigation } from "./navigation";
 import { experience } from "./experience";
@@ -15,6 +16,7 @@ import { principles } from "./principles";
 
 export const enContent: LocaleContent = {
   profile,
+  ui,
   contacts,
   navigation,
   experience,

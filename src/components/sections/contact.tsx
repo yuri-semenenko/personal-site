@@ -3,7 +3,7 @@ import type { ComponentType } from "react";
 import { GithubIcon, LinkedinIcon, TelegramIcon } from "@/components/icons/social";
 import { Reveal, StaggeredItem, StaggeredList } from "@/components/reveal";
 import { Section } from "@/components/section";
-import type { ContactsModel, SocialType } from "@/content/types";
+import type { ContactsModel, SocialType, UiModel } from "@/content/types";
 
 type IconComp = ComponentType<{ className?: string }>;
 
@@ -18,13 +18,14 @@ const iconMap: Record<SocialType, IconComp> = {
 
 type Props = {
   contacts: ContactsModel;
+  ui: UiModel;
 };
 
-export function ContactSection({ contacts }: Props) {
+export function ContactSection({ contacts, ui }: Props) {
   const visibleItems = contacts.items.filter((item) => item.visible);
 
   return (
-    <Section id="contact" eyebrow="11 / Contact" title={contacts.title}>
+    <Section id="contact" eyebrow={ui.sections.contact.eyebrow} title={contacts.title}>
       <Reveal delay={0.08}>
         <p className="max-w-2xl text-base leading-relaxed text-muted-foreground">{contacts.description}</p>
       </Reveal>

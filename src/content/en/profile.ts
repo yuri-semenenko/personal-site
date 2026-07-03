@@ -26,8 +26,16 @@ export const profile: ProfileModel = {
     "500+ students trained over 8 years at IT Academy",
     "Manager-vouched by CTOs and Engineering Leads",
   ],
+  codeCard: {
+    fileName: "profile.ts",
+    role: "Senior Frontend Engineer",
+    also: "Mentor & Trainer",
+    location: "Krakow, Poland",
+    focus: ["React", "Next.js", "TypeScript", "Performance"],
+  },
   cv: {
     label: "Download CV",
+    ariaLabel: "Download Yuri Semenenko's CV",
     fileUrl: "/files/yuri-semenenko-senior-frontend-engineer-cv.pdf",
     fileName: "yuri-semenenko-senior-frontend-engineer-cv.pdf",
   },
