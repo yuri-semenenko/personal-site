@@ -57,12 +57,13 @@ src/
     print-handler.tsx      # beforeprint/afterprint → sets data-printing on <html>
   content/
     types.ts               # All locale-content TypeScript models
-    statuses.ts            # StatusKey catalog (open-to-work, mentoring, etc.)
+    statuses.ts            # StatusKey → badge variant (presentation only; labels live in ui.ts)
     index.ts               # getContent(locale) loader
     en/                    # English content — one module per domain concept
       profile.ts, contacts.ts, navigation.ts, experience.ts, leadership.ts,
       principles.ts, teaching.ts, mentoring.ts, testimonials.ts, skills.ts,
-      certifications.ts, education.ts, projects.ts, index.ts (aggregator)
+      certifications.ts, education.ts, projects.ts, ui.ts (chrome copy),
+      index.ts (aggregator)
   hooks/
     use-active-section.ts  # IntersectionObserver — highlights nav for current section
   lib/
@@ -99,13 +100,11 @@ export function getContent(locale: Locale = "en"): LocaleContent;
 Phase 1: `ru | pl | by` all alias to `enContent`. Phase 2 plugs in `next-intl` and per-locale modules without touching components.
 
 Models live in `src/content/types.ts`. Notable ones:
-`ProfileModel`, `ExperienceItemModel`, `LeadershipStoryModel` (C/R/O: context-action-outcome), `TestimonialModel`, `SkillGroupModel`, `CertificationModel`, `MentoringModel`, `PrincipleModel`, `ContactsModel`, `NavigationModel`.
+`ProfileModel`, `ExperienceItemModel`, `LeadershipStoryModel` (C/R/O: context-action-outcome), `TestimonialModel`, `SkillGroupModel`, `CertificationModel`, `MentoringModel`, `PrincipleModel`, `ContactsModel`, `NavigationModel`, `UiModel` (section headings, micro-labels, status labels, a11y strings — the "chrome copy" that isn't domain content).
 
-Status flags (`StatusKey`: `open-to-work`, `mentoring`, etc.) are catalog-driven — the profile lists which keys are enabled, the catalog provides labels.
+Status flags (`StatusKey`: `open-to-work`, `mentoring`, etc.) are catalog-driven — the profile lists which keys are enabled, `ui.statusLabels` provides per-locale labels, and `STATUS_VARIANTS` (`src/content/statuses.ts`) maps each key to its badge variant (presentation, locale-independent).
 
 `PeriodModel.end` is optional: omit it for ongoing roles (the human-readable span lives in `label`). Only past periods carry an `end`.
-
-> **Phase 2 caveat.** `STATUS_CATALOG` labels (`src/content/statuses.ts`) are English and live _outside_ the locale dirs, so localization will have to touch them. This is the one exception to the "Phase 2 doesn't touch components" guarantee.
 
 ## Color scheme
 
@@ -240,7 +239,7 @@ Vercel:
 Pragmatic, narrow surface. Tests target real risk areas, not coverage %.
 
 - **Vitest unit (`tests/unit/`)** — happy-dom env, `@/*` alias. Three suites:
-  - `content.test.ts` — invariants on typed content: nav `href` ↔ `sectionId` consistency, contact URL schemes, status keys match `STATUS_CATALOG`, profile CV file exists on disk, testimonials use HTTPS. Catches molecular bugs that strict TS can't (e.g. valid-but-wrong values).
+  - `content.test.ts` — invariants on typed content: nav `href` ↔ `sectionId` consistency, contact URL schemes, status keys have labels (`ui.statusLabels`) and variants (`STATUS_VARIANTS`), ui strings are non-empty, profile CV file exists on disk, testimonials use HTTPS. Catches molecular bugs that strict TS can't (e.g. valid-but-wrong values).
   - `use-active-section.test.tsx` — covers the `IntersectionObserver` hook with a fake observer: initial state, multi-entry resolution (highest ratio wins), missing DOM nodes, cleanup on unmount, observer init params (rootMargin / threshold).
   - `print-handler.test.tsx` — covers the beforeprint/afterprint state machine: `data-printing` toggling, `<details>` open/restore, atomic break wrap and unwrap, WAAPI `finish()` invocation, listener cleanup. `document.getAnimations` stubbed since happy-dom doesn't ship it.
 - **Playwright smoke (`tests/e2e/smoke.spec.ts`)** — Chromium-only, headless. Covers: page loads with key landmarks, primary nav anchors scroll to sections, theme toggle flips `html.dark`, CV PDF responds 200, mobile menu opens on small viewport.
@@ -316,9 +315,9 @@ When the direct parent (`next`, `@lhci/cli`) releases a version that already inc
 
 ## Conventions
 
-- **No hardcoded copy in components.** All strings come from `src/content/`. Aria labels and CV PDF filename are the only allowed inline fallbacks.
+- **No hardcoded copy in components.** All strings come from `src/content/` — including section headings, micro-labels, and aria labels (`ui` module). The CV PDF filename is the only allowed inline fallback.
 - **shadcn primitives are seeds, not styles.** Override aggressively via CSS variables — the site must not look like a default shadcn template.
-- **`getContent(locale)` always accepts a locale arg**, even in Phase 1, so Phase 2 doesn't touch components (one exception: `STATUS_CATALOG` labels in `statuses.ts` — see SEO/content notes).
+- **`getContent(locale)` always accepts a locale arg**, even in Phase 1, so Phase 2 doesn't touch components.
 - **Section anchors are part of the URL contract.** Don't rename `#about`, `#experience`, etc. without updating `navigation.ts`.
 - **Animations gated by reduced-motion preference.** No exceptions.
 - **Run `npm run format` before committing.** Hooks don't enforce it yet.
