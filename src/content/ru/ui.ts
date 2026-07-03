@@ -1,0 +1,63 @@
+import type { UiModel } from "../types";
+
+export const ui: UiModel = {
+  sections: {
+    about: { eyebrow: "01 / Обо мне", title: "Обо мне" },
+    experience: { eyebrow: "02 / Опыт", title: "Опыт" },
+    leadership: { eyebrow: "03 / Лидерство", title: "Лидерство и инженерное влияние" },
+    projects: { eyebrow: "04 / Проекты", title: "Проекты" },
+    principles: { eyebrow: "05 / Принципы", title: "Как я подхожу к разработке" },
+    teaching: { eyebrow: "06 / Преподавание", title: "Преподавание и менторинг" },
+    testimonials: { eyebrow: "07 / Отзывы", title: "Что обо мне говорят" },
+    skills: { eyebrow: "08 / Навыки", title: "Навыки и экспертиза" },
+    certifications: { eyebrow: "09 / Сертификаты", title: "Сертификаты" },
+    education: { eyebrow: "10 / Образование", title: "Образование" },
+    contact: { eyebrow: "11 / Контакты" },
+  },
+  labels: {
+    highlights: "Ключевое",
+    outcome: "Результат",
+    role: "Роль",
+    context: "Контекст",
+    action: "Действия",
+    impact: "Эффект",
+    principle: "Принцип",
+    courses: "Курсы",
+    topics: "Темы",
+    viewCredential: "Открыть сертификат",
+  },
+  statusLabels: {
+    "open-to-work": "В поиске работы",
+    "open-to-projects": "Ищу интересные проекты",
+    "open-to-offers": "Открыт к предложениям",
+    "not-looking": "Не ищу работу",
+    "available-remote": "Доступен для удалённой работы",
+    "available-hybrid": "Доступен для гибридного формата",
+    "available-onsite": "Доступен для работы в офисе",
+    consulting: "Доступен для консалтинга",
+    freelance: "Доступен для фриланса / контрактов",
+    mentoring: "Открыт к менторингу",
+    relocatable: "Готов к релокации",
+  },
+  leadershipStatus: {
+    ongoing: "В процессе",
+    delivered: "Реализовано",
+  },
+  testimonialsNote: {
+    prefix: "Больше рекомендаций — в",
+    linkLabel: "LinkedIn",
+    suffix: ".",
+  },
+  localeSwitcher: {
+    ariaLabel: "Язык",
+    names: { en: "EN", ru: "RU", pl: "PL", be: "BE" },
+  },
+  a11y: {
+    primaryNav: "Основная",
+    mobileNav: "Мобильная",
+    openMenu: "Открыть меню",
+    switchToLightTheme: "Переключить на светлую тему",
+    switchToDarkTheme: "Переключить на тёмную тему",
+    viewCredential: "Открыть сертификат {title}",
+  },
+};

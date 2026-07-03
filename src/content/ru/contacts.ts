@@ -1,0 +1,61 @@
+import type { ContactsModel } from "../types";
+
+export const contacts: ContactsModel = {
+  title: "Связаться со мной",
+  description: "Пишите по поводу фронтенд-ролей, менторинга, сотрудничества и других профессиональных возможностей.",
+  items: [
+    {
+      type: "email",
+      label: "Email",
+      value: "no1dor.job@gmail.com",
+      href: "mailto:no1dor.job@gmail.com",
+      visible: true,
+      external: false,
+      ariaLabel: "Написать Юрию Семененко на email",
+    },
+    {
+      type: "linkedin",
+      label: "LinkedIn",
+      value: "linkedin.com/in/yuri-semenenko",
+      href: "https://www.linkedin.com/in/yuri-semenenko/",
+      visible: true,
+      external: true,
+      ariaLabel: "Открыть профиль Юрия Семененко в LinkedIn",
+    },
+    {
+      type: "github",
+      label: "GitHub",
+      value: "github.com/yuri-semenenko",
+      href: "https://github.com/yuri-semenenko",
+      visible: true,
+      external: true,
+      ariaLabel: "Открыть профиль Юрия Семененко на GitHub",
+    },
+    {
+      type: "telegram",
+      label: "Telegram",
+      value: "@frontdev85",
+      href: "https://t.me/frontdev85",
+      visible: true,
+      external: true,
+      ariaLabel: "Написать Юрию Семененко в Telegram",
+    },
+    {
+      type: "mentoring",
+      label: "Менторинг",
+      value: "Записаться на ADPList",
+      href: "https://adplist.org/mentors/yuri-semenenko",
+      visible: true,
+      external: true,
+      ariaLabel: "Записаться на менторинг-сессию с Юрием Семененко на ADPList",
+    },
+    {
+      type: "location",
+      label: "Локация",
+      value: "Краков, Польша",
+      visible: true,
+      external: false,
+      ariaLabel: "Местоположение Юрия Семененко",
+    },
+  ],
+};
