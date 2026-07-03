@@ -1,14 +1,14 @@
 import { ImageResponse } from "next/og";
 import { getContent } from "@/content";
-import { STATUS_CATALOG } from "@/content/statuses";
+import { STATUS_VARIANTS } from "@/content/statuses";
 import { SITE_HOST } from "@/lib/site";
 
-export const alt = "Yuri Semenenko — Senior Frontend Engineer";
+export const alt = getContent("en").profile.seo.title;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 export default async function OpengraphImage() {
-  const { profile } = getContent("en");
+  const { profile, ui } = getContent("en");
 
   return new ImageResponse(
     <div
@@ -124,7 +124,8 @@ export default async function OpengraphImage() {
           {profile.statuses
             .filter((s) => s.enabled)
             .map((s) => {
-              const { label, variant } = STATUS_CATALOG[s.key];
+              const label = ui.statusLabels[s.key];
+              const variant = STATUS_VARIANTS[s.key];
               return (
                 <span
                   key={s.key}

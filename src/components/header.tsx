@@ -6,13 +6,14 @@ import { cn } from "@/lib/utils";
 import { useActiveSection } from "@/hooks/use-active-section";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { MobileMenu } from "@/components/mobile-menu";
-import type { NavigationModel } from "@/content/types";
+import type { NavigationModel, UiModel } from "@/content/types";
 
 type Props = {
   navigation: NavigationModel;
+  a11y: UiModel["a11y"];
 };
 
-export function Header({ navigation }: Props) {
+export function Header({ navigation, a11y }: Props) {
   const sectionIds = useMemo(
     () => navigation.items.map((item) => item.sectionId).filter((id): id is string => Boolean(id)),
     [navigation.items],
@@ -28,7 +29,7 @@ export function Header({ navigation }: Props) {
           {navigation.logo}
         </a>
 
-        <nav className="hidden items-center gap-6 md:flex" aria-label="Primary">
+        <nav className="hidden items-center gap-6 md:flex" aria-label={a11y.primaryNav}>
           {navigation.items.map((item) => {
             const isActive = activeId === item.sectionId;
             return (
@@ -59,8 +60,8 @@ export function Header({ navigation }: Props) {
               {downloadAction.label}
             </a>
           )}
-          <ThemeToggle />
-          <MobileMenu navigation={navigation} className="md:hidden" />
+          <ThemeToggle a11y={a11y} />
+          <MobileMenu navigation={navigation} a11y={a11y} className="md:hidden" />
         </div>
       </div>
     </header>

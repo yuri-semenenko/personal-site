@@ -1,4 +1,5 @@
 import { getContent } from "@/content";
+import { STATUS_VARIANTS } from "@/content/statuses";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { Hero } from "@/components/hero";
@@ -36,13 +37,16 @@ export default function Home() {
   } = getContent("en");
   const emailContact = contacts.items.find((item) => item.type === "email");
   const linkedinContact = contacts.items.find((item) => item.type === "linkedin");
+  const activeStatuses = profile.statuses
+    .filter((s) => s.enabled)
+    .map((s) => ({ key: s.key, label: ui.statusLabels[s.key], variant: STATUS_VARIANTS[s.key] }));
 
   return (
     <div className="min-h-full flex flex-col">
-      <Header navigation={navigation} />
+      <Header navigation={navigation} a11y={ui.a11y} />
 
       <main className="flex-1">
-        <Hero profile={profile} emailContact={emailContact} />
+        <Hero profile={profile} statuses={activeStatuses} emailContact={emailContact} />
         <AboutSection profile={profile} ui={ui} />
         <ExperienceSection items={experience} ui={ui} />
         <LeadershipSection items={leadership} ui={ui} />

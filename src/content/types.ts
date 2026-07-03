@@ -2,7 +2,6 @@ export type Locale = "en" | "ru" | "pl" | "by";
 
 export type BadgeVariant = "default" | "primary" | "secondary" | "success" | "muted";
 
-// Phase 2: move STATUS_CATALOG labels to locale-specific files when next-intl lands.
 export type StatusKey =
   | "open-to-work"
   | "open-to-projects"

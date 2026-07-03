@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import { existsSync } from "node:fs";
 import { resolve } from "node:path";
 import { getContent } from "@/content";
-import { STATUS_CATALOG } from "@/content/statuses";
+import { STATUS_VARIANTS } from "@/content/statuses";
 import type { LinkModel } from "@/content/types";
 
 const content = getContent("en");
@@ -64,9 +64,10 @@ describe("Content invariants", () => {
   });
 
   describe("profile", () => {
-    it("every status key references the catalog", () => {
+    it("every status key has a label and a variant", () => {
       for (const status of content.profile.statuses) {
-        expect(STATUS_CATALOG[status.key], `status "${status.key}"`).toBeDefined();
+        expect(content.ui.statusLabels[status.key], `status "${status.key}" label`).toBeDefined();
+        expect(STATUS_VARIANTS[status.key], `status "${status.key}" variant`).toBeDefined();
       }
     });
 
@@ -142,14 +143,6 @@ describe("Content invariants", () => {
       for (const t of content.testimonials) {
         if (!t.sourceUrl) continue;
         expect(t.sourceUrl.startsWith("https://"), `testimonial by ${t.author}`).toBe(true);
-      }
-    });
-  });
-
-  describe("status catalog", () => {
-    it("every label is non-empty", () => {
-      for (const [key, entry] of Object.entries(STATUS_CATALOG)) {
-        expect(entry.label.trim(), `status "${key}" label`).not.toBe("");
       }
     });
   });
