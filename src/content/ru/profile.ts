@@ -7,7 +7,7 @@ export const profile: ProfileModel = {
   location: "Краков, Польша",
   summary:
     "Проектирую и развиваю фронтенд-платформы, помогаю командам безопасно модернизировать legacy-системы и выстраивать инженерные практики. Более 14 лет работаю с FinTech, SaaS, CMS и enterprise-продуктами, сочетая разработку, архитектуру, код-ревью, менторство и развитие инженерных команд.",
-    statuses: [
+  statuses: [
     { key: "open-to-work", enabled: false },
     { key: "available-remote", enabled: true },
     { key: "open-to-projects", enabled: true },
