@@ -30,14 +30,15 @@ Browserslist drops legacy: `chrome ≥ 110`, `edge ≥ 110`, `firefox ≥ 115`, 
 ```
 src/
   app/                     # App Router — pages, layouts, route handlers
-    layout.tsx             # Root layout: fonts, theme provider, JSON-LD, analytics, metadata
-    page.tsx               # Single landing page — composes all sections
+    [locale]/              # Locale segment — root layout lives here (no app/layout.tsx)
+      layout.tsx           # Root layout: fonts, theme provider, JSON-LD, analytics, per-locale metadata
+      page.tsx             # Single landing page — composes all sections
+      opengraph-image.tsx  # OG/Twitter card image (1200x630), per-locale
     globals.css            # Tailwind v4 @theme + CSS variables (light/dark)
     print.css              # @media print rules + beforeprint motion kill-switch
     icon.tsx               # Favicon (dynamic OG-style)
     apple-icon.tsx         # Apple touch icon
-    opengraph-image.tsx    # OG/Twitter card image (1200x630)
-    manifest.ts            # PWA manifest
+    manifest.ts            # PWA manifest (single, EN — manifests aren't per-locale)
     sitemap.ts             # sitemap.xml
     robots.ts              # robots.txt
   components/
@@ -53,6 +54,7 @@ src/
     scroll-progress.tsx    # Top reading-progress bar
     theme-provider.tsx     # next-themes wrapper
     theme-toggle.tsx       # Light/dark switcher
+    locale-switcher.tsx    # Header locale links (hidden while only one locale is active)
     mobile-menu.tsx        # Drawer nav (Sheet primitive)
     print-handler.tsx      # beforeprint/afterprint → sets data-printing on <html>
   content/
@@ -68,6 +70,8 @@ src/
     use-active-section.ts  # IntersectionObserver — highlights nav for current section
   lib/
     utils.ts               # cn() and small helpers
+    site.ts                # SITE_URL / SITE_HOST / sitemap lastModified
+    locales.ts             # ACTIVE_LOCALES, localePath/localeUrl, hreflang + og:locale maps
 tests/
   unit/                    # Vitest — content validators, use-active-section, print-handler
   e2e/                     # Playwright smoke + a11y (Chromium, headless)
@@ -75,7 +79,7 @@ public/
   files/                   # Downloadable CV PDF
 docs/
   ARCHITECTURE.md          # This file
-next.config.ts             # Security headers + bundle analyzer toggle
+next.config.ts             # Security headers, locale rewrite/redirect, bundle analyzer toggle
 playwright.config.ts       # Playwright config — webServer + projects + reporters
 vitest.config.ts           # Vitest config — happy-dom + @/* alias
 lighthouserc.json          # @lhci/cli config — assertions + collect settings
@@ -83,9 +87,12 @@ lighthouserc.json          # @lhci/cli config — assertions + collect settings
 
 ### Routing & rendering
 
-- Single route (`/`). Sections are anchors (`#about`, `#experience`, …), not separate pages.
-- Fully static. `getContent("en")` runs at build time inside RSCs — page renders to HTML at build, hydrates only for client islands (header, reveal, theme toggle, print handler).
-- No route handlers, no middleware, no Server Actions.
+- One landing page per locale, all under `src/app/[locale]/` — the root layout (with `<html lang>`) lives inside the segment; there is no `app/layout.tsx`. Sections are anchors (`#about`, `#experience`, …), not separate pages.
+- **English is canonical and unprefixed.** `next.config.ts` rewrites `/` → `/en` (`beforeFiles`) and 308-redirects `/en` → `/`. Translated locales serve at their prefix (`/ru`, …). No middleware, no locale detection — plain SSG.
+- `generateStaticParams` returns `ACTIVE_LOCALES` (`src/lib/locales.ts`) and `dynamicParams = false` 404s everything else. Adding a locale = content modules + one entry in `ACTIVE_LOCALES`; static params, hreflang alternates, sitemap entries, and the header switcher all derive from that list.
+- Locale codes are BCP-47 (`en | ru | pl | be` — `be`, not the country code `by`).
+- Fully static. `getContent(locale)` runs at build time inside RSCs — page renders to HTML at build, hydrates only for client islands (header, reveal, theme toggle, print handler).
+- No route handlers, no Server Actions.
 - No `images` config — content is text-first; CV PDF served as a static asset.
 
 ## Content model
@@ -97,7 +104,7 @@ All copy lives in `src/content/{locale}/*.ts` as typed modules. Components recei
 export function getContent(locale: Locale = "en"): LocaleContent;
 ```
 
-Phase 1: `ru | pl | by` all alias to `enContent`. Phase 2 plugs in `next-intl` and per-locale modules without touching components.
+Until a locale's translation lands, it aliases to `enContent` in `contentByLocale` and stays out of `ACTIVE_LOCALES` (so it isn't routed or advertised). Shipping a locale = add `src/content/{locale}/` modules, point `contentByLocale` at them, append to `ACTIVE_LOCALES`. No i18n library — typed TS modules only; `next-intl` can be added later if date/number formatting is ever needed.
 
 Models live in `src/content/types.ts`. Notable ones:
 `ProfileModel`, `ExperienceItemModel`, `LeadershipStoryModel` (C/R/O: context-action-outcome), `TestimonialModel`, `SkillGroupModel`, `CertificationModel`, `MentoringModel`, `PrincipleModel`, `ContactsModel`, `NavigationModel`, `UiModel` (section headings, micro-labels, status labels, a11y strings — the "chrome copy" that isn't domain content).
@@ -311,13 +318,13 @@ When the direct parent (`next`, `@lhci/cli`) releases a version that already inc
 ## Roadmap
 
 - **Phase 1 (active)** — EN landing, dark/light, animations, print, SEO baseline, Vercel deploy.
-- **Phase 2** — RU/PL/BY locales via `next-intl`, custom domain hardening, expanded structured data, possibly Blog / extended Projects.
+- **Phase 2 (active)** — RU/PL/BE locales via native `[locale]` routing (skeleton shipped; translations land per-locale), custom domain hardening, expanded structured data, possibly Blog / extended Projects.
 
 ## Conventions
 
 - **No hardcoded copy in components.** All strings come from `src/content/` — including section headings, micro-labels, and aria labels (`ui` module). The CV PDF filename is the only allowed inline fallback.
 - **shadcn primitives are seeds, not styles.** Override aggressively via CSS variables — the site must not look like a default shadcn template.
-- **`getContent(locale)` always accepts a locale arg**, even in Phase 1, so Phase 2 doesn't touch components.
+- **Components never know the locale.** They receive content as props from `page.tsx`; only the `[locale]` routes, `src/lib/locales.ts`, and `getContent(locale)` deal with locale plumbing.
 - **Section anchors are part of the URL contract.** Don't rename `#about`, `#experience`, etc. without updating `navigation.ts`.
 - **Animations gated by reduced-motion preference.** No exceptions.
 - **Run `npm run format` before committing.** Hooks don't enforce it yet.
