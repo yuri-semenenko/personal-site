@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { getContent } from "@/content";
 
 export default function manifest(): MetadataRoute.Manifest {
+  // One manifest per site (web app manifests aren't per-locale); EN is canonical.
   const { profile } = getContent("en");
   return {
     name: profile.seo.title,

@@ -48,15 +48,15 @@ npm run lint     # eslint
 ## Decision principles
 
 - **No hardcoded text in components** outside of technical fallbacks. All copy comes from `src/content/`.
-- **Phase 1 ships EN only.** The content loader (`getContent(locale)`) must accept a locale arg so Phase 2 can plug `next-intl` in without touching components.
+- **Locales are native `[locale]` routes, no i18n library.** EN is canonical and unprefixed (`/`); translations serve at their prefix (`/ru`, `/pl`, `/be` — BCP-47 `be`, not `by`). A locale ships by adding `src/content/{locale}/` modules and appending to `ACTIVE_LOCALES` in `src/lib/locales.ts`. Components never see the locale — they receive content via props.
 - **Lighthouse is a gate**, not an aspiration: Performance ≥ 95, A11y ≥ 95, Best Practices ≥ 95, SEO ≥ 90 (Phase 1). Animations or dependencies that put this at risk get rejected.
 - **shadcn/ui is a building block, not a visual style.** Pull primitives, override aggressively via CSS variables.
 - **No CMS, no backend, no contact form** in Phase 1. Content is committed code.
 
 ## Phases
 
-- **Phase 1 (in progress):** MVP — EN-only landing, dark/light theme, animations, Vercel deploy.
-- **Phase 2:** RU/PL/BY locales via `next-intl`, custom domain (`yuri-semenenko.dev`), sitemap/robots/canonical, structured data, analytics dashboards.
+- **Phase 1 (shipped):** MVP — EN-only landing, dark/light theme, animations, Vercel deploy.
+- **Phase 2 (in progress):** RU/PL/BE locales via native `[locale]` routing (skeleton shipped; translations land per-locale), custom domain (`yuri-semenenko.dev`), sitemap/robots/canonical, structured data, analytics dashboards.
 
 ## Workflow
 

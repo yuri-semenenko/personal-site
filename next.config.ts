@@ -49,6 +49,22 @@ const nextConfig: NextConfig = {
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
   },
+  // English is the canonical, unprefixed locale: all pages live under
+  // app/[locale]/, `/` is internally rewritten to the prerendered /en page
+  // (beforeFiles — plain rewrites run after static pages are matched and
+  // would never fire for `/`), and the /en alias 308s back to `/` so the
+  // canonical URL stays unique. Translated locales (/ru, ...) serve at
+  // their prefix directly. No middleware, no locale detection — static SSG.
+  async redirects() {
+    return [{ source: "/en", destination: "/", permanent: true }];
+  },
+  async rewrites() {
+    return {
+      beforeFiles: [{ source: "/", destination: "/en" }],
+      afterFiles: [],
+      fallback: [],
+    };
+  },
 };
 
 export default withBundleAnalyzer(nextConfig);

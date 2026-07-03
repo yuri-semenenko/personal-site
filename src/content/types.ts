@@ -1,4 +1,4 @@
-export type Locale = "en" | "ru" | "pl" | "by";
+export type Locale = "en" | "ru" | "pl" | "be";
 
 export type BadgeVariant = "default" | "primary" | "secondary" | "success" | "muted";
 
@@ -263,6 +263,12 @@ export interface UiModel {
     prefix: string;
     linkLabel: string;
     suffix: string;
+  };
+  localeSwitcher: {
+    /** aria-label for the switcher nav landmark. */
+    ariaLabel: string;
+    /** Short display names keyed by locale (e.g. "EN", "RU"). */
+    names: Record<Locale, string>;
   };
   a11y: {
     primaryNav: string;

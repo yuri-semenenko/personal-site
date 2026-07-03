@@ -1,4 +1,5 @@
 import { getContent } from "@/content";
+import type { Locale } from "@/content/types";
 import { STATUS_VARIANTS } from "@/content/statuses";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
@@ -16,7 +17,14 @@ import { CertificationsSection } from "@/components/sections/certifications";
 import { EducationSection } from "@/components/sections/education";
 import { ContactSection } from "@/components/sections/contact";
 
-export default function Home() {
+type Props = {
+  // Narrowed to Locale: dynamicParams=false in layout.tsx guarantees only
+  // generateStaticParams values ever reach this page.
+  params: Promise<{ locale: Locale }>;
+};
+
+export default async function Home({ params }: Props) {
+  const { locale } = await params;
   const {
     profile,
     ui,
@@ -34,7 +42,7 @@ export default function Home() {
     skills,
     certifications,
     education,
-  } = getContent("en");
+  } = getContent(locale);
   const emailContact = contacts.items.find((item) => item.type === "email");
   const linkedinContact = contacts.items.find((item) => item.type === "linkedin");
   const activeStatuses = profile.statuses
@@ -43,7 +51,7 @@ export default function Home() {
 
   return (
     <div className="min-h-full flex flex-col">
-      <Header navigation={navigation} a11y={ui.a11y} />
+      <Header navigation={navigation} a11y={ui.a11y} locale={locale} localeSwitcher={ui.localeSwitcher} />
 
       <main className="flex-1">
         <Hero profile={profile} statuses={activeStatuses} emailContact={emailContact} />
