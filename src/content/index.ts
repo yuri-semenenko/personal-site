@@ -1,9 +1,10 @@
 import type { Locale, LocaleContent } from "./types";
 import { enContent } from "./en";
+import { ruContent } from "./ru";
 
 const contentByLocale: Record<Locale, LocaleContent> = {
   en: enContent,
-  ru: enContent,
+  ru: ruContent,
   pl: enContent,
   be: enContent,
 };
