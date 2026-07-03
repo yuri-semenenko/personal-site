@@ -1,25 +1,29 @@
 import { ArrowUpRight, GraduationCap, MessagesSquare } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { Reveal } from "@/components/reveal";
 import { Section } from "@/components/section";
-import type { MentoringModel, TeachingItemModel } from "@/content/types";
+import type { MentoringModel, TeachingItemModel, UiModel } from "@/content/types";
 
 type Props = {
   items: TeachingItemModel[];
   mentoring?: MentoringModel;
+  ui: UiModel;
 };
 
-export function TeachingSection({ items, mentoring }: Props) {
+export function TeachingSection({ items, mentoring, ui }: Props) {
   return (
-    <Section id="teaching" eyebrow="06 / Teaching" title="Teaching & Mentoring">
+    <Section id="teaching" eyebrow={ui.sections.teaching.eyebrow} title={ui.sections.teaching.title}>
       <Reveal delay={0.08} className="grid gap-6">
         {items.map((item) => (
           <article key={item.organization} className="overflow-hidden rounded-lg border border-primary/30 bg-card">
-            <div className="grid gap-0 lg:grid-cols-[280px_1fr]">
-              <div className="flex flex-col justify-center gap-3 border-b border-primary/30 bg-highlight/10 p-6 lg:border-b-0 lg:border-r">
-                <GraduationCap className="h-6 w-6 text-highlight" />
-                <p className="font-mono text-7xl leading-none text-highlight">500+</p>
-                <p className="font-mono text-xs uppercase tracking-wide text-muted-foreground">Students trained</p>
-              </div>
+            <div className={cn("grid gap-0", item.stat && "lg:grid-cols-[280px_1fr]")}>
+              {item.stat && (
+                <div className="flex flex-col justify-center gap-3 border-b border-primary/30 bg-highlight/10 p-6 lg:border-b-0 lg:border-r">
+                  <GraduationCap className="h-6 w-6 text-highlight" />
+                  <p className="font-mono text-7xl leading-none text-highlight">{item.stat.value}</p>
+                  <p className="font-mono text-xs uppercase tracking-wide text-muted-foreground">{item.stat.label}</p>
+                </div>
+              )}
               <div className="p-6">
                 <p className="font-mono text-xs uppercase tracking-wide text-muted-foreground">{item.period.label}</p>
                 <h3 className="mt-2 text-2xl leading-tight text-foreground">{item.organization}</h3>
@@ -37,7 +41,9 @@ export function TeachingSection({ items, mentoring }: Props) {
                 )}
                 {item.courses.length > 0 && (
                   <div className="mt-5">
-                    <p className="font-mono text-xs uppercase tracking-wide text-muted-foreground">Courses</p>
+                    <p className="font-mono text-xs uppercase tracking-wide text-muted-foreground">
+                      {ui.labels.courses}
+                    </p>
                     <ul className="mt-2 flex flex-wrap gap-1.5">
                       {item.courses.map((course) => (
                         <li
@@ -98,7 +104,7 @@ export function TeachingSection({ items, mentoring }: Props) {
             </div>
             {mentoring.topics.length > 0 && (
               <div className="mt-6">
-                <p className="font-mono text-xs uppercase tracking-wide text-muted-foreground">Topics</p>
+                <p className="font-mono text-xs uppercase tracking-wide text-muted-foreground">{ui.labels.topics}</p>
                 <ul className="mt-2 flex flex-wrap gap-1.5">
                   {mentoring.topics.map((topic) => (
                     <li

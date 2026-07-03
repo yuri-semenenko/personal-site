@@ -18,6 +18,7 @@ import { ContactSection } from "@/components/sections/contact";
 export default function Home() {
   const {
     profile,
+    ui,
     navigation,
     contacts,
     experience,
@@ -34,6 +35,7 @@ export default function Home() {
     education,
   } = getContent("en");
   const emailContact = contacts.items.find((item) => item.type === "email");
+  const linkedinContact = contacts.items.find((item) => item.type === "linkedin");
 
   return (
     <div className="min-h-full flex flex-col">
@@ -41,9 +43,9 @@ export default function Home() {
 
       <main className="flex-1">
         <Hero profile={profile} emailContact={emailContact} />
-        <AboutSection profile={profile} />
-        <ExperienceSection items={experience} />
-        <LeadershipSection items={leadership} />
+        <AboutSection profile={profile} ui={ui} />
+        <ExperienceSection items={experience} ui={ui} />
+        <LeadershipSection items={leadership} ui={ui} />
         {/*
           Projects section hidden (2026-05-31).
           After C/R/O rewrite of Experience, the Projects cards largely
@@ -53,14 +55,14 @@ export default function Home() {
           history. Data lives in src/content/en/projects.ts and is still
           exported from the locale aggregator so re-enabling is one line.
         */}
-        {/* <ProjectsSection items={projects} /> */}
-        <PrinciplesSection items={principles} />
-        <TeachingSection items={teaching} mentoring={mentoring} />
-        <TestimonialsSection items={testimonials} />
-        <SkillsSection groups={skills} />
-        <CertificationsSection items={certifications} />
-        <EducationSection items={education} />
-        <ContactSection contacts={contacts} />
+        {/* <ProjectsSection items={projects} ui={ui} /> */}
+        <PrinciplesSection items={principles} ui={ui} />
+        <TeachingSection items={teaching} mentoring={mentoring} ui={ui} />
+        <TestimonialsSection items={testimonials} ui={ui} moreHref={linkedinContact?.href} />
+        <SkillsSection groups={skills} ui={ui} />
+        <CertificationsSection items={certifications} ui={ui} />
+        <EducationSection items={education} ui={ui} />
+        <ContactSection contacts={contacts} ui={ui} />
       </main>
 
       <Footer contacts={contacts.items} logo={navigation.logo} name={profile.name} />

@@ -1,14 +1,15 @@
 import { StaggeredItem, StaggeredList } from "@/components/reveal";
 import { Section } from "@/components/section";
-import type { EducationItemModel } from "@/content/types";
+import type { EducationItemModel, UiModel } from "@/content/types";
 
 type Props = {
   items: EducationItemModel[];
+  ui: UiModel;
 };
 
-export function EducationSection({ items }: Props) {
+export function EducationSection({ items, ui }: Props) {
   return (
-    <Section id="education" eyebrow="10 / Education" title="Education">
+    <Section id="education" eyebrow={ui.sections.education.eyebrow} title={ui.sections.education.title}>
       <StaggeredList as="ul" className="grid gap-4 sm:grid-cols-2">
         {items.map((item) => (
           <StaggeredItem

@@ -1,15 +1,18 @@
 import { Quote } from "lucide-react";
 import { StaggeredItem, StaggeredList } from "@/components/reveal";
 import { Section } from "@/components/section";
-import type { TestimonialModel } from "@/content/types";
+import type { TestimonialModel, UiModel } from "@/content/types";
 
 type Props = {
   items: TestimonialModel[];
+  ui: UiModel;
+  /** Sourced from contacts so the URL is not duplicated; the note is hidden without it. */
+  moreHref?: string;
 };
 
-export function TestimonialsSection({ items }: Props) {
+export function TestimonialsSection({ items, ui, moreHref }: Props) {
   return (
-    <Section id="testimonials" eyebrow="07 / Testimonials" title="What People Say">
+    <Section id="testimonials" eyebrow={ui.sections.testimonials.eyebrow} title={ui.sections.testimonials.title}>
       <StaggeredList className="grid gap-6 md:grid-cols-2">
         {items.map((item) => (
           <StaggeredItem
@@ -30,18 +33,20 @@ export function TestimonialsSection({ items }: Props) {
           </StaggeredItem>
         ))}
       </StaggeredList>
-      <p className="mt-8 text-center font-mono text-xs text-muted-foreground">
-        More recommendations available on{" "}
-        <a
-          href="https://www.linkedin.com/in/yuri-semenenko/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-primary underline underline-offset-2 transition-colors hover:text-primary/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-        >
-          LinkedIn
-        </a>
-        .
-      </p>
+      {moreHref && (
+        <p className="mt-8 text-center font-mono text-xs text-muted-foreground">
+          {ui.testimonialsNote.prefix}{" "}
+          <a
+            href={moreHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-primary underline underline-offset-2 transition-colors hover:text-primary/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+          >
+            {ui.testimonialsNote.linkLabel}
+          </a>
+          {ui.testimonialsNote.suffix}
+        </p>
+      )}
     </Section>
   );
 }

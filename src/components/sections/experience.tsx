@@ -2,15 +2,16 @@ import { ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { StaggeredItem, StaggeredList } from "@/components/reveal";
 import { Section } from "@/components/section";
-import type { ExperienceItemModel } from "@/content/types";
+import type { ExperienceItemModel, UiModel } from "@/content/types";
 
 type Props = {
   items: ExperienceItemModel[];
+  ui: UiModel;
 };
 
-export function ExperienceSection({ items }: Props) {
+export function ExperienceSection({ items, ui }: Props) {
   return (
-    <Section id="experience" eyebrow="02 / Experience" title="Experience">
+    <Section id="experience" eyebrow={ui.sections.experience.eyebrow} title={ui.sections.experience.title}>
       <StaggeredList as="ol" className="relative space-y-10 border-l border-border pl-8 sm:pl-10">
         {items.map((item, index) => (
           <StaggeredItem as="li" key={`${item.company}-${item.period.start}`} className="relative">
@@ -30,7 +31,7 @@ export function ExperienceSection({ items }: Props) {
 
             {item.achievements.length > 0 && (
               <div className="mt-4">
-                <p className="font-mono text-xs uppercase tracking-wide text-foreground">Outcome</p>
+                <p className="font-mono text-xs uppercase tracking-wide text-foreground">{ui.labels.outcome}</p>
                 <ul className="mt-2 space-y-1.5">
                   {item.achievements.map((achievement) => (
                     <li key={achievement} className="flex items-start gap-2 text-sm text-foreground">
@@ -50,7 +51,7 @@ export function ExperienceSection({ items }: Props) {
                     className="h-3.5 w-3.5 shrink-0 transition-transform duration-200 group-open:rotate-90"
                   />
                   <span className="underline decoration-dotted underline-offset-4 decoration-muted-foreground/40 group-hover:decoration-foreground/60">
-                    Role
+                    {ui.labels.role}
                   </span>
                 </summary>
                 <ul className="mt-2 space-y-1.5">

@@ -1,15 +1,16 @@
 import { ArrowUpRight, ShieldCheck } from "lucide-react";
 import { StaggeredItem, StaggeredList } from "@/components/reveal";
 import { Section } from "@/components/section";
-import type { CertificationModel } from "@/content/types";
+import type { CertificationModel, UiModel } from "@/content/types";
 
 type Props = {
   items: CertificationModel[];
+  ui: UiModel;
 };
 
-export function CertificationsSection({ items }: Props) {
+export function CertificationsSection({ items, ui }: Props) {
   return (
-    <Section id="certifications" eyebrow="09 / Certifications" title="Certifications">
+    <Section id="certifications" eyebrow={ui.sections.certifications.eyebrow} title={ui.sections.certifications.title}>
       <StaggeredList className="grid gap-4 sm:grid-cols-2">
         {items.map((item) => (
           <StaggeredItem
@@ -42,10 +43,10 @@ export function CertificationsSection({ items }: Props) {
                 href={item.credentialUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label={`View ${item.title} credential`}
+                aria-label={ui.a11y.viewCredential.replace("{title}", item.title)}
                 className="mt-5 inline-flex w-fit items-center gap-1.5 rounded-md border border-border bg-background px-3 py-1.5 font-mono text-xs text-foreground transition-colors hover:border-primary/40 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
               >
-                View credential
+                {ui.labels.viewCredential}
                 <ArrowUpRight className="h-3 w-3" />
               </a>
             )}
