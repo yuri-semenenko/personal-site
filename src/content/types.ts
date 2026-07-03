@@ -1,4 +1,4 @@
-export type Locale = "en" | "ru" | "pl" | "by";
+export type Locale = "en" | "ru" | "pl" | "be";
 
 export type BadgeVariant = "default" | "primary" | "secondary" | "success" | "muted";
 

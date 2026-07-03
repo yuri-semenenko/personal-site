@@ -5,7 +5,7 @@ const contentByLocale: Record<Locale, LocaleContent> = {
   en: enContent,
   ru: enContent,
   pl: enContent,
-  by: enContent,
+  be: enContent,
 };
 
 export function getContent(locale: Locale = "en"): LocaleContent {
