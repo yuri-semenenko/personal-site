@@ -80,10 +80,60 @@ describe("Content invariants", () => {
       expect(existsSync(cvPath), `CV file at ${cvPath}`).toBe(true);
     });
 
+    it("cv aria-label and code card fields are non-empty", () => {
+      expect(content.profile.cv.ariaLabel.trim()).not.toBe("");
+      const { fileName, role, also, location, focus } = content.profile.codeCard;
+      for (const [key, value] of Object.entries({ fileName, role, also, location })) {
+        expect(value.trim(), `codeCard "${key}"`).not.toBe("");
+      }
+      expect(focus.length).toBeGreaterThan(0);
+    });
+
     it("seo title, description, and at least one keyword are non-empty", () => {
       expect(content.profile.seo.title.trim()).not.toBe("");
       expect(content.profile.seo.description.trim()).not.toBe("");
       expect((content.profile.seo.keywords ?? []).length).toBeGreaterThan(0);
+    });
+  });
+
+  describe("ui", () => {
+    it("every section has a non-empty eyebrow and title", () => {
+      for (const [key, heading] of Object.entries(content.ui.sections)) {
+        expect(heading.eyebrow.trim(), `section "${key}" eyebrow`).not.toBe("");
+        if ("title" in heading) {
+          expect(heading.title.trim(), `section "${key}" title`).not.toBe("");
+        }
+      }
+    });
+
+    it("every label is non-empty", () => {
+      for (const [key, label] of Object.entries(content.ui.labels)) {
+        expect(label.trim(), `label "${key}"`).not.toBe("");
+      }
+    });
+
+    it("every status label is non-empty", () => {
+      for (const [key, label] of Object.entries(content.ui.statusLabels)) {
+        expect(label.trim(), `status "${key}" label`).not.toBe("");
+      }
+    });
+
+    it("every leadership status label is non-empty", () => {
+      for (const [key, label] of Object.entries(content.ui.leadershipStatus)) {
+        expect(label.trim(), `leadership status "${key}" label`).not.toBe("");
+      }
+    });
+
+    it("testimonials note has a non-empty prefix and link label", () => {
+      expect(content.ui.testimonialsNote.prefix.trim()).not.toBe("");
+      expect(content.ui.testimonialsNote.linkLabel.trim()).not.toBe("");
+    });
+
+    it("every a11y string is non-empty and the credential template has a {title} slot", () => {
+      for (const [key, label] of Object.entries(content.ui.a11y)) {
+        expect(label.trim(), `a11y "${key}"`).not.toBe("");
+      }
+      expect(content.ui.a11y.viewCredential).toContain("{title}");
     });
   });
 

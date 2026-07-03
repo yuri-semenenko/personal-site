@@ -53,8 +53,17 @@ export interface ProfileModel {
   summary: string;
   statuses: StatusEntry[];
   highlights: string[];
+  /** Data rendered inside the decorative hero code card. */
+  codeCard: {
+    fileName: string;
+    role: string;
+    also: string;
+    location: string;
+    focus: string[];
+  };
   cv: {
     label: string;
+    ariaLabel: string;
     fileUrl: string;
     fileName: string;
   };
@@ -116,6 +125,11 @@ export interface TeachingItemModel {
   role: string;
   period: PeriodModel;
   summary: string;
+  /** Headline stat for the section card (e.g. "500+" / "Students trained"). */
+  stat?: {
+    value: string;
+    label: string;
+  };
   courses: string[];
   responsibilities: string[];
   achievements: string[];
@@ -211,8 +225,60 @@ export interface MentoringModel {
   topics: string[];
 }
 
+export interface SectionHeadingModel {
+  eyebrow: string;
+  title: string;
+}
+
+/** UI chrome copy: section headings, micro-labels, and a11y strings. */
+export interface UiModel {
+  sections: {
+    about: SectionHeadingModel;
+    experience: SectionHeadingModel;
+    leadership: SectionHeadingModel;
+    projects: SectionHeadingModel;
+    principles: SectionHeadingModel;
+    teaching: SectionHeadingModel;
+    testimonials: SectionHeadingModel;
+    skills: SectionHeadingModel;
+    certifications: SectionHeadingModel;
+    education: SectionHeadingModel;
+    /** Contact title comes from `contacts.title`; only the eyebrow lives here. */
+    contact: Pick<SectionHeadingModel, "eyebrow">;
+  };
+  labels: {
+    highlights: string;
+    outcome: string;
+    role: string;
+    context: string;
+    action: string;
+    impact: string;
+    principle: string;
+    courses: string;
+    topics: string;
+    viewCredential: string;
+  };
+  statusLabels: Record<StatusKey, string>;
+  leadershipStatus: Record<LeadershipStoryStatus, string>;
+  testimonialsNote: {
+    prefix: string;
+    linkLabel: string;
+    suffix: string;
+  };
+  a11y: {
+    primaryNav: string;
+    mobileNav: string;
+    openMenu: string;
+    switchToLightTheme: string;
+    switchToDarkTheme: string;
+    /** Template; `{title}` is replaced with the credential title. */
+    viewCredential: string;
+  };
+}
+
 export interface LocaleContent {
   profile: ProfileModel;
+  ui: UiModel;
   contacts: ContactsModel;
   navigation: NavigationModel;
   experience: ExperienceItemModel[];
