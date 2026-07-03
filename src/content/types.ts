@@ -264,6 +264,12 @@ export interface UiModel {
     linkLabel: string;
     suffix: string;
   };
+  localeSwitcher: {
+    /** aria-label for the switcher nav landmark. */
+    ariaLabel: string;
+    /** Short display names keyed by locale (e.g. "EN", "RU"). */
+    names: Record<Locale, string>;
+  };
   a11y: {
     primaryNav: string;
     mobileNav: string;

@@ -1,14 +1,23 @@
 import { ImageResponse } from "next/og";
 import { getContent } from "@/content";
+import type { Locale } from "@/content/types";
 import { STATUS_VARIANTS } from "@/content/statuses";
 import { SITE_HOST } from "@/lib/site";
 
+// `alt` is a static module export, so it can't vary by locale; the EN title
+// is an acceptable fallback for translated pages.
 export const alt = getContent("en").profile.seo.title;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-export default async function OpengraphImage() {
-  const { profile, ui } = getContent("en");
+type Props = {
+  // See page.tsx: dynamicParams=false narrows this to active locales.
+  params: Promise<{ locale: Locale }>;
+};
+
+export default async function OpengraphImage({ params }: Props) {
+  const { locale } = await params;
+  const { profile, ui } = getContent(locale);
 
   return new ImageResponse(
     <div

@@ -6,14 +6,17 @@ import { cn } from "@/lib/utils";
 import { useActiveSection } from "@/hooks/use-active-section";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { MobileMenu } from "@/components/mobile-menu";
-import type { NavigationModel, UiModel } from "@/content/types";
+import { LocaleSwitcher } from "@/components/locale-switcher";
+import type { Locale, NavigationModel, UiModel } from "@/content/types";
 
 type Props = {
   navigation: NavigationModel;
   a11y: UiModel["a11y"];
+  locale: Locale;
+  localeSwitcher: UiModel["localeSwitcher"];
 };
 
-export function Header({ navigation, a11y }: Props) {
+export function Header({ navigation, a11y, locale, localeSwitcher }: Props) {
   const sectionIds = useMemo(
     () => navigation.items.map((item) => item.sectionId).filter((id): id is string => Boolean(id)),
     [navigation.items],
@@ -60,6 +63,7 @@ export function Header({ navigation, a11y }: Props) {
               {downloadAction.label}
             </a>
           )}
+          <LocaleSwitcher locale={locale} localeSwitcher={localeSwitcher} />
           <ThemeToggle a11y={a11y} />
           <MobileMenu navigation={navigation} a11y={a11y} className="md:hidden" />
         </div>

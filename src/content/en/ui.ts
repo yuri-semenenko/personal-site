@@ -48,6 +48,10 @@ export const ui: UiModel = {
     linkLabel: "LinkedIn",
     suffix: ".",
   },
+  localeSwitcher: {
+    ariaLabel: "Language",
+    names: { en: "EN", ru: "RU", pl: "PL", be: "BE" },
+  },
   a11y: {
     primaryNav: "Primary",
     mobileNav: "Mobile",
