@@ -78,6 +78,25 @@ for (const locale of ACTIVE_LOCALES) {
         await context.close();
       }
     });
+
+    test("mobile menu closes when resized to desktop viewport", async ({ browser }) => {
+      const context = await browser.newContext({ viewport: { width: 390, height: 844 } });
+      const page = await context.newPage();
+      try {
+        await page.goto(path);
+
+        await page.getByRole("button", { name: ui.a11y.openMenu }).click();
+
+        const dialog = page.getByRole("dialog");
+        await expect(dialog).toBeVisible();
+
+        await page.setViewportSize({ width: 1024, height: 844 });
+
+        await expect(dialog).toBeHidden();
+      } finally {
+        await context.close();
+      }
+    });
   });
 }
 

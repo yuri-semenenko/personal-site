@@ -2,7 +2,7 @@ import type { ProfileModel } from "../types";
 
 export const profile: ProfileModel = {
   name: "Юрий Семененко",
-  headline: "Senior Frontend Engineer, ментор и тренер — с опытом технического лидерства и развития команд",
+  headline: "Senior Frontend Engineer - разработка, архитектура, менторство.",
   jobTitle: "Senior Frontend Engineer",
   location: "Краков, Польша",
   summary:

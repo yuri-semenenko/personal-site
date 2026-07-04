@@ -14,40 +14,52 @@ const withBundleAnalyzer = bundleAnalyzer({
 // - next/font/google self-hosts fonts at build time, so no fonts.googleapis.com.
 // - Vercel Analytics/Speed Insights load from va.vercel-scripts.com and beacon
 //   to vitals.vercel-insights.com.
-const contentSecurityPolicy = [
-  "default-src 'self'",
-  "script-src 'self' 'unsafe-inline' https://va.vercel-scripts.com",
-  "style-src 'self' 'unsafe-inline'",
-  "font-src 'self' data:",
-  "img-src 'self' data: blob: https:",
-  "connect-src 'self' https://va.vercel-scripts.com https://vitals.vercel-insights.com",
-  "frame-ancestors 'none'",
-  "object-src 'none'",
-  "base-uri 'self'",
-  "form-action 'self'",
-  "upgrade-insecure-requests",
-].join("; ");
+function createContentSecurityPolicy() {
+  const scriptSrc = [
+    "script-src",
+    "'self'",
+    "'unsafe-inline'",
+    ...(process.env.NODE_ENV === "development" ? ["'unsafe-eval'"] : []),
+    "https://va.vercel-scripts.com",
+  ].join(" ");
 
-const securityHeaders = [
-  { key: "X-Frame-Options", value: "DENY" },
-  { key: "X-Content-Type-Options", value: "nosniff" },
-  { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
-  {
-    key: "Permissions-Policy",
-    value: "geolocation=(), microphone=(), camera=(), payment=()",
-  },
-  { key: "X-DNS-Prefetch-Control", value: "on" },
-  {
-    key: "Strict-Transport-Security",
-    value: "max-age=63072000; includeSubDomains; preload",
-  },
-  { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
-  { key: "Content-Security-Policy", value: contentSecurityPolicy },
-];
+  return [
+    "default-src 'self'",
+    scriptSrc,
+    "style-src 'self' 'unsafe-inline'",
+    "font-src 'self' data:",
+    "img-src 'self' data: blob: https:",
+    "connect-src 'self' https://va.vercel-scripts.com https://vitals.vercel-insights.com",
+    "frame-ancestors 'none'",
+    "object-src 'none'",
+    "base-uri 'self'",
+    "form-action 'self'",
+    "upgrade-insecure-requests",
+  ].join("; ");
+}
+
+function createSecurityHeaders() {
+  return [
+    { key: "X-Frame-Options", value: "DENY" },
+    { key: "X-Content-Type-Options", value: "nosniff" },
+    { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+    {
+      key: "Permissions-Policy",
+      value: "geolocation=(), microphone=(), camera=(), payment=()",
+    },
+    { key: "X-DNS-Prefetch-Control", value: "on" },
+    {
+      key: "Strict-Transport-Security",
+      value: "max-age=63072000; includeSubDomains; preload",
+    },
+    { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
+    { key: "Content-Security-Policy", value: createContentSecurityPolicy() },
+  ];
+}
 
 const nextConfig: NextConfig = {
   async headers() {
-    return [{ source: "/:path*", headers: securityHeaders }];
+    return [{ source: "/:path*", headers: createSecurityHeaders() }];
   },
   // English is the canonical, unprefixed locale: all pages live under
   // app/[locale]/, `/` is internally rewritten to the prerendered /en page

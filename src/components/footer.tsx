@@ -43,7 +43,7 @@ export function Footer({ contacts, logo, name }: Props) {
           })}
         </div>
         <p className="font-mono text-xs text-muted-foreground">
-          © {new Date().getFullYear()} {name}
+          &copy; {new Date().getFullYear()} {name}
         </p>
       </div>
     </footer>
