@@ -32,7 +32,7 @@ export function Header({ navigation, a11y, locale, localeSwitcher }: Props) {
           {navigation.logo}
         </a>
 
-        <nav className="hidden items-center gap-6 md:flex" aria-label={a11y.primaryNav}>
+        <nav className="hidden items-center gap-3 lg:flex 2xl:gap-8" aria-label={a11y.primaryNav}>
           {navigation.items.map((item) => {
             const isActive = activeId === item.sectionId;
             return (
@@ -40,7 +40,7 @@ export function Header({ navigation, a11y, locale, localeSwitcher }: Props) {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "relative font-mono text-xs uppercase tracking-wide transition-colors",
+                  "relative font-mono text-xs uppercase tracking-wide transition-colors whitespace-nowrap",
                   isActive ? "text-primary" : "text-muted-foreground hover:text-foreground",
                 )}
                 aria-current={isActive ? "page" : undefined}
@@ -52,7 +52,7 @@ export function Header({ navigation, a11y, locale, localeSwitcher }: Props) {
           })}
         </nav>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 whitespace-nowrap">
           {downloadAction && (
             <a
               href={downloadAction.href}
@@ -65,7 +65,7 @@ export function Header({ navigation, a11y, locale, localeSwitcher }: Props) {
           )}
           <LocaleSwitcher locale={locale} localeSwitcher={localeSwitcher} />
           <ThemeToggle a11y={a11y} />
-          <MobileMenu navigation={navigation} a11y={a11y} className="md:hidden" />
+          <MobileMenu navigation={navigation} a11y={a11y} className="lg:hidden" />
         </div>
       </div>
     </header>
