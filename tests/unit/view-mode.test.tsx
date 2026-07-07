@@ -1,6 +1,6 @@
 import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { useViewMode, ViewModeProvider, ViewModeToggle, type ViewModeCopy } from "@/components/view-mode";
+import { useViewMode, ViewModeMain, ViewModeProvider, ViewModeToggle, type ViewModeCopy } from "@/components/view-mode";
 
 const copy: ViewModeCopy = {
   label: "View mode",
@@ -41,6 +41,17 @@ function renderViewMode() {
   );
 }
 
+function renderMain() {
+  render(
+    <ViewModeProvider>
+      <ViewModeMain>
+        <section>Hero</section>
+        <section>About</section>
+      </ViewModeMain>
+    </ViewModeProvider>,
+  );
+}
+
 describe("view mode", () => {
   beforeEach(() => {
     localStorage.clear();
@@ -75,5 +86,46 @@ describe("view mode", () => {
     renderViewMode();
 
     await waitFor(() => expect(screen.queryByText("horizontal:vertical")).not.toBeNull());
+  });
+
+  it("wraps main children as horizontal panels only when the effective mode is horizontal", async () => {
+    stubMatchMedia(true);
+    localStorage.setItem("view-mode", "horizontal");
+
+    renderMain();
+
+    const main = screen.getByRole("main");
+    await waitFor(() => expect(main.getAttribute("data-view-mode-main")).toBe("horizontal"));
+    expect(main.querySelectorAll("[data-view-mode-panel]")).toHaveLength(2);
+  });
+
+  it("keeps the main in vertical mode on mobile even with horizontal preference", async () => {
+    stubMatchMedia(false);
+    localStorage.setItem("view-mode", "horizontal");
+
+    renderMain();
+
+    const main = screen.getByRole("main");
+    await waitFor(() => expect(main.getAttribute("data-view-mode-main")).toBe("vertical"));
+  });
+
+  it("maps vertical wheel movement to horizontal scroll in horizontal mode", async () => {
+    stubMatchMedia(true);
+    localStorage.setItem("view-mode", "horizontal");
+
+    renderMain();
+
+    const main = screen.getByRole("main");
+    await waitFor(() => expect(main.getAttribute("data-view-mode-main")).toBe("horizontal"));
+
+    Object.defineProperty(main, "clientWidth", { configurable: true, value: 1000 });
+    Object.defineProperty(main, "scrollWidth", { configurable: true, value: 2000 });
+
+    const panel = main.querySelector("[data-view-mode-panel]");
+    expect(panel).not.toBeNull();
+
+    fireEvent.wheel(panel!, { deltaY: 120 });
+
+    expect(main.scrollLeft).toBe(120);
   });
 });

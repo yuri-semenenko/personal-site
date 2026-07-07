@@ -3,7 +3,7 @@ import type { Locale } from "@/content/types";
 import { STATUS_VARIANTS } from "@/content/statuses";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
-import { ViewModeProvider } from "@/components/view-mode";
+import { ViewModeMain, ViewModeProvider } from "@/components/view-mode";
 import { Hero } from "@/components/hero";
 import { AboutSection } from "@/components/sections/about";
 import { ExperienceSection } from "@/components/sections/experience";
@@ -61,7 +61,7 @@ export default async function Home({ params }: Props) {
           viewMode={ui.viewMode}
         />
 
-        <main className="flex-1">
+        <ViewModeMain>
           <Hero profile={profile} statuses={activeStatuses} emailContact={emailContact} />
           <AboutSection profile={profile} ui={ui} />
           <ExperienceSection items={experience} ui={ui} />
@@ -83,7 +83,7 @@ export default async function Home({ params }: Props) {
           <CertificationsSection items={certifications} ui={ui} />
           <EducationSection items={education} ui={ui} />
           <ContactSection contacts={contacts} ui={ui} />
-        </main>
+        </ViewModeMain>
 
         <Footer contacts={contacts.items} logo={navigation.logo} name={profile.name} />
       </div>

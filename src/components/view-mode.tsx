@@ -1,6 +1,15 @@
 "use client";
 
-import { createContext, useContext, useMemo, useSyncExternalStore, type ReactNode } from "react";
+import {
+  Children,
+  createContext,
+  useContext,
+  useMemo,
+  useRef,
+  useSyncExternalStore,
+  type ReactNode,
+  type WheelEvent,
+} from "react";
 import { Columns3, Rows3 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -119,5 +128,83 @@ export function ViewModeToggle({ copy }: { copy: ViewModeCopy }) {
         <span className="sr-only">{copy.horizontal}</span>
       </button>
     </div>
+  );
+}
+
+function canScrollVertically(element: HTMLElement, deltaY: number) {
+  const maxScrollTop = element.scrollHeight - element.clientHeight;
+  if (maxScrollTop <= 1) return false;
+  if (deltaY > 0) return element.scrollTop < maxScrollTop - 1;
+  if (deltaY < 0) return element.scrollTop > 1;
+  return false;
+}
+
+function findVerticalScrollTarget(target: EventTarget | null, panel: HTMLElement) {
+  if (!(target instanceof HTMLElement)) return null;
+
+  let current: HTMLElement | null = target;
+  while (current && panel.contains(current)) {
+    const style = window.getComputedStyle(current);
+    const canOverflow = style.overflowY === "auto" || style.overflowY === "scroll";
+
+    if (canOverflow && current.scrollHeight > current.clientHeight + 1) {
+      return current;
+    }
+
+    if (current === panel) break;
+    current = current.parentElement;
+  }
+
+  return null;
+}
+
+export function ViewModeMain({ children }: { children: ReactNode }) {
+  const { effectiveMode } = useViewMode();
+  const mainRef = useRef<HTMLElement>(null);
+  const isHorizontal = effectiveMode === "horizontal";
+
+  const handleWheel = (event: WheelEvent<HTMLElement>) => {
+    if (!isHorizontal || event.ctrlKey) return;
+
+    const main = mainRef.current;
+    const panel = (event.target as HTMLElement | null)?.closest("[data-view-mode-panel]");
+    if (!main || !(panel instanceof HTMLElement)) return;
+
+    const verticalTarget = findVerticalScrollTarget(event.target, panel);
+    if (verticalTarget && canScrollVertically(verticalTarget, event.deltaY)) return;
+
+    const delta = event.deltaY + event.deltaX;
+    if (delta === 0) return;
+
+    const maxScrollLeft = main.scrollWidth - main.clientWidth;
+    if (maxScrollLeft <= 1) return;
+    if (delta < 0 && main.scrollLeft <= 1) return;
+    if (delta > 0 && main.scrollLeft >= maxScrollLeft - 1) return;
+
+    event.preventDefault();
+    main.scrollLeft += delta;
+  };
+
+  if (!isHorizontal) {
+    return (
+      <main ref={mainRef} className="flex-1" data-view-mode-main="vertical">
+        {children}
+      </main>
+    );
+  }
+
+  return (
+    <main
+      ref={mainRef}
+      className="flex h-[calc(100vh-6.375rem)] flex-1 snap-x snap-mandatory overflow-x-auto overflow-y-hidden overscroll-x-contain scroll-smooth"
+      data-view-mode-main="horizontal"
+      onWheel={handleWheel}
+    >
+      {Children.map(children, (child) => (
+        <div data-view-mode-panel className="h-full min-w-full flex-none snap-start overflow-y-auto overscroll-contain">
+          {child}
+        </div>
+      ))}
+    </main>
   );
 }
