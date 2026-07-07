@@ -3,6 +3,7 @@ import type { Locale } from "@/content/types";
 import { STATUS_VARIANTS } from "@/content/statuses";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
+import { ViewModeProvider } from "@/components/view-mode";
 import { Hero } from "@/components/hero";
 import { AboutSection } from "@/components/sections/about";
 import { ExperienceSection } from "@/components/sections/experience";
@@ -50,15 +51,22 @@ export default async function Home({ params }: Props) {
     .map((s) => ({ key: s.key, label: ui.statusLabels[s.key], variant: STATUS_VARIANTS[s.key] }));
 
   return (
-    <div className="min-h-full flex flex-col">
-      <Header navigation={navigation} a11y={ui.a11y} locale={locale} localeSwitcher={ui.localeSwitcher} />
+    <ViewModeProvider>
+      <div className="min-h-full flex flex-col">
+        <Header
+          navigation={navigation}
+          a11y={ui.a11y}
+          locale={locale}
+          localeSwitcher={ui.localeSwitcher}
+          viewMode={ui.viewMode}
+        />
 
-      <main className="flex-1">
-        <Hero profile={profile} statuses={activeStatuses} emailContact={emailContact} />
-        <AboutSection profile={profile} ui={ui} />
-        <ExperienceSection items={experience} ui={ui} />
-        <LeadershipSection items={leadership} ui={ui} />
-        {/*
+        <main className="flex-1">
+          <Hero profile={profile} statuses={activeStatuses} emailContact={emailContact} />
+          <AboutSection profile={profile} ui={ui} />
+          <ExperienceSection items={experience} ui={ui} />
+          <LeadershipSection items={leadership} ui={ui} />
+          {/*
           Projects section hidden (2026-05-31).
           After C/R/O rewrite of Experience, the Projects cards largely
           duplicated the same companies, outcomes and tech. Will re-enable
@@ -67,17 +75,18 @@ export default async function Home({ params }: Props) {
           history. Data lives in src/content/en/projects.ts and is still
           exported from the locale aggregator so re-enabling is one line.
         */}
-        {/* <ProjectsSection items={projects} ui={ui} /> */}
-        <PrinciplesSection items={principles} ui={ui} />
-        <TeachingSection items={teaching} mentoring={mentoring} ui={ui} />
-        <TestimonialsSection items={testimonials} ui={ui} moreHref={linkedinContact?.href} />
-        <SkillsSection groups={skills} ui={ui} />
-        <CertificationsSection items={certifications} ui={ui} />
-        <EducationSection items={education} ui={ui} />
-        <ContactSection contacts={contacts} ui={ui} />
-      </main>
+          {/* <ProjectsSection items={projects} ui={ui} /> */}
+          <PrinciplesSection items={principles} ui={ui} />
+          <TeachingSection items={teaching} mentoring={mentoring} ui={ui} />
+          <TestimonialsSection items={testimonials} ui={ui} moreHref={linkedinContact?.href} />
+          <SkillsSection groups={skills} ui={ui} />
+          <CertificationsSection items={certifications} ui={ui} />
+          <EducationSection items={education} ui={ui} />
+          <ContactSection contacts={contacts} ui={ui} />
+        </main>
 
-      <Footer contacts={contacts.items} logo={navigation.logo} name={profile.name} />
-    </div>
+        <Footer contacts={contacts.items} logo={navigation.logo} name={profile.name} />
+      </div>
+    </ViewModeProvider>
   );
 }

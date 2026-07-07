@@ -8,6 +8,7 @@ import { useActiveSection } from "@/hooks/use-active-section";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { MobileMenu } from "@/components/mobile-menu";
 import { LocaleSwitcher } from "@/components/locale-switcher";
+import { ViewModeToggle } from "@/components/view-mode";
 import type { Locale, NavigationModel, UiModel } from "@/content/types";
 
 type Props = {
@@ -15,9 +16,10 @@ type Props = {
   a11y: UiModel["a11y"];
   locale: Locale;
   localeSwitcher: UiModel["localeSwitcher"];
+  viewMode: UiModel["viewMode"];
 };
 
-export function Header({ navigation, a11y, locale, localeSwitcher }: Props) {
+export function Header({ navigation, a11y, locale, localeSwitcher, viewMode }: Props) {
   const sectionIds = useMemo(
     () => navigation.items.map((item) => item.sectionId).filter((id): id is string => Boolean(id)),
     [navigation.items],
@@ -46,6 +48,7 @@ export function Header({ navigation, a11y, locale, localeSwitcher }: Props) {
               {downloadAction.label}
             </a>
           )}
+          <ViewModeToggle copy={viewMode} />
           <LocaleSwitcher locale={locale} localeSwitcher={localeSwitcher} />
           <ThemeToggle a11y={a11y} />
           <MobileMenu navigation={navigation} a11y={a11y} className="lg:hidden" />

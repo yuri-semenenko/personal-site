@@ -52,6 +52,13 @@ export const ui: UiModel = {
     ariaLabel: "Язык",
     names: { en: "EN", ru: "RU", pl: "PL", be: "BE" },
   },
+  viewMode: {
+    label: "Режим отображения",
+    vertical: "Вертикальный",
+    horizontal: "Горизонтальный",
+    switchToVertical: "Переключить на вертикальный вид",
+    switchToHorizontal: "Переключить на горизонтальный вид",
+  },
   a11y: {
     primaryNav: "Основная",
     mobileNav: "Мобильная",
