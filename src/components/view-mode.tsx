@@ -196,12 +196,12 @@ export function ViewModeMain({ children }: { children: ReactNode }) {
   return (
     <main
       ref={mainRef}
-      className="flex h-[calc(100vh-6.375rem)] flex-1 snap-x snap-mandatory overflow-x-auto overflow-y-hidden overscroll-x-contain scroll-smooth"
+      className="view-mode-horizontal-main flex min-h-0 shrink-0 snap-x snap-mandatory overflow-x-auto overflow-y-hidden overscroll-x-contain scroll-smooth"
       data-view-mode-main="horizontal"
       onWheel={handleWheel}
     >
       {Children.map(children, (child) => (
-        <div data-view-mode-panel className="h-full min-w-full flex-none snap-start overflow-y-auto overscroll-contain">
+        <div data-view-mode-panel className="h-full min-h-0 min-w-full flex-none snap-start overflow-y-auto overscroll-contain">
           {child}
         </div>
       ))}

@@ -112,3 +112,38 @@ test.describe("Locale routing", () => {
     expect(response.status()).toBe(404);
   });
 });
+
+test.describe("View mode", () => {
+  const path = localePath(DEFAULT_LOCALE);
+  const { ui } = getContent(DEFAULT_LOCALE);
+
+  test("desktop horizontal mode persists and remaps wheel scrolling", async ({ page }) => {
+    await page.goto(path);
+
+    await page.getByRole("button", { name: ui.viewMode.switchToHorizontal }).click();
+
+    const main = page.getByRole("main");
+    await expect(main).toHaveAttribute("data-view-mode-main", "horizontal");
+    await expect.poll(() => page.evaluate(() => localStorage.getItem("view-mode"))).toBe("horizontal");
+
+    const initialScrollLeft = await main.evaluate((el) => el.scrollLeft);
+    await page.locator("[data-view-mode-panel]").first().hover();
+    await page.mouse.wheel(0, 700);
+
+    await expect.poll(() => main.evaluate((el) => el.scrollLeft)).toBeGreaterThan(initialScrollLeft);
+  });
+
+  test("mobile keeps vertical layout even with a horizontal preference", async ({ browser }) => {
+    const context = await browser.newContext({ viewport: { width: 390, height: 844 } });
+    const page = await context.newPage();
+    try {
+      await page.addInitScript(() => localStorage.setItem("view-mode", "horizontal"));
+      await page.goto(path);
+
+      await expect(page.getByRole("main")).toHaveAttribute("data-view-mode-main", "vertical");
+      await expect(page.getByRole("button", { name: ui.viewMode.switchToHorizontal })).toBeHidden();
+    } finally {
+      await context.close();
+    }
+  });
+});

@@ -139,6 +139,22 @@
   main > section:nth-of-type(even) {
     background-color: color-mix(in oklch, var(--foreground) 4%, var(--background));
   }
+
+  .view-mode-horizontal-main {
+    height: calc(100dvh - 6.375rem);
+  }
+
+  [data-view-mode="horizontal"] {
+    display: flex;
+    height: 100dvh;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  [data-view-mode="horizontal"] > .min-h-full {
+    min-height: 0;
+    height: 100%;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
