@@ -1,0 +1,49 @@
+import { cleanup, render, screen } from "@testing-library/react";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { Header } from "@/components/header";
+import { enContent } from "@/content/en";
+
+vi.mock("next-themes", () => ({
+  useTheme: () => ({
+    resolvedTheme: "dark",
+    setTheme: vi.fn(),
+  }),
+}));
+
+class FakeIntersectionObserver {
+  observe() {}
+  disconnect() {}
+  unobserve() {}
+  takeRecords(): IntersectionObserverEntry[] {
+    return [];
+  }
+}
+
+describe("Header", () => {
+  beforeEach(() => {
+    vi.stubGlobal("IntersectionObserver", FakeIntersectionObserver);
+  });
+
+  afterEach(() => cleanup());
+
+  it("places desktop section navigation in its own row below the top controls", () => {
+    render(
+      <Header
+        navigation={enContent.navigation}
+        a11y={enContent.ui.a11y}
+        locale="en"
+        localeSwitcher={enContent.ui.localeSwitcher}
+      />,
+    );
+
+    const primaryNav = screen.getByRole("navigation", { name: enContent.ui.a11y.primaryNav });
+    const navigationRow = primaryNav.closest("[data-slot='header-navigation-row']");
+    const topRow = screen.getByRole("banner").querySelector("[data-slot='header-top-row']");
+
+    expect(topRow).not.toBeNull();
+    expect(navigationRow).not.toBeNull();
+    expect(topRow!.compareDocumentPosition(navigationRow!)).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
+    expect(topRow!.contains(screen.getByRole("link", { name: enContent.navigation.actions[0]!.ariaLabel }))).toBe(true);
+    expect(topRow!.contains(screen.getByRole("button", { name: enContent.ui.a11y.openMenu }))).toBe(true);
+  });
+});

@@ -27,30 +27,10 @@ export function Header({ navigation, a11y, locale, localeSwitcher }: Props) {
 
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-background/80 backdrop-blur supports-backdrop-filter:bg-background/60">
-      <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4 sm:px-6">
+      <div data-slot="header-top-row" className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4 sm:px-6">
         <a href="#" className="font-mono text-sm font-medium text-foreground transition-colors hover:text-primary">
           {navigation.logo}
         </a>
-
-        <nav className="hidden items-center gap-3 lg:flex 2xl:gap-8" aria-label={a11y.primaryNav}>
-          {navigation.items.map((item) => {
-            const isActive = activeId === item.sectionId;
-            return (
-              <a
-                key={item.href}
-                href={item.href}
-                className={cn(
-                  "relative font-mono text-xs uppercase tracking-wide transition-colors whitespace-nowrap",
-                  isActive ? "text-primary" : "text-muted-foreground hover:text-foreground",
-                )}
-                aria-current={isActive ? "page" : undefined}
-              >
-                {item.label}
-                {isActive && <span aria-hidden className="absolute -bottom-1 left-0 h-px w-full bg-primary" />}
-              </a>
-            );
-          })}
-        </nav>
 
         <div className="flex items-center gap-2 whitespace-nowrap">
           {downloadAction && (
@@ -66,6 +46,30 @@ export function Header({ navigation, a11y, locale, localeSwitcher }: Props) {
           <LocaleSwitcher locale={locale} localeSwitcher={localeSwitcher} />
           <ThemeToggle a11y={a11y} />
           <MobileMenu navigation={navigation} a11y={a11y} className="lg:hidden" />
+        </div>
+      </div>
+
+      <div data-slot="header-navigation-row" className="hidden border-t border-border/70 bg-background/35 lg:block">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6">
+          <nav className="flex h-11 items-center justify-center gap-4 2xl:gap-8" aria-label={a11y.primaryNav}>
+            {navigation.items.map((item) => {
+              const isActive = activeId === item.sectionId;
+              return (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  className={cn(
+                    "relative font-mono text-xs uppercase tracking-wide transition-colors whitespace-nowrap",
+                    isActive ? "text-primary" : "text-muted-foreground hover:text-foreground",
+                  )}
+                  aria-current={isActive ? "page" : undefined}
+                >
+                  {item.label}
+                  {isActive && <span aria-hidden className="absolute -bottom-1 left-0 h-px w-full bg-primary" />}
+                </a>
+              );
+            })}
+          </nav>
         </div>
       </div>
     </header>
