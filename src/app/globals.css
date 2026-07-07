@@ -120,6 +120,12 @@
   }
 }
 
+@media (min-width: 64rem) {
+  html {
+    scroll-padding-top: 7rem;
+  }
+}
+
 @layer components {
   .hero-dots {
     background-image: radial-gradient(
