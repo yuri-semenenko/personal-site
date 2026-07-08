@@ -14,17 +14,21 @@ export function ScrollProgress() {
   useEffect(() => {
     let horizontalMain: HTMLElement | null = null;
 
+    // Clamp: rubber-band overscroll reports scroll positions past the ends,
+    // which would drive scaleX outside [0,1] (bar inverts or overshoots).
+    const clamp = (value: number) => Math.min(1, Math.max(0, value));
+
     const update = () => {
       horizontalMain = document.querySelector<HTMLElement>('main[data-view-mode-main="horizontal"]');
 
       if (horizontalMain) {
         const maxScrollLeft = horizontalMain.scrollWidth - horizontalMain.clientWidth;
-        progress.set(maxScrollLeft > 0 ? horizontalMain.scrollLeft / maxScrollLeft : 0);
+        progress.set(maxScrollLeft > 0 ? clamp(horizontalMain.scrollLeft / maxScrollLeft) : 0);
         return;
       }
 
       const maxScrollTop = document.documentElement.scrollHeight - window.innerHeight;
-      progress.set(maxScrollTop > 0 ? window.scrollY / maxScrollTop : 0);
+      progress.set(maxScrollTop > 0 ? clamp(window.scrollY / maxScrollTop) : 0);
     };
 
     const bindHorizontalMain = () => {
