@@ -125,6 +125,31 @@ test.describe("View mode", () => {
     const main = page.getByRole("main");
     await expect(main).toHaveAttribute("data-view-mode-main", "horizontal");
     await expect.poll(() => page.evaluate(() => localStorage.getItem("view-mode"))).toBe("horizontal");
+    await expect(page.getByRole("contentinfo")).toBeVisible();
+
+    const layout = await page.evaluate(() => {
+      const provider = document.querySelector("[data-view-mode]");
+      const shell = provider?.firstElementChild;
+      const mainElement = document.querySelector("main");
+      const footer = Array.from(document.querySelectorAll("footer")).find((element) => !element.closest("main"));
+      const viewportHeight = window.innerHeight;
+
+      return {
+        viewportHeight,
+        providerHeight: provider?.getBoundingClientRect().height ?? 0,
+        shellHeight: shell?.getBoundingClientRect().height ?? 0,
+        mainHeight: mainElement?.getBoundingClientRect().height ?? 0,
+        mainBottom: mainElement?.getBoundingClientRect().bottom ?? 0,
+        footerTop: footer?.getBoundingClientRect().top ?? 0,
+        footerBottom: footer?.getBoundingClientRect().bottom ?? 0,
+      };
+    });
+
+    expect(layout.providerHeight).toBeCloseTo(layout.viewportHeight, 0);
+    expect(layout.shellHeight).toBeCloseTo(layout.viewportHeight, 0);
+    expect(layout.mainHeight).toBeGreaterThan(0);
+    expect(layout.mainBottom).toBeLessThanOrEqual(layout.footerTop + 1);
+    expect(layout.footerBottom).toBeLessThanOrEqual(layout.viewportHeight + 1);
 
     const initialScrollLeft = await main.evaluate((el) => el.scrollLeft);
     await page.locator("[data-view-mode-panel]").first().hover();

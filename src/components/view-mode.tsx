@@ -97,6 +97,14 @@ export function useViewMode() {
   return value;
 }
 
+export function ViewModeShell({ children }: { children: ReactNode }) {
+  const { effectiveMode } = useViewMode();
+
+  return (
+    <div className={cn("min-h-full flex flex-col", effectiveMode === "horizontal" && "h-full min-h-0")}>{children}</div>
+  );
+}
+
 export function ViewModeToggle({ copy }: { copy: ViewModeCopy }) {
   const { preference, setPreference } = useViewMode();
 
@@ -201,8 +209,7 @@ export function ViewModeMain({ children }: { children: ReactNode }) {
   return (
     <main
       ref={mainRef}
-      className="flex min-h-0 shrink-0 snap-x snap-mandatory overflow-x-auto overflow-y-hidden overscroll-x-contain scroll-smooth"
-      style={{ height: "calc(100dvh - 6.375rem)" }}
+      className="flex min-h-0 flex-1 snap-x snap-mandatory overflow-x-auto overflow-y-hidden overscroll-x-contain scroll-smooth"
       data-view-mode-main="horizontal"
       onWheel={handleWheel}
     >

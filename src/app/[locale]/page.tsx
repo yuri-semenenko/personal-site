@@ -3,7 +3,7 @@ import type { Locale } from "@/content/types";
 import { STATUS_VARIANTS } from "@/content/statuses";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
-import { ViewModeMain, ViewModeProvider } from "@/components/view-mode";
+import { ViewModeMain, ViewModeProvider, ViewModeShell } from "@/components/view-mode";
 import { Hero } from "@/components/hero";
 import { AboutSection } from "@/components/sections/about";
 import { ExperienceSection } from "@/components/sections/experience";
@@ -52,7 +52,7 @@ export default async function Home({ params }: Props) {
 
   return (
     <ViewModeProvider>
-      <div className="min-h-full flex flex-col">
+      <ViewModeShell>
         <Header
           navigation={navigation}
           a11y={ui.a11y}
@@ -86,7 +86,7 @@ export default async function Home({ params }: Props) {
         </ViewModeMain>
 
         <Footer contacts={contacts.items} logo={navigation.logo} name={profile.name} />
-      </div>
+      </ViewModeShell>
     </ViewModeProvider>
   );
 }
