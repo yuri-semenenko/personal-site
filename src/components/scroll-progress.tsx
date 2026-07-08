@@ -19,8 +19,9 @@ export function ScrollProgress() {
     const clamp = (value: number) => Math.min(1, Math.max(0, value));
 
     const update = () => {
-      horizontalMain = document.querySelector<HTMLElement>('main[data-view-mode-main="horizontal"]');
-
+      // horizontalMain is (re)bound by bindHorizontalMain on mount, resize, and
+      // when the main's data-view-mode-main attribute flips; no need to query
+      // the DOM on every scroll event.
       if (horizontalMain) {
         const maxScrollLeft = horizontalMain.scrollWidth - horizontalMain.clientWidth;
         progress.set(maxScrollLeft > 0 ? clamp(horizontalMain.scrollLeft / maxScrollLeft) : 0);

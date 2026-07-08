@@ -13,16 +13,22 @@ export function useActiveSection(sectionIds: readonly string[], mode: ViewMode =
       const main = document.querySelector<HTMLElement>('main[data-view-mode-main="horizontal"]');
       if (!main) return;
 
+      // Resolve each panel once; the set is stable for a given mode, so there is
+      // no need to re-run getElementById/closest on every scroll frame.
+      const panels = sectionIds
+        .map((id) => {
+          const panel = document.getElementById(id)?.closest("[data-view-mode-panel]");
+          return panel instanceof HTMLElement ? { id, panel } : null;
+        })
+        .filter((entry): entry is { id: string; panel: HTMLElement } => entry !== null);
+
       let frame = 0;
       const update = () => {
         const viewportCenter = main.scrollLeft + main.clientWidth / 2;
         let bestId: string | undefined;
         let bestDistance = Number.POSITIVE_INFINITY;
 
-        for (const id of sectionIds) {
-          const panel = document.getElementById(id)?.closest("[data-view-mode-panel]");
-          if (!(panel instanceof HTMLElement)) continue;
-
+        for (const { id, panel } of panels) {
           const panelCenter = panel.offsetLeft + panel.offsetWidth / 2;
           const distance = Math.abs(panelCenter - viewportCenter);
           if (distance < bestDistance) {
