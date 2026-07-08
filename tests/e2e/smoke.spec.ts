@@ -156,6 +156,27 @@ test.describe("View mode", () => {
     await page.mouse.wheel(0, 700);
 
     await expect.poll(() => main.evaluate((el) => el.scrollLeft)).toBeGreaterThan(initialScrollLeft);
+
+    const primaryNav = page.getByRole("navigation", { name: ui.a11y.primaryNav });
+    const skillsLink = primaryNav.getByRole("link", { name: "Skills" });
+    await skillsLink.click();
+
+    await expect(page).toHaveURL(/#skills$/);
+    await expect
+      .poll(() =>
+        page.evaluate(() => {
+          const mainElement = document.querySelector('main[data-view-mode-main="horizontal"]');
+          const panel = document.getElementById("skills")?.closest("[data-view-mode-panel]");
+
+          if (!(mainElement instanceof HTMLElement) || !(panel instanceof HTMLElement)) {
+            return Number.POSITIVE_INFINITY;
+          }
+
+          return Math.abs(mainElement.scrollLeft - panel.offsetLeft);
+        }),
+      )
+      .toBeLessThan(4);
+    await expect(skillsLink).toHaveAttribute("aria-current", "page");
   });
 
   test("mobile keeps vertical layout even with a horizontal preference", async ({ browser }) => {

@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
-import { renderHook, act, cleanup } from "@testing-library/react";
+import { renderHook, act, cleanup, fireEvent } from "@testing-library/react";
 import { useActiveSection } from "@/hooks/use-active-section";
 
 type ObserverCallback = (entries: IntersectionObserverEntry[]) => void;
@@ -50,11 +50,42 @@ function mountSections(ids: string[]) {
   document.body.innerHTML = ids.map((id) => `<section id="${id}"></section>`).join("");
 }
 
+function mountHorizontalSections(ids: string[]) {
+  document.body.innerHTML = `
+    <main data-view-mode-main="horizontal">
+      ${ids
+        .map(
+          (id) => `
+            <div data-view-mode-panel>
+              <section id="${id}"></section>
+            </div>
+          `,
+        )
+        .join("")}
+    </main>
+  `;
+
+  const main = document.querySelector("main")!;
+  Object.defineProperty(main, "clientWidth", { configurable: true, value: 1000 });
+
+  document.querySelectorAll<HTMLElement>("[data-view-mode-panel]").forEach((panel, index) => {
+    Object.defineProperty(panel, "offsetLeft", { configurable: true, value: index * 1000 });
+    Object.defineProperty(panel, "offsetWidth", { configurable: true, value: 1000 });
+  });
+
+  return main;
+}
+
 describe("useActiveSection", () => {
   beforeEach(() => {
     FakeIntersectionObserver.instances = [];
     document.body.innerHTML = "";
     vi.stubGlobal("IntersectionObserver", FakeIntersectionObserver);
+    vi.stubGlobal("requestAnimationFrame", (callback: FrameRequestCallback) => {
+      callback(0);
+      return 1;
+    });
+    vi.stubGlobal("cancelAnimationFrame", vi.fn());
   });
 
   // RTL's auto-cleanup is opt-in under Vitest with globals: false.
@@ -126,5 +157,20 @@ describe("useActiveSection", () => {
     const observer = FakeIntersectionObserver.instances[0];
     expect(observer.rootMargin).toBe("-25% 0% -65% 0%");
     expect(observer.thresholds).toEqual([0, 0.25, 0.5, 0.75, 1]);
+  });
+
+  it("tracks the centered panel in horizontal mode", () => {
+    const main = mountHorizontalSections(["about", "experience", "contact"]);
+    const { result } = renderHook(() => useActiveSection(["about", "experience", "contact"], "horizontal"));
+
+    expect(result.current).toBe("about");
+
+    act(() => {
+      main.scrollLeft = 1600;
+      fireEvent.scroll(main);
+    });
+
+    expect(result.current).toBe("contact");
+    expect(FakeIntersectionObserver.instances).toHaveLength(0);
   });
 });

@@ -4,6 +4,7 @@ import {
   Children,
   createContext,
   useContext,
+  useEffect,
   useMemo,
   useRef,
   useSyncExternalStore,
@@ -34,6 +35,26 @@ const DESKTOP_MEDIA_QUERY = "(min-width: 64rem)";
 const STORAGE_KEY = "view-mode";
 const STORAGE_CHANGE_EVENT = "view-mode-change";
 const ViewModeContext = createContext<ViewModeContextValue | null>(null);
+
+function getHorizontalMain() {
+  return document.querySelector<HTMLElement>('main[data-view-mode-main="horizontal"]');
+}
+
+function getHorizontalPanel(sectionId: string) {
+  const target = document.getElementById(sectionId);
+  const panel = target?.closest("[data-view-mode-panel]");
+  return panel instanceof HTMLElement ? panel : null;
+}
+
+export function scrollHorizontalSectionIntoView(sectionId: string, behavior: ScrollBehavior = "smooth") {
+  const main = getHorizontalMain();
+  const panel = getHorizontalPanel(sectionId);
+
+  if (!main || !panel) return false;
+
+  main.scrollTo({ left: panel.offsetLeft, behavior });
+  return true;
+}
 
 function readStoredPreference(): ViewMode {
   if (typeof window === "undefined") return "vertical";
@@ -175,6 +196,16 @@ export function ViewModeMain({ children }: { children: ReactNode }) {
   const { effectiveMode } = useViewMode();
   const mainRef = useRef<HTMLElement>(null);
   const isHorizontal = effectiveMode === "horizontal";
+
+  useEffect(() => {
+    if (!isHorizontal) return;
+
+    const sectionId = window.location.hash.slice(1);
+    if (!sectionId) return;
+
+    const frame = requestAnimationFrame(() => scrollHorizontalSectionIntoView(sectionId, "auto"));
+    return () => cancelAnimationFrame(frame);
+  }, [isHorizontal]);
 
   const handleWheel = (event: WheelEvent<HTMLElement>) => {
     if (!isHorizontal || event.ctrlKey) return;

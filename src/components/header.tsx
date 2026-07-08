@@ -2,13 +2,13 @@
 
 import { useMemo, useState } from "react";
 import { Download } from "lucide-react";
-import { motion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import { cn } from "@/lib/utils";
 import { useActiveSection } from "@/hooks/use-active-section";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { MobileMenu } from "@/components/mobile-menu";
 import { LocaleSwitcher } from "@/components/locale-switcher";
-import { ViewModeToggle } from "@/components/view-mode";
+import { scrollHorizontalSectionIntoView, useViewMode, ViewModeToggle } from "@/components/view-mode";
 import type { Locale, NavigationModel, UiModel } from "@/content/types";
 
 type Props = {
@@ -20,15 +20,18 @@ type Props = {
 };
 
 export function Header({ navigation, a11y, locale, localeSwitcher, viewMode }: Props) {
+  const { effectiveMode } = useViewMode();
+  const reduceMotion = useReducedMotion();
   const sectionIds = useMemo(
     () => navigation.items.map((item) => item.sectionId).filter((id): id is string => Boolean(id)),
     [navigation.items],
   );
 
-  const activeId = useActiveSection(sectionIds);
+  const activeId = useActiveSection(sectionIds, effectiveMode);
   const downloadAction = navigation.actions[0];
   const [previewId, setPreviewId] = useState<string | undefined>();
   const indicatorId = previewId ?? activeId;
+  const scrollBehavior: ScrollBehavior = reduceMotion ? "auto" : "smooth";
 
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-background/80 backdrop-blur supports-backdrop-filter:bg-background/60">
@@ -69,6 +72,14 @@ export function Header({ navigation, a11y, locale, localeSwitcher, viewMode }: P
                 <a
                   key={item.href}
                   href={item.href}
+                  onClick={(event) => {
+                    if (effectiveMode !== "horizontal" || !item.sectionId) return;
+                    if (!scrollHorizontalSectionIntoView(item.sectionId, scrollBehavior)) return;
+
+                    event.preventDefault();
+                    window.history.pushState(null, "", item.href);
+                    setPreviewId(undefined);
+                  }}
                   onFocus={() => setPreviewId(item.sectionId)}
                   onBlur={() => setPreviewId(undefined)}
                   onPointerEnter={() => setPreviewId(item.sectionId)}
