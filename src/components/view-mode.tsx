@@ -9,7 +9,6 @@ import {
   useRef,
   useSyncExternalStore,
   type ReactNode,
-  type WheelEvent,
 } from "react";
 import { Columns3, Rows3 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -248,6 +247,17 @@ function findVerticalScrollTarget(target: EventTarget | null, panel: HTMLElement
   return null;
 }
 
+// Fallback pixels-per-line for wheel events reported in line mode (Firefox
+// mouse wheels use WheelEvent.DOM_DELTA_LINE, where deltaY is ~3, not pixels).
+const WHEEL_LINE_HEIGHT = 16;
+
+function normalizeWheelDelta(event: WheelEvent, main: HTMLElement) {
+  const raw = event.deltaY + event.deltaX;
+  if (event.deltaMode === WheelEvent.DOM_DELTA_LINE) return raw * WHEEL_LINE_HEIGHT;
+  if (event.deltaMode === WheelEvent.DOM_DELTA_PAGE) return raw * main.clientWidth;
+  return raw;
+}
+
 export function ViewModeMain({ children }: { children: ReactNode }) {
   const { effectiveMode } = useViewMode();
   const mainRef = useRef<HTMLElement>(null);
@@ -271,27 +281,37 @@ export function ViewModeMain({ children }: { children: ReactNode }) {
     return () => cancelAnimationFrame(frame);
   }, [isHorizontal]);
 
-  const handleWheel = (event: WheelEvent<HTMLElement>) => {
-    if (!isHorizontal || event.ctrlKey) return;
-
+  // React registers onWheel as a passive listener, so preventDefault() there is
+  // a no-op (logs a Chrome intervention warning and lets deltaX double-scroll).
+  // Bind natively with { passive: false } instead.
+  useEffect(() => {
     const main = mainRef.current;
-    const panel = (event.target as HTMLElement | null)?.closest("[data-view-mode-panel]");
-    if (!main || !(panel instanceof HTMLElement)) return;
+    if (!isHorizontal || !main) return;
 
-    const verticalTarget = findVerticalScrollTarget(event.target, panel);
-    if (verticalTarget && canScrollVertically(verticalTarget, event.deltaY)) return;
+    const handleWheel = (event: WheelEvent) => {
+      if (event.ctrlKey) return;
 
-    const delta = event.deltaY + event.deltaX;
-    if (delta === 0) return;
+      const panel = (event.target as HTMLElement | null)?.closest("[data-view-mode-panel]");
+      if (!(panel instanceof HTMLElement)) return;
 
-    const maxScrollLeft = main.scrollWidth - main.clientWidth;
-    if (maxScrollLeft <= 1) return;
-    if (delta < 0 && main.scrollLeft <= 1) return;
-    if (delta > 0 && main.scrollLeft >= maxScrollLeft - 1) return;
+      const verticalTarget = findVerticalScrollTarget(event.target, panel);
+      if (verticalTarget && canScrollVertically(verticalTarget, event.deltaY)) return;
 
-    event.preventDefault();
-    main.scrollLeft += delta;
-  };
+      const delta = normalizeWheelDelta(event, main);
+      if (delta === 0) return;
+
+      const maxScrollLeft = main.scrollWidth - main.clientWidth;
+      if (maxScrollLeft <= 1) return;
+      if (delta < 0 && main.scrollLeft <= 1) return;
+      if (delta > 0 && main.scrollLeft >= maxScrollLeft - 1) return;
+
+      event.preventDefault();
+      main.scrollLeft += delta;
+    };
+
+    main.addEventListener("wheel", handleWheel, { passive: false });
+    return () => main.removeEventListener("wheel", handleWheel);
+  }, [isHorizontal]);
 
   if (!isHorizontal) {
     return (
@@ -306,7 +326,6 @@ export function ViewModeMain({ children }: { children: ReactNode }) {
       ref={mainRef}
       className="flex min-h-0 flex-1 snap-x snap-mandatory overflow-x-auto overflow-y-hidden overscroll-x-contain scroll-smooth"
       data-view-mode-main="horizontal"
-      onWheel={handleWheel}
     >
       {Children.map(children, (child) => (
         <div
