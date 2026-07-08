@@ -35,6 +35,8 @@ const DESKTOP_MEDIA_QUERY = "(min-width: 64rem)";
 const STORAGE_KEY = "view-mode";
 const STORAGE_CHANGE_EVENT = "view-mode-change";
 const ViewModeContext = createContext<ViewModeContextValue | null>(null);
+let pendingHorizontalSectionId: string | undefined;
+let pendingVerticalSectionId: string | undefined;
 
 function getHorizontalMain() {
   return document.querySelector<HTMLElement>('main[data-view-mode-main="horizontal"]');
@@ -52,8 +54,55 @@ export function scrollHorizontalSectionIntoView(sectionId: string, behavior: Scr
 
   if (!main || !panel) return false;
 
+  if (behavior === "auto") {
+    const previousScrollBehavior = main.style.scrollBehavior;
+    main.style.scrollBehavior = "auto";
+    main.scrollLeft = panel.offsetLeft;
+    requestAnimationFrame(() => {
+      main.style.scrollBehavior = previousScrollBehavior;
+    });
+    return true;
+  }
+
   main.scrollTo({ left: panel.offsetLeft, behavior });
   return true;
+}
+
+function scrollVerticalSectionIntoView(sectionId: string) {
+  const target = document.getElementById(sectionId);
+  if (!target) return false;
+
+  const previousScrollBehavior = document.documentElement.style.scrollBehavior;
+  document.documentElement.style.scrollBehavior = "auto";
+  target.scrollIntoView({ block: "start" });
+  requestAnimationFrame(() => {
+    document.documentElement.style.scrollBehavior = previousScrollBehavior;
+  });
+  return true;
+}
+
+function getClosestVerticalSectionId() {
+  const sections = Array.from(document.querySelectorAll<HTMLElement>("[data-print-section][id]"));
+  const viewportAnchor = window.innerHeight * 0.35;
+  let bestId: string | undefined;
+  let bestDistance = Number.POSITIVE_INFINITY;
+
+  for (const section of sections) {
+    const rect = section.getBoundingClientRect();
+    const distance = Math.abs(rect.top - viewportAnchor);
+
+    if (distance < bestDistance) {
+      bestDistance = distance;
+      bestId = section.id;
+    }
+  }
+
+  return bestId;
+}
+
+function getActiveNavigationSectionId() {
+  const activeLink = document.querySelector<HTMLAnchorElement>('a[aria-current="page"][href^="#"]');
+  return activeLink?.hash.slice(1);
 }
 
 function readStoredPreference(): ViewMode {
@@ -88,6 +137,13 @@ export function ViewModeProvider({ children }: { children: ReactNode }) {
   const isDesktop = useSyncExternalStore(subscribeDesktop, getDesktopSnapshot, () => false);
 
   const setPreference = (mode: ViewMode) => {
+    if (mode === "horizontal") {
+      pendingHorizontalSectionId =
+        getActiveNavigationSectionId() || window.location.hash.slice(1) || getClosestVerticalSectionId();
+    } else {
+      pendingVerticalSectionId = getActiveNavigationSectionId() || window.location.hash.slice(1);
+    }
+
     window.localStorage.setItem(STORAGE_KEY, mode);
     window.dispatchEvent(new Event(STORAGE_CHANGE_EVENT));
   };
@@ -198,9 +254,17 @@ export function ViewModeMain({ children }: { children: ReactNode }) {
   const isHorizontal = effectiveMode === "horizontal";
 
   useEffect(() => {
-    if (!isHorizontal) return;
+    if (!isHorizontal) {
+      const sectionId = pendingVerticalSectionId;
+      pendingVerticalSectionId = undefined;
+      if (!sectionId) return;
 
-    const sectionId = window.location.hash.slice(1);
+      const frame = requestAnimationFrame(() => scrollVerticalSectionIntoView(sectionId));
+      return () => cancelAnimationFrame(frame);
+    }
+
+    const sectionId = window.location.hash.slice(1) || pendingHorizontalSectionId;
+    pendingHorizontalSectionId = undefined;
     if (!sectionId) return;
 
     const frame = requestAnimationFrame(() => scrollHorizontalSectionIntoView(sectionId, "auto"));
@@ -247,7 +311,7 @@ export function ViewModeMain({ children }: { children: ReactNode }) {
       {Children.map(children, (child) => (
         <div
           data-view-mode-panel
-          className="h-full min-h-0 min-w-full flex-none snap-start overflow-y-auto overscroll-contain"
+          className="h-full min-h-0 w-full min-w-0 flex-none snap-start overflow-y-auto overscroll-contain"
         >
           {child}
         </div>

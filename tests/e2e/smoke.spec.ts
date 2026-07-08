@@ -118,6 +118,7 @@ test.describe("View mode", () => {
   const { ui } = getContent(DEFAULT_LOCALE);
 
   test("desktop horizontal mode persists and remaps wheel scrolling", async ({ page }) => {
+    await page.setViewportSize({ width: 1024, height: 768 });
     await page.goto(path);
 
     const primaryNav = page.getByRole("navigation", { name: ui.a11y.primaryNav });
@@ -138,26 +139,30 @@ test.describe("View mode", () => {
       const mainElement = document.querySelector("main");
       const footer = Array.from(document.querySelectorAll("footer")).find((element) => !element.closest("main"));
       const viewportHeight = window.innerHeight;
+      const panels = Array.from(document.querySelectorAll<HTMLElement>("[data-view-mode-panel]"));
 
       return {
         viewportHeight,
         providerHeight: provider?.getBoundingClientRect().height ?? 0,
         shellHeight: shell?.getBoundingClientRect().height ?? 0,
         mainHeight: mainElement?.getBoundingClientRect().height ?? 0,
+        mainWidth: mainElement?.clientWidth ?? 0,
         mainBottom: mainElement?.getBoundingClientRect().bottom ?? 0,
         footerTop: footer?.getBoundingClientRect().top ?? 0,
         footerBottom: footer?.getBoundingClientRect().bottom ?? 0,
+        panelWidths: panels.map((panel) => panel.clientWidth),
       };
     });
 
     expect(layout.providerHeight).toBeCloseTo(layout.viewportHeight, 0);
     expect(layout.shellHeight).toBeCloseTo(layout.viewportHeight, 0);
     expect(layout.mainHeight).toBeGreaterThan(0);
+    expect(layout.panelWidths.every((width) => width === layout.mainWidth)).toBe(true);
     expect(layout.mainBottom).toBeLessThanOrEqual(layout.footerTop + 1);
     expect(layout.footerBottom).toBeLessThanOrEqual(layout.viewportHeight + 1);
 
     const initialScrollLeft = await main.evaluate((el) => el.scrollLeft);
-    await page.locator("[data-view-mode-panel]").first().hover();
+    await main.hover();
     await page.mouse.wheel(0, 700);
 
     await expect.poll(() => main.evaluate((el) => el.scrollLeft)).toBeGreaterThan(initialScrollLeft);
@@ -181,6 +186,64 @@ test.describe("View mode", () => {
       )
       .toBeLessThan(4);
     await expect(educationLink).toHaveAttribute("aria-current", "page");
+  });
+
+  test("switches horizontal mode to the current vertical section", async ({ page }) => {
+    await page.goto(path);
+
+    const primaryNav = page.getByRole("navigation", { name: ui.a11y.primaryNav });
+    await page.evaluate(() => document.getElementById("skills")?.scrollIntoView());
+    const activeHref = await primaryNav.locator('a[aria-current="page"]').getAttribute("href");
+    expect(activeHref?.startsWith("#")).toBe(true);
+
+    await page.getByRole("button", { name: ui.viewMode.switchToHorizontal }).click();
+
+    const main = page.getByRole("main");
+    await expect(main).toHaveAttribute("data-view-mode-main", "horizontal");
+    await expect
+      .poll(() =>
+        page.evaluate(() => {
+          const mainElement = document.querySelector('main[data-view-mode-main="horizontal"]');
+          const activeLink = document.querySelector('nav[aria-label="Primary"] a[aria-current="page"]');
+          const sectionId = activeLink?.getAttribute("href")?.slice(1);
+          const panel = sectionId ? document.getElementById(sectionId)?.closest("[data-view-mode-panel]") : null;
+
+          if (!(mainElement instanceof HTMLElement) || !(panel instanceof HTMLElement)) {
+            return Number.POSITIVE_INFINITY;
+          }
+
+          return Math.abs(mainElement.scrollLeft - panel.offsetLeft);
+        }),
+      )
+      .toBeLessThan(4);
+  });
+
+  test("switches vertical mode to the current horizontal section", async ({ page }) => {
+    await page.goto(path);
+    await page.getByRole("button", { name: ui.viewMode.switchToHorizontal }).click();
+
+    const main = page.getByRole("main");
+    await expect(main).toHaveAttribute("data-view-mode-main", "horizontal");
+
+    await page.evaluate(() => {
+      const mainElement = document.querySelector('main[data-view-mode-main="horizontal"]');
+      const panel = document.getElementById("testimonials")?.closest("[data-view-mode-panel]");
+
+      if (mainElement instanceof HTMLElement && panel instanceof HTMLElement) {
+        mainElement.scrollLeft = panel.offsetLeft;
+        mainElement.dispatchEvent(new Event("scroll"));
+      }
+
+      window.history.replaceState(null, "", window.location.pathname);
+    });
+
+    const primaryNav = page.getByRole("navigation", { name: ui.a11y.primaryNav });
+    await expect(primaryNav.getByRole("link", { name: "Testimonials" })).toHaveAttribute("aria-current", "page");
+
+    await page.getByRole("button", { name: ui.viewMode.switchToVertical }).click();
+
+    await expect(main).toHaveAttribute("data-view-mode-main", "vertical");
+    await expect(page.locator("#testimonials-heading")).toBeInViewport();
   });
 
   test("mobile keeps vertical layout even with a horizontal preference", async ({ browser }) => {
