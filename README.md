@@ -44,8 +44,9 @@ docs/
 
 ## Roadmap
 
-- **Phase 1:** MVP — EN-only landing page with all sections (Hero, About, Experience, Skills, Education, Projects, Teaching, Contact), dark/light theme, animations, Vercel deploy.
-- **Phase 2:** RU/PL/BY locales, custom domain, SEO (sitemap, robots, canonical, structured data), analytics, possible Blog or extended Projects section.
+- **Phase 1 — shipped.** EN single-page landing with all sections, dark/light theme (system default, no flash), Motion One animations, deployed to Vercel.
+- **Phase 2 — mostly shipped; PL/BE translations remaining.** Native `[locale]` routing with EN canonical at the unprefixed root (EN and RU live; PL and BE — BCP-47 `be`, not `by` — pending translations), custom domain `yuri-semenenko.dev`, SEO (sitemap, robots, canonical + hreflang, JSON-LD structured data), analytics (Vercel Analytics + Speed Insights), and a desktop horizontal view mode.
+- **Later.** Re-enable or extend the Projects section (parked) and a possible writing/blog area.
 
 Architecture and conventions: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
 
