@@ -99,6 +99,7 @@ export interface NavigationItemModel {
 export interface NavigationModel {
   logo: string;
   items: NavigationItemModel[];
+  horizontalItems?: NavigationItemModel[];
   actions: LinkModel[];
 }
 

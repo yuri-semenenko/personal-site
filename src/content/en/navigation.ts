@@ -11,6 +11,10 @@ export const navigation: NavigationModel = {
     { label: "Skills", href: "#skills", sectionId: "skills" },
     { label: "Contact", href: "#contact", sectionId: "contact" },
   ],
+  horizontalItems: [
+    { label: "Certifications", href: "#certifications", sectionId: "certifications" },
+    { label: "Education", href: "#education", sectionId: "education" },
+  ],
   actions: [
     {
       label: "Download CV",

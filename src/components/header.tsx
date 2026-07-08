@@ -22,9 +22,19 @@ type Props = {
 export function Header({ navigation, a11y, locale, localeSwitcher, viewMode }: Props) {
   const { effectiveMode } = useViewMode();
   const reduceMotion = useReducedMotion();
+  const navItems = useMemo(() => {
+    if (effectiveMode !== "horizontal" || !navigation.horizontalItems?.length) {
+      return navigation.items;
+    }
+
+    return navigation.items.flatMap((item) =>
+      item.sectionId === "contact" ? [...navigation.horizontalItems!, item] : [item],
+    );
+  }, [effectiveMode, navigation.horizontalItems, navigation.items]);
+
   const sectionIds = useMemo(
-    () => navigation.items.map((item) => item.sectionId).filter((id): id is string => Boolean(id)),
-    [navigation.items],
+    () => navItems.map((item) => item.sectionId).filter((id): id is string => Boolean(id)),
+    [navItems],
   );
 
   const activeId = useActiveSection(sectionIds, effectiveMode);
@@ -61,11 +71,11 @@ export function Header({ navigation, a11y, locale, localeSwitcher, viewMode }: P
       <div data-slot="header-navigation-row" className="hidden border-t border-border/70 bg-background/35 lg:block">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <nav
-            className="flex h-11 items-center justify-center gap-4 2xl:gap-8"
+            className="flex h-11 items-center justify-center gap-3 xl:gap-4 2xl:gap-7"
             aria-label={a11y.primaryNav}
             onPointerLeave={() => setPreviewId(undefined)}
           >
-            {navigation.items.map((item) => {
+            {navItems.map((item) => {
               const isActive = activeId === item.sectionId;
               const isHighlighted = indicatorId === item.sectionId;
               return (

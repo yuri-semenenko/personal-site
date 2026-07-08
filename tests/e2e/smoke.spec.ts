@@ -120,11 +120,16 @@ test.describe("View mode", () => {
   test("desktop horizontal mode persists and remaps wheel scrolling", async ({ page }) => {
     await page.goto(path);
 
+    const primaryNav = page.getByRole("navigation", { name: ui.a11y.primaryNav });
+    await expect(primaryNav.getByRole("link", { name: "Education" })).toHaveCount(0);
+
     await page.getByRole("button", { name: ui.viewMode.switchToHorizontal }).click();
 
     const main = page.getByRole("main");
     await expect(main).toHaveAttribute("data-view-mode-main", "horizontal");
     await expect.poll(() => page.evaluate(() => localStorage.getItem("view-mode"))).toBe("horizontal");
+    await expect(primaryNav.getByRole("link", { name: "Certifications" })).toBeVisible();
+    await expect(primaryNav.getByRole("link", { name: "Education" })).toBeVisible();
     await expect(page.getByRole("contentinfo")).toBeVisible();
 
     const layout = await page.evaluate(() => {
@@ -157,16 +162,15 @@ test.describe("View mode", () => {
 
     await expect.poll(() => main.evaluate((el) => el.scrollLeft)).toBeGreaterThan(initialScrollLeft);
 
-    const primaryNav = page.getByRole("navigation", { name: ui.a11y.primaryNav });
-    const skillsLink = primaryNav.getByRole("link", { name: "Skills" });
-    await skillsLink.click();
+    const educationLink = primaryNav.getByRole("link", { name: "Education" });
+    await educationLink.click();
 
-    await expect(page).toHaveURL(/#skills$/);
+    await expect(page).toHaveURL(/#education$/);
     await expect
       .poll(() =>
         page.evaluate(() => {
           const mainElement = document.querySelector('main[data-view-mode-main="horizontal"]');
-          const panel = document.getElementById("skills")?.closest("[data-view-mode-panel]");
+          const panel = document.getElementById("education")?.closest("[data-view-mode-panel]");
 
           if (!(mainElement instanceof HTMLElement) || !(panel instanceof HTMLElement)) {
             return Number.POSITIVE_INFINITY;
@@ -176,7 +180,7 @@ test.describe("View mode", () => {
         }),
       )
       .toBeLessThan(4);
-    await expect(skillsLink).toHaveAttribute("aria-current", "page");
+    await expect(educationLink).toHaveAttribute("aria-current", "page");
   });
 
   test("mobile keeps vertical layout even with a horizontal preference", async ({ browser }) => {
