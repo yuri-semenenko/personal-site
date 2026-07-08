@@ -3,12 +3,14 @@
 import {
   Children,
   createContext,
+  useCallback,
   useContext,
   useEffect,
   useMemo,
   useRef,
   useSyncExternalStore,
   type ReactNode,
+  type RefObject,
 } from "react";
 import { Columns3, Rows3 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -23,19 +25,23 @@ export type ViewModeCopy = {
   switchToHorizontal: string;
 };
 
+// Section to restore after the next mode switch, per target mode. Held in a
+// context ref (not module state) so it is scoped per provider and does not leak
+// across instances or test renders.
+type PendingSections = { horizontal?: string; vertical?: string };
+
 type ViewModeContextValue = {
   preference: ViewMode;
   effectiveMode: ViewMode;
   isDesktop: boolean;
   setPreference: (mode: ViewMode) => void;
+  pendingSectionRef: RefObject<PendingSections>;
 };
 
 const DESKTOP_MEDIA_QUERY = "(min-width: 64rem)";
 const STORAGE_KEY = "view-mode";
 const STORAGE_CHANGE_EVENT = "view-mode-change";
 const ViewModeContext = createContext<ViewModeContextValue | null>(null);
-let pendingHorizontalSectionId: string | undefined;
-let pendingVerticalSectionId: string | undefined;
 
 function getHorizontalMain() {
   return document.querySelector<HTMLElement>('main[data-view-mode-main="horizontal"]');
@@ -144,23 +150,24 @@ function subscribeDesktop(onStoreChange: () => void) {
 export function ViewModeProvider({ children }: { children: ReactNode }) {
   const preference = useSyncExternalStore<ViewMode>(subscribePreference, readStoredPreference, () => "vertical");
   const isDesktop = useSyncExternalStore(subscribeDesktop, getDesktopSnapshot, () => false);
+  const pendingSectionRef = useRef<PendingSections>({});
 
-  const setPreference = (mode: ViewMode) => {
+  const setPreference = useCallback((mode: ViewMode) => {
     if (mode === "horizontal") {
-      pendingHorizontalSectionId =
+      pendingSectionRef.current.horizontal =
         getActiveNavigationSectionId() || window.location.hash.slice(1) || getClosestVerticalSectionId();
     } else {
-      pendingVerticalSectionId = getActiveNavigationSectionId() || window.location.hash.slice(1);
+      pendingSectionRef.current.vertical = getActiveNavigationSectionId() || window.location.hash.slice(1);
     }
 
     window.localStorage.setItem(STORAGE_KEY, mode);
     window.dispatchEvent(new Event(STORAGE_CHANGE_EVENT));
-  };
+  }, []);
 
   const effectiveMode: ViewMode = isDesktop ? preference : "vertical";
   const value = useMemo(
-    () => ({ preference, effectiveMode, isDesktop, setPreference }),
-    [effectiveMode, isDesktop, preference],
+    () => ({ preference, effectiveMode, isDesktop, setPreference, pendingSectionRef }),
+    [effectiveMode, isDesktop, preference, setPreference],
   );
 
   return (
@@ -271,27 +278,27 @@ function normalizeWheelDelta(event: WheelEvent, main: HTMLElement) {
 }
 
 export function ViewModeMain({ children }: { children: ReactNode }) {
-  const { effectiveMode } = useViewMode();
+  const { effectiveMode, pendingSectionRef } = useViewMode();
   const mainRef = useRef<HTMLElement>(null);
   const isHorizontal = effectiveMode === "horizontal";
 
   useEffect(() => {
     if (!isHorizontal) {
-      const sectionId = pendingVerticalSectionId;
-      pendingVerticalSectionId = undefined;
+      const sectionId = pendingSectionRef.current.vertical;
+      pendingSectionRef.current.vertical = undefined;
       if (!sectionId) return;
 
       const frame = requestAnimationFrame(() => scrollVerticalSectionIntoView(sectionId));
       return () => cancelAnimationFrame(frame);
     }
 
-    const sectionId = window.location.hash.slice(1) || pendingHorizontalSectionId;
-    pendingHorizontalSectionId = undefined;
+    const sectionId = window.location.hash.slice(1) || pendingSectionRef.current.horizontal;
+    pendingSectionRef.current.horizontal = undefined;
     if (!sectionId) return;
 
     const frame = requestAnimationFrame(() => scrollHorizontalSectionIntoView(sectionId, "auto"));
     return () => cancelAnimationFrame(frame);
-  }, [isHorizontal]);
+  }, [isHorizontal, pendingSectionRef]);
 
   // Nav clicks pushState instead of letting the browser jump the anchor, so
   // Back/Forward only change the hash. Scroll the matching panel into view on
