@@ -163,9 +163,17 @@ test.describe("View mode", () => {
 
     const initialScrollLeft = await main.evaluate((el) => el.scrollLeft);
     await main.hover();
-    await page.mouse.wheel(0, 700);
 
-    await expect.poll(() => main.evaluate((el) => el.scrollLeft)).toBeGreaterThan(initialScrollLeft);
+    // A panel scrolls its own overflowing content vertically first; once that is
+    // exhausted the wheel remaps to horizontal. Wheel until the horizontal
+    // position advances so the assertion holds whether or not the focused panel
+    // overflows vertically at this viewport.
+    await expect
+      .poll(async () => {
+        await page.mouse.wheel(0, 700);
+        return main.evaluate((el) => el.scrollLeft);
+      })
+      .toBeGreaterThan(initialScrollLeft);
 
     const educationLink = primaryNav.getByRole("link", { name: "Education" });
     await educationLink.click();
