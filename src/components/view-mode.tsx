@@ -157,7 +157,9 @@ export function ViewModeProvider({ children }: { children: ReactNode }) {
     <ViewModeContext.Provider value={value}>
       <div
         data-view-mode={effectiveMode}
-        className={effectiveMode === "horizontal" ? "flex h-dvh flex-col overflow-hidden" : undefined}
+        // In vertical mode stay out of the layout (display: contents) so the
+        // body -> shell min-h-full chain that pins the footer is preserved.
+        className={effectiveMode === "horizontal" ? "flex h-dvh flex-col overflow-hidden" : "contents"}
       >
         {children}
       </div>
