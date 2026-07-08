@@ -203,38 +203,33 @@ export function ViewModeShell({ children }: { children: ReactNode }) {
 export function ViewModeToggle({ copy }: { copy: ViewModeCopy }) {
   const { preference, setPreference } = useViewMode();
 
+  const options = [
+    { mode: "vertical", Icon: Rows3, ariaLabel: copy.switchToVertical, srLabel: copy.vertical },
+    { mode: "horizontal", Icon: Columns3, ariaLabel: copy.switchToHorizontal, srLabel: copy.horizontal },
+  ] as const;
+
   return (
     <div
       className="hidden items-center rounded-md border border-border bg-card p-0.5 text-muted-foreground lg:inline-flex"
       role="group"
       aria-label={copy.label}
     >
-      <button
-        type="button"
-        aria-label={copy.switchToVertical}
-        aria-pressed={preference === "vertical"}
-        onClick={() => setPreference("vertical")}
-        className={cn(
-          "inline-flex h-7 w-7 items-center justify-center rounded-[calc(var(--radius-sm)*0.9)] transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-          preference === "vertical" && "bg-primary text-primary-foreground hover:text-primary-foreground",
-        )}
-      >
-        <Rows3 className="h-3.5 w-3.5" />
-        <span className="sr-only">{copy.vertical}</span>
-      </button>
-      <button
-        type="button"
-        aria-label={copy.switchToHorizontal}
-        aria-pressed={preference === "horizontal"}
-        onClick={() => setPreference("horizontal")}
-        className={cn(
-          "inline-flex h-7 w-7 items-center justify-center rounded-[calc(var(--radius-sm)*0.9)] transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-          preference === "horizontal" && "bg-primary text-primary-foreground hover:text-primary-foreground",
-        )}
-      >
-        <Columns3 className="h-3.5 w-3.5" />
-        <span className="sr-only">{copy.horizontal}</span>
-      </button>
+      {options.map(({ mode, Icon, ariaLabel, srLabel }) => (
+        <button
+          key={mode}
+          type="button"
+          aria-label={ariaLabel}
+          aria-pressed={preference === mode}
+          onClick={() => setPreference(mode)}
+          className={cn(
+            "inline-flex h-7 w-7 items-center justify-center rounded-[calc(var(--radius-sm)*0.9)] transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+            preference === mode && "bg-primary text-primary-foreground hover:text-primary-foreground",
+          )}
+        >
+          <Icon className="h-3.5 w-3.5" />
+          <span className="sr-only">{srLabel}</span>
+        </button>
+      ))}
     </div>
   );
 }
