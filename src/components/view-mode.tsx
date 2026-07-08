@@ -47,23 +47,33 @@ function getHorizontalPanel(sectionId: string) {
   return panel instanceof HTMLElement ? panel : null;
 }
 
+// panel.offsetLeft is measured from the nearest positioned offsetParent, which
+// is not necessarily the scroll container. Derive the panel's scroll position
+// within main from their bounding rects so it stays correct regardless of
+// positioned ancestors.
+function getPanelScrollLeft(main: HTMLElement, panel: HTMLElement) {
+  return main.scrollLeft + panel.getBoundingClientRect().left - main.getBoundingClientRect().left;
+}
+
 export function scrollHorizontalSectionIntoView(sectionId: string, behavior: ScrollBehavior = "smooth") {
   const main = getHorizontalMain();
   const panel = getHorizontalPanel(sectionId);
 
   if (!main || !panel) return false;
 
+  const left = getPanelScrollLeft(main, panel);
+
   if (behavior === "auto") {
     const previousScrollBehavior = main.style.scrollBehavior;
     main.style.scrollBehavior = "auto";
-    main.scrollLeft = panel.offsetLeft;
+    main.scrollLeft = left;
     requestAnimationFrame(() => {
       main.style.scrollBehavior = previousScrollBehavior;
     });
     return true;
   }
 
-  main.scrollTo({ left: panel.offsetLeft, behavior });
+  main.scrollTo({ left, behavior });
   return true;
 }
 
