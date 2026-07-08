@@ -115,7 +115,7 @@ test.describe("Locale routing", () => {
 
 test.describe("View mode", () => {
   const path = localePath(DEFAULT_LOCALE);
-  const { ui } = getContent(DEFAULT_LOCALE);
+  const { navigation, ui } = getContent(DEFAULT_LOCALE);
 
   test("desktop horizontal mode persists and remaps wheel scrolling", async ({ page }) => {
     await page.setViewportSize({ width: 1024, height: 768 });
@@ -194,6 +194,11 @@ test.describe("View mode", () => {
       )
       .toBeLessThan(4);
     await expect(educationLink).toHaveAttribute("aria-current", "page");
+
+    // The logo returns to the hero panel (the first screen, which is not a nav item).
+    await page.getByRole("link", { name: navigation.logo }).click();
+    await expect(page).toHaveURL(/#hero$/);
+    await expect.poll(() => main.evaluate((el) => el.scrollLeft)).toBeLessThan(4);
   });
 
   test("switches horizontal mode to the current vertical section", async ({ page }) => {

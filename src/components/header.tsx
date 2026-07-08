@@ -46,7 +46,18 @@ export function Header({ navigation, a11y, locale, localeSwitcher, viewMode }: P
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-background/80 backdrop-blur supports-backdrop-filter:bg-background/60">
       <div data-slot="header-top-row" className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4 sm:px-6">
-        <a href="#" className="font-mono text-sm font-medium text-foreground transition-colors hover:text-primary">
+        <a
+          href="#hero"
+          onClick={(event) => {
+            if (effectiveMode !== "horizontal") return;
+            if (!scrollHorizontalSectionIntoView("hero", scrollBehavior)) return;
+
+            event.preventDefault();
+            window.history.pushState(null, "", "#hero");
+            setPreviewId(undefined);
+          }}
+          className="font-mono text-sm font-medium text-foreground transition-colors hover:text-primary"
+        >
           {navigation.logo}
         </a>
 
