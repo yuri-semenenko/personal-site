@@ -281,6 +281,25 @@ export function ViewModeMain({ children }: { children: ReactNode }) {
     return () => cancelAnimationFrame(frame);
   }, [isHorizontal]);
 
+  // Nav clicks pushState instead of letting the browser jump the anchor, so
+  // Back/Forward only change the hash. Scroll the matching panel into view on
+  // popstate/hashchange to keep the URL and the visible section in sync.
+  useEffect(() => {
+    if (!isHorizontal) return;
+
+    const syncFromHash = () => {
+      const sectionId = window.location.hash.slice(1);
+      if (sectionId) scrollHorizontalSectionIntoView(sectionId);
+    };
+
+    window.addEventListener("popstate", syncFromHash);
+    window.addEventListener("hashchange", syncFromHash);
+    return () => {
+      window.removeEventListener("popstate", syncFromHash);
+      window.removeEventListener("hashchange", syncFromHash);
+    };
+  }, [isHorizontal]);
+
   // React registers onWheel as a passive listener, so preventDefault() there is
   // a no-op (logs a Chrome intervention warning and lets deltaX double-scroll).
   // Bind natively with { passive: false } instead.
