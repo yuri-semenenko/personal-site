@@ -10,7 +10,9 @@ describe.each(ACTIVE_LOCALES)("Content invariants (%s)", (locale) => {
   const content = getContent(locale);
   describe("navigation", () => {
     it("every item href and sectionId stay in sync", () => {
-      for (const item of content.navigation.items) {
+      const items = [...content.navigation.items, ...(content.navigation.horizontalItems ?? [])];
+
+      for (const item of items) {
         if (item.external) continue;
         if (item.sectionId) {
           expect(item.href, `nav item "${item.label}" href`).toBe(`#${item.sectionId}`);
@@ -18,6 +20,14 @@ describe.each(ACTIVE_LOCALES)("Content invariants (%s)", (locale) => {
           // No sectionId — should be a real route, anchor to top, or external. "#" alone is allowed.
           expect(item.href === "#" || item.href.startsWith("/"), `nav item "${item.label}" href`).toBe(true);
         }
+      }
+    });
+
+    it("horizontal-only items do not duplicate the primary nav ids", () => {
+      const primaryIds = new Set(content.navigation.items.map((item) => item.sectionId).filter(Boolean));
+
+      for (const item of content.navigation.horizontalItems ?? []) {
+        expect(primaryIds.has(item.sectionId), `horizontal nav item "${item.label}" sectionId`).toBe(false);
       }
     });
 

@@ -112,3 +112,164 @@ test.describe("Locale routing", () => {
     expect(response.status()).toBe(404);
   });
 });
+
+test.describe("View mode", () => {
+  const path = localePath(DEFAULT_LOCALE);
+  const { navigation, ui } = getContent(DEFAULT_LOCALE);
+
+  test("desktop horizontal mode persists and remaps wheel scrolling", async ({ page }) => {
+    await page.setViewportSize({ width: 1024, height: 768 });
+    await page.goto(path);
+
+    const primaryNav = page.getByRole("navigation", { name: ui.a11y.primaryNav });
+    await expect(primaryNav.getByRole("link", { name: "Education" })).toHaveCount(0);
+
+    await page.getByRole("button", { name: ui.viewMode.switchToHorizontal }).click();
+
+    const main = page.getByRole("main");
+    await expect(main).toHaveAttribute("data-view-mode-main", "horizontal");
+    await expect.poll(() => page.evaluate(() => localStorage.getItem("view-mode"))).toBe("horizontal");
+    await expect(primaryNav.getByRole("link", { name: "Certifications" })).toBeVisible();
+    await expect(primaryNav.getByRole("link", { name: "Education" })).toBeVisible();
+    await expect(page.getByRole("contentinfo")).toBeVisible();
+
+    const layout = await page.evaluate(() => {
+      const provider = document.querySelector("[data-view-mode]");
+      const shell = provider?.firstElementChild;
+      const mainElement = document.querySelector("main");
+      const footer = Array.from(document.querySelectorAll("footer")).find((element) => !element.closest("main"));
+      const viewportHeight = window.innerHeight;
+      const panels = Array.from(document.querySelectorAll<HTMLElement>("[data-view-mode-panel]"));
+
+      return {
+        viewportHeight,
+        providerHeight: provider?.getBoundingClientRect().height ?? 0,
+        shellHeight: shell?.getBoundingClientRect().height ?? 0,
+        mainHeight: mainElement?.getBoundingClientRect().height ?? 0,
+        mainWidth: mainElement?.clientWidth ?? 0,
+        mainBottom: mainElement?.getBoundingClientRect().bottom ?? 0,
+        footerTop: footer?.getBoundingClientRect().top ?? 0,
+        footerBottom: footer?.getBoundingClientRect().bottom ?? 0,
+        panelWidths: panels.map((panel) => panel.clientWidth),
+      };
+    });
+
+    expect(layout.providerHeight).toBeCloseTo(layout.viewportHeight, 0);
+    expect(layout.shellHeight).toBeCloseTo(layout.viewportHeight, 0);
+    expect(layout.mainHeight).toBeGreaterThan(0);
+    expect(layout.panelWidths.every((width) => width === layout.mainWidth)).toBe(true);
+    expect(layout.mainBottom).toBeLessThanOrEqual(layout.footerTop + 1);
+    expect(layout.footerBottom).toBeLessThanOrEqual(layout.viewportHeight + 1);
+
+    const initialScrollLeft = await main.evaluate((el) => el.scrollLeft);
+    await main.hover();
+
+    // A panel scrolls its own overflowing content vertically first; once that is
+    // exhausted the wheel remaps to horizontal. Wheel until the horizontal
+    // position advances so the assertion holds whether or not the focused panel
+    // overflows vertically at this viewport.
+    await expect
+      .poll(async () => {
+        await page.mouse.wheel(0, 700);
+        return main.evaluate((el) => el.scrollLeft);
+      })
+      .toBeGreaterThan(initialScrollLeft);
+
+    const educationLink = primaryNav.getByRole("link", { name: "Education" });
+    await educationLink.click();
+
+    await expect(page).toHaveURL(/#education$/);
+    await expect
+      .poll(() =>
+        page.evaluate(() => {
+          const mainElement = document.querySelector('main[data-view-mode-main="horizontal"]');
+          const panel = document.getElementById("education")?.closest("[data-view-mode-panel]");
+
+          if (!(mainElement instanceof HTMLElement) || !(panel instanceof HTMLElement)) {
+            return Number.POSITIVE_INFINITY;
+          }
+
+          return Math.abs(mainElement.scrollLeft - panel.offsetLeft);
+        }),
+      )
+      .toBeLessThan(4);
+    await expect(educationLink).toHaveAttribute("aria-current", "page");
+
+    // The logo returns to the hero panel (the first screen, which is not a nav item).
+    await page.getByRole("link", { name: navigation.logo }).click();
+    await expect(page).toHaveURL(/#hero$/);
+    await expect.poll(() => main.evaluate((el) => el.scrollLeft)).toBeLessThan(4);
+  });
+
+  test("switches horizontal mode to the current vertical section", async ({ page }) => {
+    await page.goto(path);
+
+    const primaryNav = page.getByRole("navigation", { name: ui.a11y.primaryNav });
+    await page.evaluate(() => document.getElementById("skills")?.scrollIntoView());
+    const activeHref = await primaryNav.locator('a[aria-current="page"]').getAttribute("href");
+    expect(activeHref?.startsWith("#")).toBe(true);
+
+    await page.getByRole("button", { name: ui.viewMode.switchToHorizontal }).click();
+
+    const main = page.getByRole("main");
+    await expect(main).toHaveAttribute("data-view-mode-main", "horizontal");
+    await expect
+      .poll(() =>
+        page.evaluate(() => {
+          const mainElement = document.querySelector('main[data-view-mode-main="horizontal"]');
+          const activeLink = document.querySelector('nav[aria-label="Primary"] a[aria-current="page"]');
+          const sectionId = activeLink?.getAttribute("href")?.slice(1);
+          const panel = sectionId ? document.getElementById(sectionId)?.closest("[data-view-mode-panel]") : null;
+
+          if (!(mainElement instanceof HTMLElement) || !(panel instanceof HTMLElement)) {
+            return Number.POSITIVE_INFINITY;
+          }
+
+          return Math.abs(mainElement.scrollLeft - panel.offsetLeft);
+        }),
+      )
+      .toBeLessThan(4);
+  });
+
+  test("switches vertical mode to the current horizontal section", async ({ page }) => {
+    await page.goto(path);
+    await page.getByRole("button", { name: ui.viewMode.switchToHorizontal }).click();
+
+    const main = page.getByRole("main");
+    await expect(main).toHaveAttribute("data-view-mode-main", "horizontal");
+
+    await page.evaluate(() => {
+      const mainElement = document.querySelector('main[data-view-mode-main="horizontal"]');
+      const panel = document.getElementById("testimonials")?.closest("[data-view-mode-panel]");
+
+      if (mainElement instanceof HTMLElement && panel instanceof HTMLElement) {
+        mainElement.scrollLeft = panel.offsetLeft;
+        mainElement.dispatchEvent(new Event("scroll"));
+      }
+
+      window.history.replaceState(null, "", window.location.pathname);
+    });
+
+    const primaryNav = page.getByRole("navigation", { name: ui.a11y.primaryNav });
+    await expect(primaryNav.getByRole("link", { name: "Testimonials" })).toHaveAttribute("aria-current", "page");
+
+    await page.getByRole("button", { name: ui.viewMode.switchToVertical }).click();
+
+    await expect(main).toHaveAttribute("data-view-mode-main", "vertical");
+    await expect(page.locator("#testimonials-heading")).toBeInViewport();
+  });
+
+  test("mobile keeps vertical layout even with a horizontal preference", async ({ browser }) => {
+    const context = await browser.newContext({ viewport: { width: 390, height: 844 } });
+    const page = await context.newPage();
+    try {
+      await page.addInitScript(() => localStorage.setItem("view-mode", "horizontal"));
+      await page.goto(path);
+
+      await expect(page.getByRole("main")).toHaveAttribute("data-view-mode-main", "vertical");
+      await expect(page.getByRole("button", { name: ui.viewMode.switchToHorizontal })).toBeHidden();
+    } finally {
+      await context.close();
+    }
+  });
+});

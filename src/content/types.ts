@@ -99,6 +99,7 @@ export interface NavigationItemModel {
 export interface NavigationModel {
   logo: string;
   items: NavigationItemModel[];
+  horizontalItems?: NavigationItemModel[];
   actions: LinkModel[];
 }
 
@@ -269,6 +270,13 @@ export interface UiModel {
     ariaLabel: string;
     /** Short display names keyed by locale (e.g. "EN", "RU"). */
     names: Record<Locale, string>;
+  };
+  viewMode: {
+    label: string;
+    vertical: string;
+    horizontal: string;
+    switchToVertical: string;
+    switchToHorizontal: string;
   };
   a11y: {
     primaryNav: string;

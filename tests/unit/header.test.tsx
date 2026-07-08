@@ -1,6 +1,7 @@
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { Header } from "@/components/header";
+import { ViewModeProvider } from "@/components/view-mode";
 import { enContent } from "@/content/en";
 
 vi.mock("next-themes", () => ({
@@ -19,22 +20,42 @@ class FakeIntersectionObserver {
   }
 }
 
-describe("Header", () => {
-  beforeEach(() => {
-    vi.stubGlobal("IntersectionObserver", FakeIntersectionObserver);
-  });
-
-  afterEach(() => cleanup());
-
-  it("places desktop section navigation in its own row below the top controls", () => {
-    render(
+function renderHeader() {
+  render(
+    <ViewModeProvider>
       <Header
         navigation={enContent.navigation}
         a11y={enContent.ui.a11y}
         locale="en"
         localeSwitcher={enContent.ui.localeSwitcher}
-      />,
-    );
+        viewMode={enContent.ui.viewMode}
+      />
+    </ViewModeProvider>,
+  );
+}
+
+describe("Header", () => {
+  beforeEach(() => {
+    vi.stubGlobal("IntersectionObserver", FakeIntersectionObserver);
+    vi.stubGlobal("matchMedia", (query: string) => ({
+      matches: true,
+      media: query,
+      onchange: null,
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+      addListener: vi.fn(),
+      removeListener: vi.fn(),
+      dispatchEvent: vi.fn(),
+    }));
+  });
+
+  afterEach(() => {
+    cleanup();
+    vi.unstubAllGlobals();
+  });
+
+  it("places desktop section navigation in its own row below the top controls", () => {
+    renderHeader();
 
     const primaryNav = screen.getByRole("navigation", { name: enContent.ui.a11y.primaryNav });
     const navigationRow = primaryNav.closest("[data-slot='header-navigation-row']");
@@ -48,14 +69,7 @@ describe("Header", () => {
   });
 
   it("uses one shared primary nav indicator that moves to the hovered item", () => {
-    render(
-      <Header
-        navigation={enContent.navigation}
-        a11y={enContent.ui.a11y}
-        locale="en"
-        localeSwitcher={enContent.ui.localeSwitcher}
-      />,
-    );
+    renderHeader();
 
     const primaryNav = screen.getByRole("navigation", { name: enContent.ui.a11y.primaryNav });
     const aboutLink = screen.getByRole("link", { name: "About" });

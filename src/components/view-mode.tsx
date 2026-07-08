@@ -1,0 +1,373 @@
+"use client";
+
+import {
+  Children,
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useSyncExternalStore,
+  type ReactNode,
+  type RefObject,
+} from "react";
+import { Columns3, Rows3 } from "lucide-react";
+import { cn } from "@/lib/utils";
+
+export type ViewMode = "vertical" | "horizontal";
+
+export type ViewModeCopy = {
+  label: string;
+  vertical: string;
+  horizontal: string;
+  switchToVertical: string;
+  switchToHorizontal: string;
+};
+
+// Section to restore after the next mode switch, per target mode. Held in a
+// context ref (not module state) so it is scoped per provider and does not leak
+// across instances or test renders.
+type PendingSections = { horizontal?: string; vertical?: string };
+
+type ViewModeContextValue = {
+  preference: ViewMode;
+  effectiveMode: ViewMode;
+  isDesktop: boolean;
+  setPreference: (mode: ViewMode) => void;
+  pendingSectionRef: RefObject<PendingSections>;
+};
+
+const DESKTOP_MEDIA_QUERY = "(min-width: 64rem)";
+const STORAGE_KEY = "view-mode";
+const STORAGE_CHANGE_EVENT = "view-mode-change";
+const ViewModeContext = createContext<ViewModeContextValue | null>(null);
+
+function getHorizontalMain() {
+  return document.querySelector<HTMLElement>('main[data-view-mode-main="horizontal"]');
+}
+
+function getHorizontalPanel(sectionId: string) {
+  const target = document.getElementById(sectionId);
+  const panel = target?.closest("[data-view-mode-panel]");
+  return panel instanceof HTMLElement ? panel : null;
+}
+
+// panel.offsetLeft is measured from the nearest positioned offsetParent, which
+// is not necessarily the scroll container. Derive the panel's scroll position
+// within main from their bounding rects so it stays correct regardless of
+// positioned ancestors.
+function getPanelScrollLeft(main: HTMLElement, panel: HTMLElement) {
+  return main.scrollLeft + panel.getBoundingClientRect().left - main.getBoundingClientRect().left;
+}
+
+export function scrollHorizontalSectionIntoView(sectionId: string, behavior: ScrollBehavior = "smooth") {
+  const main = getHorizontalMain();
+  const panel = getHorizontalPanel(sectionId);
+
+  if (!main || !panel) return false;
+
+  const left = getPanelScrollLeft(main, panel);
+
+  if (behavior === "auto") {
+    const previousScrollBehavior = main.style.scrollBehavior;
+    main.style.scrollBehavior = "auto";
+    main.scrollLeft = left;
+    requestAnimationFrame(() => {
+      main.style.scrollBehavior = previousScrollBehavior;
+    });
+    return true;
+  }
+
+  main.scrollTo({ left, behavior });
+  return true;
+}
+
+function scrollVerticalSectionIntoView(sectionId: string) {
+  const target = document.getElementById(sectionId);
+  if (!target) return false;
+
+  const previousScrollBehavior = document.documentElement.style.scrollBehavior;
+  document.documentElement.style.scrollBehavior = "auto";
+  target.scrollIntoView({ block: "start" });
+  requestAnimationFrame(() => {
+    document.documentElement.style.scrollBehavior = previousScrollBehavior;
+  });
+  return true;
+}
+
+function getClosestVerticalSectionId() {
+  const sections = Array.from(document.querySelectorAll<HTMLElement>("[data-print-section][id]"));
+  const viewportAnchor = window.innerHeight * 0.35;
+  let bestId: string | undefined;
+  let bestDistance = Number.POSITIVE_INFINITY;
+
+  for (const section of sections) {
+    const rect = section.getBoundingClientRect();
+    const distance = Math.abs(rect.top - viewportAnchor);
+
+    if (distance < bestDistance) {
+      bestDistance = distance;
+      bestId = section.id;
+    }
+  }
+
+  return bestId;
+}
+
+function getActiveNavigationSectionId() {
+  const activeLink = document.querySelector<HTMLAnchorElement>('a[aria-current="page"][href^="#"]');
+  return activeLink?.hash.slice(1);
+}
+
+function readStoredPreference(): ViewMode {
+  if (typeof window === "undefined") return "vertical";
+  const stored = window.localStorage.getItem(STORAGE_KEY);
+  return stored === "horizontal" || stored === "vertical" ? stored : "vertical";
+}
+
+function subscribePreference(onStoreChange: () => void) {
+  window.addEventListener("storage", onStoreChange);
+  window.addEventListener(STORAGE_CHANGE_EVENT, onStoreChange);
+
+  return () => {
+    window.removeEventListener("storage", onStoreChange);
+    window.removeEventListener(STORAGE_CHANGE_EVENT, onStoreChange);
+  };
+}
+
+function getDesktopSnapshot() {
+  return window.matchMedia(DESKTOP_MEDIA_QUERY).matches;
+}
+
+function subscribeDesktop(onStoreChange: () => void) {
+  const mediaQuery = window.matchMedia(DESKTOP_MEDIA_QUERY);
+  mediaQuery.addEventListener("change", onStoreChange);
+
+  return () => mediaQuery.removeEventListener("change", onStoreChange);
+}
+
+export function ViewModeProvider({ children }: { children: ReactNode }) {
+  const preference = useSyncExternalStore<ViewMode>(subscribePreference, readStoredPreference, () => "vertical");
+  const isDesktop = useSyncExternalStore(subscribeDesktop, getDesktopSnapshot, () => false);
+  const pendingSectionRef = useRef<PendingSections>({});
+
+  const setPreference = useCallback((mode: ViewMode) => {
+    if (mode === "horizontal") {
+      pendingSectionRef.current.horizontal =
+        getActiveNavigationSectionId() || window.location.hash.slice(1) || getClosestVerticalSectionId();
+    } else {
+      pendingSectionRef.current.vertical = getActiveNavigationSectionId() || window.location.hash.slice(1);
+    }
+
+    window.localStorage.setItem(STORAGE_KEY, mode);
+    window.dispatchEvent(new Event(STORAGE_CHANGE_EVENT));
+  }, []);
+
+  const effectiveMode: ViewMode = isDesktop ? preference : "vertical";
+  const value = useMemo(
+    () => ({ preference, effectiveMode, isDesktop, setPreference, pendingSectionRef }),
+    [effectiveMode, isDesktop, preference, setPreference],
+  );
+
+  return (
+    <ViewModeContext.Provider value={value}>
+      <div
+        data-view-mode={effectiveMode}
+        // In vertical mode stay out of the layout (display: contents) so the
+        // body -> shell min-h-full chain that pins the footer is preserved.
+        className={effectiveMode === "horizontal" ? "flex h-dvh flex-col overflow-hidden" : "contents"}
+      >
+        {children}
+      </div>
+    </ViewModeContext.Provider>
+  );
+}
+
+export function useViewMode() {
+  const value = useContext(ViewModeContext);
+  if (!value) {
+    throw new Error("useViewMode must be used within ViewModeProvider");
+  }
+  return value;
+}
+
+export function ViewModeShell({ children }: { children: ReactNode }) {
+  const { effectiveMode } = useViewMode();
+
+  return (
+    <div className={cn("min-h-full flex flex-col", effectiveMode === "horizontal" && "h-full min-h-0")}>{children}</div>
+  );
+}
+
+export function ViewModeToggle({ copy }: { copy: ViewModeCopy }) {
+  const { preference, setPreference } = useViewMode();
+
+  const options = [
+    { mode: "vertical", Icon: Rows3, ariaLabel: copy.switchToVertical, srLabel: copy.vertical },
+    { mode: "horizontal", Icon: Columns3, ariaLabel: copy.switchToHorizontal, srLabel: copy.horizontal },
+  ] as const;
+
+  return (
+    <div
+      className="hidden items-center rounded-md border border-border bg-card p-0.5 text-muted-foreground lg:inline-flex"
+      role="group"
+      aria-label={copy.label}
+    >
+      {options.map(({ mode, Icon, ariaLabel, srLabel }) => (
+        <button
+          key={mode}
+          type="button"
+          aria-label={ariaLabel}
+          aria-pressed={preference === mode}
+          onClick={() => setPreference(mode)}
+          className={cn(
+            "inline-flex h-7 w-7 items-center justify-center rounded-[calc(var(--radius-sm)*0.9)] transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+            preference === mode && "bg-primary text-primary-foreground hover:text-primary-foreground",
+          )}
+        >
+          <Icon className="h-3.5 w-3.5" />
+          <span className="sr-only">{srLabel}</span>
+        </button>
+      ))}
+    </div>
+  );
+}
+
+function canScrollVertically(element: HTMLElement, deltaY: number) {
+  const maxScrollTop = element.scrollHeight - element.clientHeight;
+  if (maxScrollTop <= 1) return false;
+  if (deltaY > 0) return element.scrollTop < maxScrollTop - 1;
+  if (deltaY < 0) return element.scrollTop > 1;
+  return false;
+}
+
+function findVerticalScrollTarget(target: EventTarget | null, panel: HTMLElement) {
+  if (!(target instanceof HTMLElement)) return null;
+
+  let current: HTMLElement | null = target;
+  while (current && panel.contains(current)) {
+    const style = window.getComputedStyle(current);
+    const canOverflow = style.overflowY === "auto" || style.overflowY === "scroll";
+
+    if (canOverflow && current.scrollHeight > current.clientHeight + 1) {
+      return current;
+    }
+
+    if (current === panel) break;
+    current = current.parentElement;
+  }
+
+  return null;
+}
+
+// Fallback pixels-per-line for wheel events reported in line mode (Firefox
+// mouse wheels use WheelEvent.DOM_DELTA_LINE, where deltaY is ~3, not pixels).
+const WHEEL_LINE_HEIGHT = 16;
+
+function normalizeWheelDelta(event: WheelEvent, main: HTMLElement) {
+  const raw = event.deltaY + event.deltaX;
+  if (event.deltaMode === WheelEvent.DOM_DELTA_LINE) return raw * WHEEL_LINE_HEIGHT;
+  if (event.deltaMode === WheelEvent.DOM_DELTA_PAGE) return raw * main.clientWidth;
+  return raw;
+}
+
+export function ViewModeMain({ children }: { children: ReactNode }) {
+  const { effectiveMode, pendingSectionRef } = useViewMode();
+  const mainRef = useRef<HTMLElement>(null);
+  const isHorizontal = effectiveMode === "horizontal";
+
+  useEffect(() => {
+    if (!isHorizontal) {
+      const sectionId = pendingSectionRef.current.vertical;
+      pendingSectionRef.current.vertical = undefined;
+      if (!sectionId) return;
+
+      const frame = requestAnimationFrame(() => scrollVerticalSectionIntoView(sectionId));
+      return () => cancelAnimationFrame(frame);
+    }
+
+    const sectionId = window.location.hash.slice(1) || pendingSectionRef.current.horizontal;
+    pendingSectionRef.current.horizontal = undefined;
+    if (!sectionId) return;
+
+    const frame = requestAnimationFrame(() => scrollHorizontalSectionIntoView(sectionId, "auto"));
+    return () => cancelAnimationFrame(frame);
+  }, [isHorizontal, pendingSectionRef]);
+
+  // Nav clicks pushState instead of letting the browser jump the anchor, so
+  // Back/Forward only change the hash. Scroll the matching panel into view on
+  // popstate/hashchange to keep the URL and the visible section in sync.
+  useEffect(() => {
+    if (!isHorizontal) return;
+
+    const syncFromHash = () => {
+      const sectionId = window.location.hash.slice(1);
+      if (sectionId) scrollHorizontalSectionIntoView(sectionId);
+    };
+
+    window.addEventListener("popstate", syncFromHash);
+    window.addEventListener("hashchange", syncFromHash);
+    return () => {
+      window.removeEventListener("popstate", syncFromHash);
+      window.removeEventListener("hashchange", syncFromHash);
+    };
+  }, [isHorizontal]);
+
+  // React registers onWheel as a passive listener, so preventDefault() there is
+  // a no-op (logs a Chrome intervention warning and lets deltaX double-scroll).
+  // Bind natively with { passive: false } instead.
+  useEffect(() => {
+    const main = mainRef.current;
+    if (!isHorizontal || !main) return;
+
+    const handleWheel = (event: WheelEvent) => {
+      if (event.ctrlKey) return;
+
+      const panel = (event.target as HTMLElement | null)?.closest("[data-view-mode-panel]");
+      if (!(panel instanceof HTMLElement)) return;
+
+      const verticalTarget = findVerticalScrollTarget(event.target, panel);
+      if (verticalTarget && canScrollVertically(verticalTarget, event.deltaY)) return;
+
+      const delta = normalizeWheelDelta(event, main);
+      if (delta === 0) return;
+
+      const maxScrollLeft = main.scrollWidth - main.clientWidth;
+      if (maxScrollLeft <= 1) return;
+      if (delta < 0 && main.scrollLeft <= 1) return;
+      if (delta > 0 && main.scrollLeft >= maxScrollLeft - 1) return;
+
+      event.preventDefault();
+      main.scrollLeft += delta;
+    };
+
+    main.addEventListener("wheel", handleWheel, { passive: false });
+    return () => main.removeEventListener("wheel", handleWheel);
+  }, [isHorizontal]);
+
+  if (!isHorizontal) {
+    return (
+      <main ref={mainRef} className="flex-1" data-view-mode-main="vertical">
+        {children}
+      </main>
+    );
+  }
+
+  return (
+    <main
+      ref={mainRef}
+      className="flex min-h-0 flex-1 snap-x snap-mandatory overflow-x-auto overflow-y-hidden overscroll-x-contain scroll-smooth"
+      data-view-mode-main="horizontal"
+    >
+      {Children.map(children, (child) => (
+        <div
+          data-view-mode-panel
+          className="h-full min-h-0 w-full min-w-0 flex-none snap-start overflow-y-auto overscroll-contain"
+        >
+          {child}
+        </div>
+      ))}
+    </main>
+  );
+}

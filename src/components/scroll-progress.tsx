@@ -1,14 +1,62 @@
 "use client";
 
-import { motion, useScroll, useSpring } from "motion/react";
+import { useEffect } from "react";
+import { motion, useMotionValue, useSpring } from "motion/react";
 
 export function ScrollProgress() {
-  const { scrollYProgress } = useScroll();
-  const scaleX = useSpring(scrollYProgress, {
+  const progress = useMotionValue(0);
+  const scaleX = useSpring(progress, {
     stiffness: 160,
     damping: 28,
     restDelta: 0.001,
   });
+
+  useEffect(() => {
+    let horizontalMain: HTMLElement | null = null;
+
+    // Clamp: rubber-band overscroll reports scroll positions past the ends,
+    // which would drive scaleX outside [0,1] (bar inverts or overshoots).
+    const clamp = (value: number) => Math.min(1, Math.max(0, value));
+
+    const update = () => {
+      // horizontalMain is (re)bound by bindHorizontalMain on mount, resize, and
+      // when the main's data-view-mode-main attribute flips; no need to query
+      // the DOM on every scroll event.
+      if (horizontalMain) {
+        const maxScrollLeft = horizontalMain.scrollWidth - horizontalMain.clientWidth;
+        progress.set(maxScrollLeft > 0 ? clamp(horizontalMain.scrollLeft / maxScrollLeft) : 0);
+        return;
+      }
+
+      const maxScrollTop = document.documentElement.scrollHeight - window.innerHeight;
+      progress.set(maxScrollTop > 0 ? clamp(window.scrollY / maxScrollTop) : 0);
+    };
+
+    const bindHorizontalMain = () => {
+      horizontalMain?.removeEventListener("scroll", update);
+      horizontalMain = document.querySelector<HTMLElement>('main[data-view-mode-main="horizontal"]');
+      horizontalMain?.addEventListener("scroll", update, { passive: true });
+      update();
+    };
+
+    const observer = new MutationObserver(bindHorizontalMain);
+    observer.observe(document.body, {
+      subtree: true,
+      attributes: true,
+      attributeFilter: ["data-view-mode-main"],
+    });
+
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", bindHorizontalMain);
+    bindHorizontalMain();
+
+    return () => {
+      observer.disconnect();
+      horizontalMain?.removeEventListener("scroll", update);
+      window.removeEventListener("scroll", update);
+      window.removeEventListener("resize", bindHorizontalMain);
+    };
+  }, [progress]);
 
   return (
     <motion.div
