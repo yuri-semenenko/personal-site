@@ -36,8 +36,12 @@ export function Header({ navigation, a11y, locale, localeSwitcher, viewMode }: P
     () => navItems.map((item) => item.sectionId).filter((id): id is string => Boolean(id)),
     [navItems],
   );
+  const trackedSectionIds = useMemo(
+    () => (effectiveMode === "horizontal" && !sectionIds.includes("hero") ? ["hero", ...sectionIds] : sectionIds),
+    [effectiveMode, sectionIds],
+  );
 
-  const activeId = useActiveSection(sectionIds, effectiveMode);
+  const activeId = useActiveSection(trackedSectionIds, effectiveMode);
   const downloadAction = navigation.actions[0];
   const [previewId, setPreviewId] = useState<string | undefined>();
   const indicatorId = previewId ?? activeId;

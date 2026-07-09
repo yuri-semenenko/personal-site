@@ -34,8 +34,30 @@ function renderHeader() {
   );
 }
 
+function renderHeaderWithHorizontalMain() {
+  render(
+    <ViewModeProvider>
+      <Header
+        navigation={enContent.navigation}
+        a11y={enContent.ui.a11y}
+        locale="en"
+        localeSwitcher={enContent.ui.localeSwitcher}
+        viewMode={enContent.ui.viewMode}
+      />
+      <main data-view-mode-main="horizontal">
+        {["hero", "about", "experience"].map((id) => (
+          <div key={id} data-view-mode-panel>
+            <section id={id} />
+          </div>
+        ))}
+      </main>
+    </ViewModeProvider>,
+  );
+}
+
 describe("Header", () => {
   beforeEach(() => {
+    localStorage.clear();
     vi.stubGlobal("IntersectionObserver", FakeIntersectionObserver);
     vi.stubGlobal("matchMedia", (query: string) => ({
       matches: true,
@@ -87,5 +109,12 @@ describe("Header", () => {
     fireEvent.pointerLeave(primaryNav);
 
     expect(aboutLink.querySelector("[data-slot='primary-nav-indicator']")).not.toBeNull();
+  });
+
+  it("does not mark About active when the horizontal hero panel is visible", () => {
+    localStorage.setItem("view-mode", "horizontal");
+    renderHeaderWithHorizontalMain();
+
+    expect(screen.getByRole("link", { name: "About" }).getAttribute("aria-current")).toBeNull();
   });
 });
