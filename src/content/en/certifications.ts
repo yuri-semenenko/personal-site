@@ -2,6 +2,26 @@ import type { CertificationModel } from "../types";
 
 export const certifications: CertificationModel[] = [
   {
+    title: "Advanced - Threat Modeling Learning Path",
+    issuer: "SecureFlag",
+    issued: "2026-07",
+    issuedLabel: "Jul 2026",
+    expires: "2027-07",
+    expiresLabel: "Jul 2027",
+    credentialUrl: "https://www.secureflag.com/s?86c2a158-2bb5-4dd5-8082-06ecaaf10dd8",
+    skills: ["Threat Modeling"],
+  },
+  {
+    title: "Introduction to Secure Development with AI Assistants Learning Path",
+    issuer: "SecureFlag",
+    issued: "2026-07",
+    issuedLabel: "Jul 2026",
+    expires: "2027-07",
+    expiresLabel: "Jul 2027",
+    credentialUrl: "https://www.secureflag.com/s?b8f2a048-3256-4096-a0e9-c3dcb8d66750",
+    skills: ["Secure Coding", "AI-Assisted Development"],
+  },
+  {
     title: "Secure SDLC",
     issuer: "SecureFlag",
     issued: "2026-03",
