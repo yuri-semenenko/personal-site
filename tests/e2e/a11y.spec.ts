@@ -15,6 +15,14 @@ async function setTheme(page: import("@playwright/test").Page, theme: "light" | 
 }
 
 test.describe("Landing page A11y (axe)", () => {
+  // The hero code card fades its lines in with a staggered opacity animation
+  // (~1s total). axe reads computed colors, so a scan that lands mid-flight sees
+  // partially-transparent text blended into the background and reports contrast
+  // violations that no user ever sees. Reduced motion makes the animated
+  // components render at their final state immediately, which is exactly the
+  // state we want to audit.
+  test.use({ contextOptions: { reducedMotion: "reduce" } });
+
   test("no WCAG 2.1 AA violations — dark theme", async ({ page }) => {
     await setTheme(page, "dark");
     await page.goto("/");
@@ -36,7 +44,10 @@ test.describe("Landing page A11y (axe)", () => {
   });
 
   test("no WCAG 2.1 AA violations — mobile menu open (dark)", async ({ browser }) => {
-    const context = await browser.newContext({ viewport: { width: 390, height: 844 } });
+    const context = await browser.newContext({
+      viewport: { width: 390, height: 844 },
+      reducedMotion: "reduce",
+    });
     const page = await context.newPage();
     try {
       await setTheme(page, "dark");
@@ -46,8 +57,9 @@ test.describe("Landing page A11y (axe)", () => {
       await page.getByRole("button", { name: "Open menu" }).click();
       const dialog = page.getByRole("dialog");
       await expect(dialog).toBeVisible();
-      // Base UI Sheet animates opacity 0→1 over ~200ms; scanning mid-transition makes axe
-      // read a partially-transparent button color and report a false contrast violation.
+      // Reduced motion collapses the Sheet's opacity transition, but keep the guard:
+      // scanning mid-transition makes axe read a partially-transparent button color
+      // and report a false contrast violation.
       await expect.poll(async () => dialog.evaluate((el) => getComputedStyle(el).opacity)).toBe("1");
 
       const results = await new AxeBuilder({ page }).withTags(WCAG_TAGS).analyze();
